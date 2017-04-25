@@ -5,5 +5,7 @@ pids
 *.pid
 *.seed
 
+*.tern-port
+
 node_modules
 public

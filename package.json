@@ -6,9 +6,9 @@
   "license": "MIT",
   "main": "''",
   "scripts": {
-    "build": "webpack --config webpack.prod.config.js --progress --profile --colors",
-    "dev": " webpack-dashboard -- webpack-dev-server --config webpack.dev.config.js --progress --profile --colors",
-    "start": "webpack-dev-server --config webpack.dev.config.js --progress --profile --colors",
+    "build": "webpack --env production --progress --profile --colors",
+    "dev": " webpack-dashboard -- webpack-dev-server --progress --profile --colors",
+    "start": "webpack-dev-server --progress --profile --colors",
     "lint": "standard --fix",
     "test": "standard"
   },
