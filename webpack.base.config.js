@@ -32,7 +32,14 @@ module.exports = function () {
           loader: ExtractTextPlugin.extract({
             fallback: 'style-loader',
             use: [
-              'css-loader?module',
+              {
+                loader: 'css-loader',
+                options: {
+                  importLoaders: 1,
+                  modules: true,
+                  minimize: true
+                }
+              },
               'postcss-loader'
             ]
           })
@@ -105,7 +112,7 @@ module.exports = function () {
         manifestVariable: 'webpackManifest'
       }),
       new ExtractTextPlugin({
-        filename: 'style.css',
+        filename: '[name].css',
         allChunks: true
       }),
       new HtmlWebpackPlugin({
