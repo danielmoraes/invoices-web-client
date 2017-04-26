@@ -10,12 +10,9 @@ var WebpackChunkHash = require('webpack-chunk-hash')
 var WebpackCleanupPlugin = require('webpack-cleanup-plugin')
 var webpack = require('webpack')
 
-const DEV_HOST = process.env.HOST || '127.0.0.1'
-const DEV_PORT = process.env.PORT || '8888'
-
 const baseConfig = () => ({
   entry: [
-    './src/index.js'
+    path.join(__dirname, '/src/index.js')
   ],
   resolve: {
     extensions: ['.js']
@@ -133,6 +130,7 @@ const configProd = (base) => merge.smart(base(), {
     path: path.join(__dirname, 'public'),
     filename: '[name].[chunkhash].js'
   },
+  devtool: 'source-map',
   plugins: [
     new WebpackCleanupPlugin(),
     new webpack.DefinePlugin({
@@ -141,12 +139,8 @@ const configProd = (base) => merge.smart(base(), {
       }
     }),
     new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-        screw_ie8: true,
-        drop_console: true,
-        drop_debugger: true
-      }
+      sourceMap: true,
+      comments: false
     }),
     new webpack.optimize.OccurrenceOrderPlugin()
   ]
@@ -154,7 +148,16 @@ const configProd = (base) => merge.smart(base(), {
 
 const configDev = (base) => merge.smartStrategy({ entry: 'prepend' })(base(), {
   entry: [
-    'react-hot-loader/patch'
+    // activate HMR for React
+    'react-hot-loader/patch',
+
+    // bundle the client for webpack-dev-server
+    // and connect to the provided endpoint
+    'webpack-dev-server/client?http://localhost:8888',
+
+    // bundle the client for hot reloading
+    // only- means to only hot reload for successful updates
+    'webpack/hot/only-dev-server'
   ],
   output: {
     // necessary for HMR to know where to load the hot update chunks
@@ -164,12 +167,15 @@ const configDev = (base) => merge.smartStrategy({ entry: 'prepend' })(base(), {
 
     filename: '[name].js'
   },
-  devtool: process.env.WEBPACK_DEVTOOL || 'eval-source-map',
+  devtool: 'inline-source-map',
   devServer: {
+    host: 'localhost',
+    port: 8888,
+
     contentBase: path.resolve(__dirname, 'public'),
 
-    // do not print bundle build stats
-    noInfo: true,
+    // serve index.html in place of 404 responses to allow HTML5 history
+    historyApiFallback: true,
 
     // enable HMR
     hot: true,
@@ -177,12 +183,7 @@ const configDev = (base) => merge.smartStrategy({ entry: 'prepend' })(base(), {
     // embed the webpack-dev-server runtime into the bundle
     inline: true,
 
-    // serve index.html in place of 404 responses to allow HTML5 history
-    historyApiFallback: true,
-
-    publicPath: '/',
-    port: DEV_PORT,
-    host: DEV_HOST
+    publicPath: '/'
   },
   plugins: [
     // enable HMR globally
@@ -191,7 +192,9 @@ const configDev = (base) => merge.smartStrategy({ entry: 'prepend' })(base(), {
     // more readable module names in the browser console on HMR updates
     new webpack.NamedModulesPlugin(),
 
+    // do not emit compiled assets that include errors
     new webpack.NoEmitOnErrorsPlugin(),
+
     new DashboardPlugin()
   ]
 })
