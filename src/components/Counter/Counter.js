@@ -1,13 +1,14 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { Badge, Button, Panel } from 'react-bootstrap'
 
 const Counter = (props) => (
-  <div>
-    <h4>Counter: {props.counter}</h4>
-    <button className='btn btn-default' onClick={props.increment}>
-      Increment
-    </button>
-  </div>
+  <Panel header='Counter'>
+    <div className='text-center'>
+      <p><Badge>{props.counter}</Badge></p>
+      <Button onClick={props.increment}>Increment</Button>
+    </div>
+  </Panel>
 )
 
 Counter.propTypes = {

@@ -1,18 +1,26 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-
-import styles from './Header.css'
+import { LinkContainer } from 'react-router-bootstrap'
+import { Navbar, Nav, NavItem } from 'react-bootstrap'
 
 const Header = () => (
   <div>
-    <h1>Invoices</h1>
-    <NavLink exact to='/' activeClassName={styles.routeActive}>
-      Home
-    </NavLink>
-    {' · '}
-    <NavLink to='/play' activeClassName={styles.routeActive}>
-      Play
-    </NavLink>
+    <Navbar>
+      <Navbar.Header>
+        <Navbar.Brand>
+          <LinkContainer to='/'>
+            <a>Invoices</a>
+          </LinkContainer>
+        </Navbar.Brand>
+      </Navbar.Header>
+      <Nav>
+        <LinkContainer exact to='/'>
+          <NavItem>Dashboard</NavItem>
+        </LinkContainer>
+        <LinkContainer to='/play'>
+          <NavItem>Play</NavItem>
+        </LinkContainer>
+      </Nav>
+    </Navbar>
   </div>
 )
 
