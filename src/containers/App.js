@@ -1,23 +1,28 @@
 import Header from '../components/Header'
+import DashboardPage from './DashboardPage'
 import NotFound from '../components/NotFound'
-import HomePage from './HomePage'
 import PlayPage from './PlayPage'
 import React from 'react'
 import { Route, Switch } from 'react-router-dom'
-
-import '../styles/core.css'
+import { Col, Grid, Row } from 'react-bootstrap'
 
 const App = ({ match }) => (
-  <div className='text-center'>
-    <Header />
-    <div style={{ padding: 20 }}>
-      <Switch>
-        <Route exact path='/' component={HomePage} />
-        <Route path='/play' component={PlayPage} />
-        <Route component={NotFound} />
-      </Switch>
-    </div>
-  </div>
+  <Grid>
+    <Row>
+      <Col>
+        <Header />
+      </Col>
+    </Row>
+    <Row>
+      <Col>
+        <Switch>
+          <Route exact path='/' component={DashboardPage} />
+          <Route path='/play' component={PlayPage} />
+          <Route component={NotFound} />
+        </Switch>
+      </Col>
+    </Row>
+  </Grid>
 )
 
 export default App
