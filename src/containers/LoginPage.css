@@ -1,0 +1,7 @@
+.loginBox {
+  display: block;
+  margin: auto;
+  margin-top: 50px;
+  max-width: 500px;
+  padding: 20px;
+}

@@ -2,18 +2,18 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { Badge, Button, Panel } from 'react-bootstrap'
 
-const Counter = (props) => (
+const Counter = ({ counter, incrementCounter }) => (
   <Panel header='Counter'>
     <div className='text-center'>
-      <p><Badge>{props.counter}</Badge></p>
-      <Button onClick={props.increment}>Increment</Button>
+      <p><Badge>{counter}</Badge></p>
+      <Button onClick={incrementCounter}>Increment</Button>
     </div>
   </Panel>
 )
 
 Counter.propTypes = {
   counter: PropTypes.number.isRequired,
-  increment: PropTypes.func.isRequired
+  incrementCounter: PropTypes.func.isRequired
 }
 
 export default Counter
