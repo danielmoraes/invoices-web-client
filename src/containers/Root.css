@@ -1,4 +1,9 @@
-.loading {
-  text-align: center;
-  margin-top: 50px;
+.loaderOverlay {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: #F1F1F1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -13,6 +13,7 @@ import * as actions from '../actions'
 
 // styles
 import styles from './Root.css'
+import { RotatingPlane } from 'better-react-spinkit'
 
 class Root extends Component {
   componentDidMount () {
@@ -37,8 +38,8 @@ class Root extends Component {
           </Router>
         </Provider>
       ) : (
-        <div className={styles.loading}>
-          Loading...
+        <div className={styles.loaderOverlay}>
+          <RotatingPlane size={30} />
         </div>
       )
     )
