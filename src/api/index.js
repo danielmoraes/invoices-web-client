@@ -1,6 +1,6 @@
 const fakeDatabase = {
   users: {
-    'admin@admin': { 'name': 'Admin', 'password': 'admin' }
+    'admin@admin.com': { 'name': 'Admin', 'password': 'admin' }
   }
 }
 
