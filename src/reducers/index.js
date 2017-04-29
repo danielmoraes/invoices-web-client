@@ -4,7 +4,8 @@ import userReducer, * as fromUser from './user'
 
 const appState = {
   loaded: false,
-  loginFailed: false
+  loginFailed: false,
+  pendingRequests: 0
 }
 
 const appReducer = (state = appState, action) => {
@@ -13,6 +14,16 @@ const appReducer = (state = appState, action) => {
       return {
         ...state,
         loaded: true
+      }
+    case 'FETCH_START':
+      return {
+        ...state,
+        pendingRequests: state.pendingRequests + 1
+      }
+    case 'FETCH_END':
+      return {
+        ...state,
+        pendingRequests: state.pendingRequests - 1
       }
     case 'AUTH_SUCCESS':
       return {
@@ -40,6 +51,7 @@ export default invoicesReducer
 // app reducer helpers
 export const isAppLoaded = (state) => state.app.loaded
 export const getLoginFailed = (state) => state.app.loginFailed
+export const isAppFetching = (state) => state.app.pendingRequests > 0
 
 // counter reducer helpers
 export const getCounter = (state) => fromCounter.getCounter(state.counter)
