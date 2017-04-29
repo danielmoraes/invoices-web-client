@@ -15,7 +15,7 @@ import styles from './LoginPage.css'
 
 class LoginPage extends Component {
   render () {
-    const { isAuthenticated, authenticate, loginFailed } = this.props
+    const { isAuthenticated, login, loginFailed } = this.props
     const { from } = this.props.location.state || { from: { pathname: '/' } }
     return (
       isAuthenticated ? (
@@ -23,7 +23,7 @@ class LoginPage extends Component {
       ) : (
         <div className={styles.loginBox}>
           <PageHeader>Invoices</PageHeader>
-          <LoginForm onSubmit={authenticate} loginFailed={loginFailed} />
+          <LoginForm onSubmit={login} loginFailed={loginFailed} />
         </div>
       )
     )
@@ -33,7 +33,7 @@ class LoginPage extends Component {
 LoginPage.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   loginFailed: PropTypes.bool.isRequired,
-  authenticate: PropTypes.func.isRequired,
+  login: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired
 }
 
