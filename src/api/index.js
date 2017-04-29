@@ -4,29 +4,34 @@ const fakeDatabase = {
   }
 }
 
-const fakeRequest = () => new Promise(resolve => setTimeout(resolve, 500))
+const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms))
 
-export const authenticate = (email = '', password = '', keepAlive = false) =>
-  fakeRequest().then(() => {
-    let user
-    if (email && password) {
-      const record = fakeDatabase.users[email]
-      if (record && record.password === password) {
-        user = { name: record.name }
-        window.localStorage.setItem('user', JSON.stringify(user))
-      }
-    } else {
+const response = (status, body = {}) => ({ status, json: () => body })
+
+export const Auth = {
+  current: () =>
+    delay(500).then(() => {
       const userLocalStorage = window.localStorage.getItem('user')
       if (userLocalStorage) {
-        user = JSON.parse(userLocalStorage)
+        return response(200, JSON.parse(userLocalStorage))
       }
-    }
+      return response(401)
+    }),
 
-    return (user) ? { status: 200, user } : { status: 401 }
-  })
+  login: (email, password, keepAlive = false) =>
+    delay(500).then(() => {
+      const record = fakeDatabase.users[email]
+      if (record && record.password === password) {
+        const user = { name: record.name }
+        window.localStorage.setItem('user', JSON.stringify(user))
+        return response(200, user)
+      }
+      return response(401)
+    }),
 
-export const invalidateToken = (token) =>
-  fakeRequest().then(() => {
-    window.localStorage.setItem('user', '')
-    return { status: 200 }
-  })
+  logout: () =>
+    delay(500).then(() => {
+      window.localStorage.setItem('user', '')
+      return response(200)
+    })
+}

@@ -1,4 +1,4 @@
-import * as api from '../api'
+import { Auth } from '../api'
 
 export const appLoad = () => ({
   type: 'APP_LOAD'
@@ -8,16 +8,26 @@ export const incrementCounter = () => ({
   type: 'INCREMENT_COUNTER'
 })
 
-export const authenticate = (email, password, keepAlive) => (dispatch) => {
+export const authenticate = () => (dispatch) => {
   dispatch({ type: 'FETCH_START' })
-  return api.authenticate(email, password, keepAlive).then(response => {
+  return Auth.current().then(response => {
     if (response.status === 200) {
-      dispatch({ type: 'AUTH_SUCCESS', user: response.user })
+      dispatch({ type: 'AUTH_SUCCESS', user: response.json() })
     } else {
       dispatch({ type: 'AUTH_FAILED' })
-      if (email && password) {
-        dispatch({ type: 'LOGIN_FAILED' })
-      }
+    }
+    dispatch({ type: 'FETCH_END' })
+  })
+}
+
+export const login = (email, password, keepAlive = false) => (dispatch) => {
+  dispatch({ type: 'FETCH_START' })
+  return Auth.login(email, password, keepAlive).then(response => {
+    if (response.status === 200) {
+      dispatch({ type: 'AUTH_SUCCESS', user: response.json() })
+    } else {
+      dispatch({ type: 'AUTH_FAILED' })
+      dispatch({ type: 'LOGIN_FAILED' })
     }
     dispatch({ type: 'FETCH_END' })
   })
@@ -25,7 +35,7 @@ export const authenticate = (email, password, keepAlive) => (dispatch) => {
 
 export const logout = () => (dispatch) => {
   dispatch({ type: 'FETCH_START' })
-  api.invalidateToken().then(response => {
+  return Auth.logout().then(response => {
     if (response.status === 200) {
       dispatch({ type: 'LOGOUT_SUCCESS' })
     }
