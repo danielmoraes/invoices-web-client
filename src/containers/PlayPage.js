@@ -1,7 +1,11 @@
 import { connect } from 'react-redux'
+
+// components
 import Counter from '../components/Counter'
+
+// redux
 import { getCounter } from '../reducers'
-import { incrementCounter } from '../actions'
+import * as actions from '../actions'
 
 const mapStateToProps = (state) => {
   return { counter: getCounter(state) }
@@ -9,7 +13,7 @@ const mapStateToProps = (state) => {
 
 const PlayPage = connect(
   mapStateToProps,
-  { increment: incrementCounter }
+  actions
 )(Counter)
 
 export default PlayPage

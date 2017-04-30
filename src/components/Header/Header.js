@@ -2,7 +2,7 @@ import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
 
-const Header = () => (
+const Header = ({ logout }) => (
   <div>
     <Navbar>
       <Navbar.Header>
@@ -19,6 +19,9 @@ const Header = () => (
         <LinkContainer to='/play'>
           <NavItem>Play</NavItem>
         </LinkContainer>
+      </Nav>
+      <Nav pullRight>
+        <NavItem onClick={logout}>Logout</NavItem>
       </Nav>
     </Navbar>
   </div>
