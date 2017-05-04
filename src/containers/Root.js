@@ -7,7 +7,7 @@ import Loader from '../components/Loader'
 
 // containers
 import App from './App'
-import LoginPage from './LoginPage'
+import SignInPage from './SignInPage'
 import PrivateRoute from './PrivateRoute'
 
 // redux
@@ -38,7 +38,7 @@ class Root extends Component {
             isAppLoaded && (
               <Router>
                 <Switch>
-                  <Route path='/login' component={LoginPage} />
+                  <Route path='/signin' component={SignInPage} />
                   <PrivateRoute path='/' component={App} />
                 </Switch>
               </Router>

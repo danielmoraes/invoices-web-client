@@ -3,7 +3,7 @@ const userReducer = (state = {}, action) => {
     case 'AUTH_SUCCESS':
       return action.user
     case 'AUTH_FAILED':
-    case 'LOGOUT_SUCCESS':
+    case 'SIGNOUT_SUCCESS':
       return {}
     default:
       return state

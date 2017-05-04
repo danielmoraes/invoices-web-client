@@ -2,7 +2,7 @@ import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { Navbar, Nav, NavItem } from 'react-bootstrap'
 
-const Header = ({ logout }) => (
+const Header = ({ signOut }) => (
   <div>
     <Navbar>
       <Navbar.Header>
@@ -21,7 +21,7 @@ const Header = ({ logout }) => (
         </LinkContainer>
       </Nav>
       <Nav pullRight>
-        <NavItem onClick={logout}>Logout</NavItem>
+        <NavItem onClick={signOut}>Sign out</NavItem>
       </Nav>
     </Navbar>
   </div>

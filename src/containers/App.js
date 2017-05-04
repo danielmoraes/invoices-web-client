@@ -11,12 +11,12 @@ import PlayPage from './PlayPage'
 import Header from '../components/Header'
 
 // redux
-import { logout } from '../actions'
+import { signOut } from '../actions'
 
 const App = ({ dispatch }) => (
   <Grid>
     <Row>
-      <Header logout={() => dispatch(logout())} />
+      <Header signOut={() => dispatch(signOut())} />
     </Row>
     <Row>
       <Switch>

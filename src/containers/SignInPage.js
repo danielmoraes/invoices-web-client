@@ -4,47 +4,47 @@ import { PageHeader } from 'react-bootstrap'
 import { Redirect } from 'react-router-dom'
 
 // components
-import LoginForm from '../components/LoginForm'
+import SignInForm from '../components/SignInForm'
 
 // redux
-import { getUser, getLoginFailed } from '../reducers'
+import { getUser, getSignInFailed } from '../reducers'
 import * as actions from '../actions'
 
 // styles
-import styles from './LoginPage.css'
+import styles from './SignInPage.css'
 
-class LoginPage extends Component {
+class SignInPage extends Component {
   render () {
-    const { isAuthenticated, login, loginFailed } = this.props
+    const { isAuthenticated, signIn, signInFailed } = this.props
     const { from } = this.props.location.state || { from: { pathname: '/' } }
     return (
       isAuthenticated ? (
         <Redirect to={from} />
       ) : (
-        <div className={styles.loginBox}>
+        <div className={styles.signInBox}>
           <PageHeader>Invoices</PageHeader>
-          <LoginForm onSubmit={login} loginFailed={loginFailed} />
+          <SignInForm onSubmit={signIn} signInFailed={signInFailed} />
         </div>
       )
     )
   }
 }
 
-LoginPage.propTypes = {
+SignInPage.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  loginFailed: PropTypes.bool.isRequired,
-  login: PropTypes.func.isRequired,
+  signInFailed: PropTypes.bool.isRequired,
+  signIn: PropTypes.func.isRequired,
   location: PropTypes.object.isRequired
 }
 
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: getUser(state).name !== undefined,
-    loginFailed: getLoginFailed(state)
+    signInFailed: getSignInFailed(state)
   }
 }
 
 export default connect(
   mapStateToProps,
   actions
-)(LoginPage)
+)(SignInPage)

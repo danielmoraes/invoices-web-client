@@ -2,7 +2,7 @@ import { default as React, Component } from 'react'
 import { Alert, Button, Checkbox, Col, ControlLabel, Form, FormGroup,
          FormControl } from 'react-bootstrap'
 
-class LoginForm extends Component {
+class SignInForm extends Component {
   constructor (props) {
     super(props)
     this.state = { email: '', password: '', remember: false }
@@ -31,11 +31,11 @@ class LoginForm extends Component {
   }
 
   render () {
-    const { loginFailed } = this.props
+    const { signInFailed } = this.props
     return (
       <Form horizontal onSubmit={this.handleSubmit} >
         {
-          loginFailed &&
+          signInFailed &&
           <Alert bsStyle='danger'>Invalid email or password.</Alert>
         }
         <FormGroup controlId='formHorizontalEmail'>
@@ -72,4 +72,4 @@ class LoginForm extends Component {
   }
 }
 
-export default LoginForm
+export default SignInForm

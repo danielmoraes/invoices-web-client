@@ -20,24 +20,24 @@ export const authenticate = () => (dispatch) => {
   })
 }
 
-export const login = (email, password, keepAlive = false) => (dispatch) => {
+export const signIn = (email, password, keepAlive = false) => (dispatch) => {
   dispatch({ type: 'FETCH_START' })
-  return Auth.login(email, password, keepAlive).then(response => {
+  return Auth.signIn(email, password, keepAlive).then(response => {
     if (response.status === 200) {
       dispatch({ type: 'AUTH_SUCCESS', user: response.json() })
     } else {
       dispatch({ type: 'AUTH_FAILED' })
-      dispatch({ type: 'LOGIN_FAILED' })
+      dispatch({ type: 'SIGNIN_FAILED' })
     }
     dispatch({ type: 'FETCH_END' })
   })
 }
 
-export const logout = () => (dispatch) => {
+export const signOut = () => (dispatch) => {
   dispatch({ type: 'FETCH_START' })
-  return Auth.logout().then(response => {
+  return Auth.signOut().then(response => {
     if (response.status === 200) {
-      dispatch({ type: 'LOGOUT_SUCCESS' })
+      dispatch({ type: 'SIGNOUT_SUCCESS' })
     }
     dispatch({ type: 'FETCH_END' })
   })

@@ -18,7 +18,7 @@ export const Auth = {
       return response(401)
     }),
 
-  login: (email, password, keepAlive = false) =>
+  signIn: (email, password, keepAlive = false) =>
     delay(500).then(() => {
       const record = fakeDatabase.users[email]
       if (record && record.password === password) {
@@ -29,7 +29,7 @@ export const Auth = {
       return response(401)
     }),
 
-  logout: () =>
+  signOut: () =>
     delay(500).then(() => {
       window.localStorage.setItem('user', '')
       return response(200)
