@@ -1,7 +1,7 @@
 import { default as React, PropTypes } from 'react'
 import { withRouter } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap'
-import { Navbar, Nav, NavItem } from 'react-bootstrap'
+import { NavDropdown, MenuItem, Navbar, Nav, NavItem } from 'react-bootstrap'
 
 const PrivateHeader = ({ match, signOut }) => (
   <div>
@@ -13,19 +13,30 @@ const PrivateHeader = ({ match, signOut }) => (
           </LinkContainer>
         </Navbar.Brand>
       </Navbar.Header>
-      <Nav>
-        <LinkContainer exact to={`${match.url}`}>
-          <NavItem>Duck</NavItem>
-        </LinkContainer>
-        <LinkContainer to={`${match.url}/play`}>
-          <NavItem>Play</NavItem>
-        </LinkContainer>
-      </Nav>
-      <Nav pullRight>
-        <LinkContainer to={`${match.url}/signout`}>
-          <NavItem>Sign out</NavItem>
-        </LinkContainer>
-      </Nav>
+      <Navbar.Collapse>
+        <Nav>
+          <LinkContainer exact to={`${match.url}`}>
+            <NavItem>Invoices</NavItem>
+          </LinkContainer>
+          <LinkContainer to={`${match.url}/duck`}>
+            <NavItem>Duck</NavItem>
+          </LinkContainer>
+          <LinkContainer to={`${match.url}/play`}>
+            <NavItem>Play</NavItem>
+          </LinkContainer>
+        </Nav>
+        <Nav pullRight>
+          <NavDropdown eventKey={3} title='Settings' id='settings-dropdown'>
+            <LinkContainer to={`${match.url}/account`}>
+              <MenuItem eventKey='1'>Manage account</MenuItem>
+            </LinkContainer>
+            <MenuItem divider />
+            <LinkContainer to={`${match.url}/signout`}>
+              <MenuItem eventKey='2'>Sign out</MenuItem>
+            </LinkContainer>
+          </NavDropdown>
+        </Nav>
+      </Navbar.Collapse>
     </Navbar>
   </div>
 )

@@ -1,0 +1,19 @@
+.toolBar {
+  margin: 0 15px 0 15px;
+}
+
+.leftButtonGroup {
+  float: left;
+}
+
+.rightButtonGroup {
+  float: right;
+}
+
+.row {
+  cursor: pointer;
+}
+
+.row td {
+  outline: none !important;
+}

@@ -6,7 +6,14 @@ import { Route, Switch, withRouter } from 'react-router-dom'
 import { PlayPage, SignOut } from './'
 
 // components
-import { DuckPage, PrivateHeader } from '../components'
+import {
+  AccountPage,
+  DuckPage,
+  InvoiceListPage,
+  InvoiceNewPage,
+  InvoiceViewPage,
+  PrivateHeader
+} from '../components'
 
 const PrivateApp = ({ match }) => (
   <Grid>
@@ -15,9 +22,13 @@ const PrivateApp = ({ match }) => (
     </Row>
     <Row>
       <Switch>
+        <Route path={`${match.url}/duck`} component={DuckPage} />
         <Route path={`${match.url}/play`} component={PlayPage} />
         <Route path={`${match.url}/signout`} component={SignOut} />
-        <Route path={`${match.url}`} component={DuckPage} />
+        <Route path={`${match.url}/account`} component={AccountPage} />
+        <Route path={`${match.url}/new-invoice`} component={InvoiceNewPage} />
+        <Route path={`${match.url}/invoices/:id`} component={InvoiceViewPage} />
+        <Route path={`${match.url}/`} component={InvoiceListPage} />
       </Switch>
     </Row>
   </Grid>
