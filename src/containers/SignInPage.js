@@ -1,48 +1,42 @@
+import { Button } from 'react-bootstrap'
 import { connect } from 'react-redux'
-import { default as React, Component, PropTypes } from 'react'
-import { PageHeader } from 'react-bootstrap'
-import { Redirect } from 'react-router-dom'
+import { default as React, PropTypes } from 'react'
+import { LinkContainer } from 'react-router-bootstrap'
 
 // components
-import SignInForm from '../components/SignInForm'
+import { SignInForm } from '../components'
 
 // redux
-import { getUser, getSignInFailed } from '../reducers'
+import { getSignInFailed } from '../reducers'
 import * as actions from '../actions'
 
-// styles
-import styles from './SignInPage.css'
+const SignInPage = ({ signInFailed, signIn }) => (
+  <div>
+    <SignInForm onSubmit={signIn} signInFailed={signInFailed} />
 
-class SignInPage extends Component {
-  render () {
-    const { isAuthenticated, signIn, signInFailed } = this.props
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
-    return (
-      isAuthenticated ? (
-        <Redirect to={from} />
-      ) : (
-        <div className={styles.signInBox}>
-          <PageHeader>Invoices</PageHeader>
-          <SignInForm onSubmit={signIn} signInFailed={signInFailed} />
-        </div>
-      )
-    )
-  }
-}
+    <div className='text-center'>
+      <LinkContainer to='/forgot-password'>
+        <Button bsStyle='link'>Forgot your password?</Button>
+      </LinkContainer>
+    </div>
+
+    <div className='text-center'>
+      Don't have an account?
+      <LinkContainer to='/signup'>
+        <Button bsStyle='link'>Sign up!</Button>
+      </LinkContainer>
+    </div>
+  </div>
+)
 
 SignInPage.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
   signInFailed: PropTypes.bool.isRequired,
-  signIn: PropTypes.func.isRequired,
-  location: PropTypes.object.isRequired
+  signIn: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: getUser(state).name !== undefined,
-    signInFailed: getSignInFailed(state)
-  }
-}
+const mapStateToProps = (state) => ({
+  signInFailed: getSignInFailed(state)
+})
 
 export default connect(
   mapStateToProps,

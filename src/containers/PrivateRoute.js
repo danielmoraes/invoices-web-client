@@ -3,30 +3,33 @@ import { Redirect, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
 // redux
-import { getUser } from '../reducers'
+import { getIsAuthenticated, getIsSigningOut } from '../reducers'
 
-const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => (
-  <Route {...rest} render={props => (
-    isAuthenticated ? (
-      <Component {...props} />
-    ) : (
-      <Redirect to={{
-        pathname: '/signin',
-        state: { from: props.location }
-      }} />
-    )
-  )} />
-)
+const PrivateRoute = ({
+  component: Component, isAuthenticated, isSigningOut, ...rest }) => (
+    <Route {...rest} render={props => (
+      isAuthenticated && !isSigningOut ? (
+        <Component {...props} />
+      ) : (
+        <Redirect to={{
+          pathname: isSigningOut ? '/' : '/signin',
+          state: { from: props.location }
+        }} />
+      )
+    )} />
+  )
 
 PrivateRoute.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired
+  isAuthenticated: PropTypes.bool.isRequired,
+  isSigningOut: PropTypes.bool.isRequired,
+  component: PropTypes.func.isRequired,
+  location: PropTypes.object.isRequired
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isAuthenticated: getUser(state).name !== undefined
-  }
-}
+const mapStateToProps = (state) => ({
+  isAuthenticated: getIsAuthenticated(state),
+  isSigningOut: getIsSigningOut(state)
+})
 
 export default connect(
   mapStateToProps

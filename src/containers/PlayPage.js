@@ -1,15 +1,15 @@
 import { connect } from 'react-redux'
 
 // components
-import Counter from '../components/Counter'
+import { Counter } from '../components'
 
 // redux
 import { getCounter } from '../reducers'
 import * as actions from '../actions'
 
-const mapStateToProps = (state) => {
-  return { counter: getCounter(state) }
-}
+const mapStateToProps = (state) => ({
+  counter: getCounter(state)
+})
 
 const PlayPage = connect(
   mapStateToProps,

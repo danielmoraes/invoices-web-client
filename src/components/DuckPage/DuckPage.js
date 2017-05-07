@@ -1,9 +1,9 @@
-import DuckImage from '../../images/duck.jpg'
+import DuckImage from './images/duck.jpg'
 import { Panel } from 'react-bootstrap'
 import React from 'react'
-import styles from './Duck.css'
+import styles from './DuckPage.css'
 
-const Duck = () => (
+const DuckPage = () => (
   <Panel header='Duck'>
     <img
       alt='This is a duck!'
@@ -12,4 +12,4 @@ const Duck = () => (
   </Panel>
 )
 
-export default Duck
+export default DuckPage

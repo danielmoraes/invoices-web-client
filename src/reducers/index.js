@@ -1,60 +1,27 @@
 import { combineReducers } from 'redux'
+import appReducer, * as fromApp from './app'
 import counterReducer, * as fromCounter from './counter'
-import userReducer, * as fromUser from './user'
+import authReducer, * as fromAuth from './auth'
 
-const appState = {
-  loaded: false,
-  signInFailed: false,
-  pendingRequests: 0
-}
-
-const appReducer = (state = appState, action) => {
-  switch (action.type) {
-    case 'APP_LOAD':
-      return {
-        ...state,
-        loaded: true
-      }
-    case 'FETCH_START':
-      return {
-        ...state,
-        pendingRequests: state.pendingRequests + 1
-      }
-    case 'FETCH_END':
-      return {
-        ...state,
-        pendingRequests: state.pendingRequests - 1
-      }
-    case 'AUTH_SUCCESS':
-      return {
-        ...state,
-        signInFailed: false
-      }
-    case 'SIGNIN_FAILED':
-      return {
-        ...state,
-        signInFailed: true
-      }
-    default:
-      return state
-  }
-}
-
-const invoicesReducer = combineReducers({
+const rootReducer = combineReducers({
   app: appReducer,
   counter: counterReducer,
-  user: userReducer
+  auth: authReducer
 })
 
-export default invoicesReducer
+export default rootReducer
 
-// app reducer helpers
-export const isAppLoaded = (state) => state.app.loaded
-export const getSignInFailed = (state) => state.app.signInFailed
-export const isAppFetching = (state) => state.app.pendingRequests > 0
+// app reducer selectors
+export const getIsLoaded = (state) => fromApp.getIsLoaded(state.app)
+export const getSignInFailed = (state) => fromApp.getSignInFailed(state.app)
+export const getShowLoadingIndicator = (state) =>
+  fromApp.getShowLoadingIndicator(state.app)
 
-// counter reducer helpers
-export const getCounter = (state) => fromCounter.getCounter(state.counter)
+// counter reducer selectors
+export const getCounter = (state) => fromCounter.getValue(state.counter)
 
-// user reducer helpers
-export const getUser = (state) => fromUser.getUser(state.user)
+// auth reducer selectors
+export const getIsAuthenticated = (state) =>
+  fromAuth.getIsAuthenticated(state.auth)
+export const getIsSigningOut = (state) => fromAuth.getIsSigningOut(state.auth)
+export const getUser = (state) => fromAuth.getUser(state.auth)

@@ -3,7 +3,9 @@ import configureStore from './configureStore'
 import Promise from 'promise-polyfill'
 import React from 'react'
 import ReactDOM from 'react-dom'
-import Root from './containers/Root'
+
+// containers
+import { Root } from './containers'
 
 if (!window.Promise) {
   window.Promise = Promise

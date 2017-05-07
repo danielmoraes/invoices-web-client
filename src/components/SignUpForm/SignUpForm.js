@@ -1,6 +1,5 @@
-import { default as React, Component, PropTypes } from 'react'
+import { default as React, Component } from 'react'
 import {
-  Alert,
   Button,
   Form,
   FormGroup,
@@ -8,10 +7,10 @@ import {
   Col
 } from 'react-bootstrap'
 
-class SignInForm extends Component {
+class SignUpForm extends Component {
   constructor (props) {
     super(props)
-    this.state = { email: '', password: '' }
+    this.state = { name: '', email: '', password: '' }
     this.handleInputChange = this.handleInputChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
   }
@@ -22,31 +21,32 @@ class SignInForm extends Component {
   }
 
   handleSubmit (event) {
-    const { onSubmit } = this.props
     event.preventDefault()
-    onSubmit(this.state.email, this.state.password)
+    console.log('Sign Up form submitted with values: ', this.state)
   }
 
   componentDidMount () {
-    if (this.emailInput) {
-      this.emailInput.focus()
+    if (this.nameInput) {
+      this.nameInput.focus()
     }
   }
 
   render () {
-    const { signInFailed } = this.props
     return (
       <Form horizontal onSubmit={this.handleSubmit} >
-        {
-          signInFailed &&
-          <Alert bsStyle='danger'>Invalid email or password.</Alert>
-        }
+
+        <FormGroup>
+          <Col sm={12}>
+            <FormControl name='name' type='text' placeholder='Name'
+              onChange={this.handleInputChange} value={this.state.name}
+              inputRef={input => { this.nameInput = input }} />
+          </Col>
+        </FormGroup>
 
         <FormGroup>
           <Col sm={12}>
             <FormControl name='email' type='email' placeholder='Email'
-              onChange={this.handleInputChange} value={this.state.email}
-              inputRef={input => { this.emailInput = input }} />
+              onChange={this.handleInputChange} value={this.state.email} />
           </Col>
         </FormGroup>
 
@@ -59,7 +59,7 @@ class SignInForm extends Component {
 
         <FormGroup>
           <Col sm={12}>
-            <Button type='submit' block>Sign in</Button>
+            <Button type='submit' block>Sign up</Button>
           </Col>
         </FormGroup>
       </Form>
@@ -67,9 +67,4 @@ class SignInForm extends Component {
   }
 }
 
-SignInForm.propTypes = {
-  signInFailed: PropTypes.bool.isRequired,
-  onSubmit: PropTypes.func.isRequired
-}
-
-export default SignInForm
+export default SignUpForm

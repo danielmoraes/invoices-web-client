@@ -18,7 +18,7 @@ export const Auth = {
       return response(401)
     }),
 
-  signIn: (email, password, keepAlive = false) =>
+  signIn: (email, password) =>
     delay(500).then(() => {
       const record = fakeDatabase.users[email]
       if (record && record.password === password) {

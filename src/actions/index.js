@@ -1,44 +1,49 @@
 import { Auth } from '../api'
+import * as constants from '../constants'
 
-export const appLoad = () => ({
-  type: 'APP_LOAD'
+// action creators
+
+export const counterIncrement = () => ({
+  type: constants.COUNTER_INCREMENT
 })
 
-export const incrementCounter = () => ({
-  type: 'INCREMENT_COUNTER'
+export const signInCancel = () => ({
+  type: constants.SIGN_IN_CANCEL
 })
 
-export const authenticate = () => (dispatch) => {
-  dispatch({ type: 'FETCH_START' })
+// async action creators
+
+export const loadAuthUser = () => (dispatch) => {
+  dispatch({ type: constants.LOADING_AUTH_USER })
   return Auth.current().then(response => {
     if (response.status === 200) {
-      dispatch({ type: 'AUTH_SUCCESS', user: response.json() })
+      const user = response.json()
+      dispatch({ type: constants.LOADING_AUTH_USER_SUCCEEDED, payload: user })
     } else {
-      dispatch({ type: 'AUTH_FAILED' })
+      dispatch({ type: constants.LOADING_AUTH_USER_FAILED })
     }
-    dispatch({ type: 'FETCH_END' })
   })
 }
 
-export const signIn = (email, password, keepAlive = false) => (dispatch) => {
-  dispatch({ type: 'FETCH_START' })
-  return Auth.signIn(email, password, keepAlive).then(response => {
+export const signIn = (email, password) => (dispatch) => {
+  dispatch({ type: constants.SIGNING_IN })
+  return Auth.signIn(email, password).then(response => {
     if (response.status === 200) {
-      dispatch({ type: 'AUTH_SUCCESS', user: response.json() })
+      const user = response.json()
+      dispatch({ type: constants.SIGNING_IN_SUCCEEDED, payload: user })
     } else {
-      dispatch({ type: 'AUTH_FAILED' })
-      dispatch({ type: 'SIGNIN_FAILED' })
+      dispatch({ type: constants.SIGNING_IN_FAILED })
     }
-    dispatch({ type: 'FETCH_END' })
   })
 }
 
 export const signOut = () => (dispatch) => {
-  dispatch({ type: 'FETCH_START' })
+  dispatch({ type: constants.SIGNING_OUT })
   return Auth.signOut().then(response => {
     if (response.status === 200) {
-      dispatch({ type: 'SIGNOUT_SUCCESS' })
+      dispatch({ type: constants.SIGNING_OUT_SUCCEEDED })
+    } else {
+      dispatch({ type: constants.SIGNING_OUT_FAILED })
     }
-    dispatch({ type: 'FETCH_END' })
   })
 }

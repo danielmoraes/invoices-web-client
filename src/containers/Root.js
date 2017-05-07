@@ -3,15 +3,13 @@ import { default as React, Component, PropTypes } from 'react'
 import { connect, Provider } from 'react-redux'
 
 // components
-import Loader from '../components/Loader'
+import { Loader } from '../components'
 
 // containers
-import App from './App'
-import SignInPage from './SignInPage'
-import PrivateRoute from './PrivateRoute'
+import { PublicApp, PrivateApp, PrivateRoute } from './'
 
 // redux
-import { isAppLoaded, isAppFetching } from '../reducers'
+import { getIsLoaded, getShowLoadingIndicator } from '../reducers'
 import * as actions from '../actions'
 
 class Root extends Component {
@@ -20,30 +18,26 @@ class Root extends Component {
   }
 
   load () {
-    const { authenticate, appLoad } = this.props
-    authenticate().then(() => appLoad())
+    const { loadAuthUser } = this.props
+    loadAuthUser()
   }
 
   render () {
-    const { store, isAppLoaded, isAppFetching } = this.props
+    const { store, isLoaded, showLoadingIndicator } = this.props
     return (
       <Provider store={store}>
         <div>
-          {
-            isAppFetching && (
-              <Loader />
-            )
-          }
-          {
-            isAppLoaded && (
-              <Router>
-                <Switch>
-                  <Route path='/signin' component={SignInPage} />
-                  <PrivateRoute path='/' component={App} />
-                </Switch>
-              </Router>
-            )
-          }
+          { showLoadingIndicator && (
+            <Loader />
+          )}
+          { isLoaded && (
+            <Router>
+              <Switch>
+                <PrivateRoute path='/app' component={PrivateApp} />
+                <Route path='/' component={PublicApp} />
+              </Switch>
+            </Router>
+          )}
         </div>
       </Provider>
     )
@@ -52,18 +46,15 @@ class Root extends Component {
 
 Root.propTypes = {
   store: PropTypes.object.isRequired,
-  isAppLoaded: PropTypes.bool.isRequired,
-  isAppFetching: PropTypes.bool.isRequired,
-  appLoad: PropTypes.func.isRequired,
-  authenticate: PropTypes.func.isRequired
+  isLoaded: PropTypes.bool.isRequired,
+  showLoadingIndicator: PropTypes.bool.isRequired,
+  loadAuthUser: PropTypes.func.isRequired
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isAppLoaded: isAppLoaded(state),
-    isAppFetching: isAppFetching(state)
-  }
-}
+const mapStateToProps = (state) => ({
+  isLoaded: getIsLoaded(state),
+  showLoadingIndicator: getShowLoadingIndicator(state)
+})
 
 export default connect(
   mapStateToProps,
