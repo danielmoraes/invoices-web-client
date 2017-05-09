@@ -3,19 +3,16 @@ import { Button, Panel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
 // components
-import { InvoiceForm, ViewHeader } from '../'
+import { UserForm, ViewHeader } from '../'
 
-class InvoiceNewPage extends Component {
+class AccountEditPage extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      description: '',
-      date: '',
-      number: '',
-      beneficiary: '',
-      beneficiaryNumber: '',
-      amount: ''
+      id: 5,
+      name: 'Admin',
+      email: 'admin@admin.com'
     }
 
     this.backToParent = this.backToParent.bind(this)
@@ -43,14 +40,14 @@ class InvoiceNewPage extends Component {
 
   onSave (event) {
     event.preventDefault()
-    console.log('new invoice', this.state)
+    console.log('edit account', this.state)
     this.backToParent()
   }
 
   render () {
     return (
       <Panel>
-        <ViewHeader title='Invoice Info'>
+        <ViewHeader title='Edit Account Info'>
           <Button onClick={this.onCancel}>
             Cancel
           </Button>
@@ -59,10 +56,10 @@ class InvoiceNewPage extends Component {
           </Button>
         </ViewHeader>
 
-        <InvoiceForm data={this.state} handleInputChange={this.onChange} />
+        <UserForm data={this.state} handleInputChange={this.onChange} />
       </Panel>
     )
   }
 }
 
-export default withRouter(InvoiceNewPage)
+export default withRouter(AccountEditPage)

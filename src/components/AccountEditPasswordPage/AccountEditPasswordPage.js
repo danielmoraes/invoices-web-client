@@ -1,21 +1,16 @@
 import { default as React, Component } from 'react'
 import { Button, Panel } from 'react-bootstrap'
-import { withRouter } from 'react-router-dom'
 
-// components
-import { InvoiceForm, ViewHeader } from '../'
+import { AccountPasswordForm, ViewHeader } from '../'
 
-class InvoiceNewPage extends Component {
+class AccountEditPasswordPage extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      description: '',
-      date: '',
-      number: '',
-      beneficiary: '',
-      beneficiaryNumber: '',
-      amount: ''
+      currentPassword: '',
+      newPassword: '',
+      confirmNewPassword: ''
     }
 
     this.backToParent = this.backToParent.bind(this)
@@ -43,14 +38,14 @@ class InvoiceNewPage extends Component {
 
   onSave (event) {
     event.preventDefault()
-    console.log('new invoice', this.state)
+    console.log('edit account password', this.state)
     this.backToParent()
   }
 
   render () {
     return (
       <Panel>
-        <ViewHeader title='Invoice Info'>
+        <ViewHeader title='Edit Account Password'>
           <Button onClick={this.onCancel}>
             Cancel
           </Button>
@@ -59,10 +54,12 @@ class InvoiceNewPage extends Component {
           </Button>
         </ViewHeader>
 
-        <InvoiceForm data={this.state} handleInputChange={this.onChange} />
+        <AccountPasswordForm
+          data={this.state}
+          handleInputChange={this.onChange} />
       </Panel>
     )
   }
 }
 
-export default withRouter(InvoiceNewPage)
+export default AccountEditPasswordPage

@@ -1,0 +1,16 @@
+.header {
+  margin-bottom: 10px;
+}
+
+.header h4 {
+  display: inline-block;
+}
+
+.actions {
+  display: inline-block;
+  float: right;
+}
+
+.actions button {
+  margin-left: 10px;
+}

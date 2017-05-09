@@ -5,17 +5,18 @@ import { withRouter } from 'react-router-dom'
 // components
 import { InvoiceForm, ViewHeader } from '../'
 
-class InvoiceNewPage extends Component {
+class InvoiceEditPage extends Component {
   constructor (props) {
     super(props)
 
     this.state = {
-      description: '',
-      date: '',
-      number: '',
-      beneficiary: '',
-      beneficiaryNumber: '',
-      amount: ''
+      id: 5,
+      description: 'Description of the Invoice',
+      date: '2017-01-01',
+      number: '1234567890',
+      beneficiary: 'Company Name',
+      beneficiaryNumber: '123.456.789.0',
+      amount: '10'
     }
 
     this.backToParent = this.backToParent.bind(this)
@@ -43,14 +44,14 @@ class InvoiceNewPage extends Component {
 
   onSave (event) {
     event.preventDefault()
-    console.log('new invoice', this.state)
+    console.log('edit invoice', this.state)
     this.backToParent()
   }
 
   render () {
     return (
       <Panel>
-        <ViewHeader title='Invoice Info'>
+        <ViewHeader title='Edit Invoice Info'>
           <Button onClick={this.onCancel}>
             Cancel
           </Button>
@@ -65,4 +66,4 @@ class InvoiceNewPage extends Component {
   }
 }
 
-export default withRouter(InvoiceNewPage)
+export default withRouter(InvoiceEditPage)

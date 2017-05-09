@@ -4,7 +4,7 @@ import React from 'react'
 import styles from './DuckPage.css'
 
 const DuckPage = () => (
-  <Panel header='Duck'>
+  <Panel>
     <img
       alt='This is a duck!'
       className={styles.duck}

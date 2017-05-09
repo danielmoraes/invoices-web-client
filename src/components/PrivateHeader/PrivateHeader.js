@@ -13,30 +13,28 @@ const PrivateHeader = ({ match, signOut }) => (
           </LinkContainer>
         </Navbar.Brand>
       </Navbar.Header>
-      <Navbar.Collapse>
-        <Nav>
-          <LinkContainer exact to={`${match.url}`}>
-            <NavItem>Invoices</NavItem>
+      <Nav>
+        <LinkContainer to={`${match.url}/invoices`}>
+          <NavItem>Invoices</NavItem>
+        </LinkContainer>
+        <LinkContainer to={`${match.url}/duck`}>
+          <NavItem>Duck</NavItem>
+        </LinkContainer>
+        <LinkContainer to={`${match.url}/play`}>
+          <NavItem>Play</NavItem>
+        </LinkContainer>
+      </Nav>
+      <Nav pullRight>
+        <NavDropdown eventKey={3} title='Settings' id='settings-dropdown'>
+          <LinkContainer to={`${match.url}/account`}>
+            <MenuItem eventKey='1'>Account</MenuItem>
           </LinkContainer>
-          <LinkContainer to={`${match.url}/duck`}>
-            <NavItem>Duck</NavItem>
+          <MenuItem divider />
+          <LinkContainer to={`${match.url}/signout`}>
+            <MenuItem eventKey='2'>Sign out</MenuItem>
           </LinkContainer>
-          <LinkContainer to={`${match.url}/play`}>
-            <NavItem>Play</NavItem>
-          </LinkContainer>
-        </Nav>
-        <Nav pullRight>
-          <NavDropdown eventKey={3} title='Settings' id='settings-dropdown'>
-            <LinkContainer to={`${match.url}/account`}>
-              <MenuItem eventKey='1'>Manage account</MenuItem>
-            </LinkContainer>
-            <MenuItem divider />
-            <LinkContainer to={`${match.url}/signout`}>
-              <MenuItem eventKey='2'>Sign out</MenuItem>
-            </LinkContainer>
-          </NavDropdown>
-        </Nav>
-      </Navbar.Collapse>
+        </NavDropdown>
+      </Nav>
     </Navbar>
   </div>
 )
