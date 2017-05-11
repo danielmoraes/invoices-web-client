@@ -5,6 +5,9 @@ import { connect } from 'react-redux'
 // redux
 import { getIsAuthenticated, getIsSigningOut } from '../reducers'
 
+// app routes
+import * as routes from '../routes'
+
 const PrivateRoute = ({
   component: Component, isAuthenticated, isSigningOut, ...rest }) => (
     <Route {...rest} render={props => (
@@ -12,7 +15,7 @@ const PrivateRoute = ({
         <Component {...props} />
       ) : (
         <Redirect to={{
-          pathname: isSigningOut ? '/' : '/signin',
+          pathname: isSigningOut ? routes.home() : routes.signIn(),
           state: { from: props.location }
         }} />
       )

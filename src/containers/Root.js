@@ -3,14 +3,17 @@ import { default as React, Component, PropTypes } from 'react'
 import { connect, Provider } from 'react-redux'
 
 // components
-import { Loader } from '../components'
+import { PrivateApp, Loader } from '../components'
 
 // containers
-import { PublicApp, PrivateApp, PrivateRoute } from './'
+import { PublicApp, PrivateRoute } from './'
 
 // redux
 import { getIsLoaded, getShowLoadingIndicator } from '../reducers'
 import * as actions from '../actions'
+
+// app routes
+import * as routes from '../routes'
 
 class Root extends Component {
   componentDidMount () {
@@ -33,8 +36,9 @@ class Root extends Component {
           { isLoaded && (
             <Router>
               <Switch>
-                <PrivateRoute path='/app' component={PrivateApp} />
-                <Route path='/' component={PublicApp} />
+                <PrivateRoute path={routes.privateApp()}
+                  component={PrivateApp} />
+                <Route path={routes.publicApp()} component={PublicApp} />
               </Switch>
             </Router>
           )}

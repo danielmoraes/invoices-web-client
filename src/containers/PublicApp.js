@@ -1,17 +1,16 @@
 import { connect } from 'react-redux'
 import { default as React, PropTypes } from 'react'
-
 import { withRouter, Redirect, Route, Switch } from 'react-router-dom'
 
 // components
-import { NotFoundPage } from '../components'
-
-// containers
-import { HomePage } from '../containers'
+import { HomePage, NotFoundPage } from '../components'
 
 // redux
 import { getIsAuthenticated, getIsSigningOut } from '../reducers'
 import * as actions from '../actions'
+
+// app routes
+import * as routes from '../routes'
 
 const PublicApp = ({ isAuthenticated, isSigningOut, location }) => {
   const { from } = location.state || { from: { pathname: '/app' } }
@@ -20,10 +19,17 @@ const PublicApp = ({ isAuthenticated, isSigningOut, location }) => {
       <Redirect to={from} />
     ) : (
       <Switch>
-        <Route exact path='/' component={HomePage} />
-        <Route path='/signin' component={HomePage} />
-        <Route path='/signup' component={HomePage} />
+
+        <Route exact path={routes.home()} component={HomePage} />
+
+        <Route path={routes.signIn()} component={HomePage} />
+
+        <Route path={routes.signUp()} component={HomePage} />
+
+        <Route path={routes.forgotPassword()} component={HomePage} />
+
         <Route component={NotFoundPage} />
+
       </Switch>
     )
   )

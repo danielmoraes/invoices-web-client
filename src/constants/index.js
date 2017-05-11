@@ -12,3 +12,8 @@ export const SIGNING_IN_FAILED = 'SIGNING_IN_FAILED'
 export const SIGNING_OUT = 'SIGNING_OUT'
 export const SIGNING_OUT_SUCCEEDED = 'SIGNING_OUT_SUCCEEDED'
 export const SIGNING_OUT_FAILED = 'SIGNING_OUT_FAILED'
+
+// route params
+export const INVOICE_ID_PARAM = 'invoiceId'
+export const INVOICE_ITEM_ID_PARAM = 'invoiceItemId'
+export const USER_ID_PARAM = 'userId'
