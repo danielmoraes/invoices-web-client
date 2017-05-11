@@ -1,0 +1,11 @@
+.item .label {
+  display: inline-block;
+  width: 150px;
+  font-weight: bold;
+  padding: 5px 0;
+}
+
+.item .value {
+  display: inline-block;
+  padding: 5px;
+}

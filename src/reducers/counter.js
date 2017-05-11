@@ -1,5 +1,9 @@
+import {
+  COUNTER_INCREMENT
+} from '../constants'
+
 const counterReducer = (state = 0, action) => {
-  if (action.type !== 'INCREMENT_COUNTER') {
+  if (action.type !== COUNTER_INCREMENT) {
     return state
   }
   return state + 1
@@ -7,4 +11,5 @@ const counterReducer = (state = 0, action) => {
 
 export default counterReducer
 
-export const getCounter = (state) => state
+// selectors
+export const getValue = (state) => state
