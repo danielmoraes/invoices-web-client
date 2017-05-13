@@ -22,3 +22,12 @@ Similar to `npm start`, but with [webpack-dashboard](https://github.com/Formidab
 Builds the app for production to the `public` folder.
 
 The build is minified and the filenames include the hashes.
+
+## Deployment with Nginx and Docker
+
+After building the app for production, use:
+
+```
+docker build --tag invoices .
+docker run --name invoices -p 80:80 -v $(pwd)/public:/usr/share/nginx/html:ro -d invoices
+```
