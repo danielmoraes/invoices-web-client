@@ -126,7 +126,7 @@ const baseConfig = () => ({
 
 const configProd = (base) => merge.smart(base(), {
   output: {
-    publicPath: './',
+    publicPath: '/',
     path: path.join(__dirname, 'public'),
     filename: '[name].[chunkhash].js'
   },
