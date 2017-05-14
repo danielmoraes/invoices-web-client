@@ -8,18 +8,20 @@ import { getIsAuthenticated, getIsSigningOut } from '../reducers'
 // app routes
 import * as routes from '../routes'
 
-const PrivateRoute = ({
-  component: Component, isAuthenticated, isSigningOut, ...rest }) => (
-    <Route {...rest} render={props => (
-      isAuthenticated && !isSigningOut ? (
-        <Component {...props} />
-      ) : (
-        <Redirect to={{
-          pathname: isSigningOut ? routes.home() : routes.signIn(),
-          state: { from: props.location }
-        }} />
+const PrivateRoute =
+  ({ component: Component, isAuthenticated, isSigningOut, ...rest }) => (
+    <Route {...rest} render={
+      (props) => (
+        isAuthenticated && !isSigningOut ? (
+          <Component {...props} />
+        ) : (
+          <Redirect to={{
+            pathname: isSigningOut ? routes.home() : routes.signIn(),
+            state: { from: props.location }
+          }} />
+        )
       )
-    )} />
+    } />
   )
 
 PrivateRoute.propTypes = {
@@ -34,6 +36,4 @@ const mapStateToProps = (state) => ({
   isSigningOut: getIsSigningOut(state)
 })
 
-export default connect(
-  mapStateToProps
-)(PrivateRoute)
+export default connect(mapStateToProps)(PrivateRoute)

@@ -26,6 +26,7 @@ import NotFoundPage from './NotFoundPage'
 import PanelHeader from './PanelHeader'
 import PrivateApp from './PrivateApp'
 import PrivateHeader from './PrivateHeader'
+import PublicApp from './PublicApp'
 import PublicHeader from './PublicHeader'
 import SignInFooter from './SignInFooter'
 import SignInForm from './SignInForm'
@@ -73,6 +74,7 @@ export {
   PanelHeader,
   PrivateApp,
   PrivateHeader,
+  PublicApp,
   PublicHeader,
   SignInFooter,
   SignInForm,
