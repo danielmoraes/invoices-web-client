@@ -1,6 +1,5 @@
 import React from 'react'
 
-// styles
 import styles from './PanelHeader.css'
 
 const PanelHeader = ({ title, children }) => (

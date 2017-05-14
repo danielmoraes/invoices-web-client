@@ -2,10 +2,7 @@ import { default as React, PropTypes } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 
-// redux
 import { getIsAuthenticated, getIsSigningOut } from '../reducers'
-
-// app routes
 import * as routes from '../routes'
 
 const PrivateRoute =

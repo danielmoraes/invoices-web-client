@@ -2,7 +2,6 @@ import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavDropdown, MenuItem, Navbar, Nav, NavItem } from 'react-bootstrap'
 
-// app routes
 import * as routes from '../routes'
 
 const PrivateHeader = () => (

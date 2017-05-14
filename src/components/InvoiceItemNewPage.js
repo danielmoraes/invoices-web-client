@@ -2,13 +2,8 @@ import { default as React, Component } from 'react'
 import { withRouter } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 
-// components
-import { InvoiceItemForm, SimpleModal } from './'
-
-// constants
+import { InvoiceItemForm, SimpleModal } from '../components'
 import { INVOICE_ID_PARAM } from '../constants'
-
-// app routes
 import * as routes from '../routes'
 
 class InvoiceItemNewPage extends Component {

@@ -2,10 +2,7 @@ import { default as React, Component } from 'react'
 import { Button, Panel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
-// components
-import { InvoiceListTable, PanelHeader } from './'
-
-// app routes
+import { InvoiceListTable, PanelHeader } from '../components'
 import * as routes from '../routes'
 
 const fakeStore = {

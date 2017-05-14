@@ -2,13 +2,8 @@ import { default as React, Component } from 'react'
 import { Button, Panel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
-// components
-import { InvoiceForm, PanelHeader } from './'
-
-// constants
+import { InvoiceForm, PanelHeader } from '../components'
 import { INVOICE_ID_PARAM } from '../constants'
-
-// app routesj
 import * as routes from '../routes'
 
 class InvoiceEditPage extends Component {

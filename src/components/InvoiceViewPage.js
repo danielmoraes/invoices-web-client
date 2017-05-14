@@ -2,19 +2,14 @@ import { default as React, Component } from 'react'
 import { Button, Panel } from 'react-bootstrap'
 import { Route, withRouter } from 'react-router-dom'
 
-// components
 import {
   PanelHeader,
   InvoiceViewTable,
   InvoiceItemEditPage,
   InvoiceItemListTable,
   InvoiceItemNewPage
-} from './'
-
-// constants
+} from '../components'
 import { INVOICE_ID_PARAM } from '../constants'
-
-// app routes
 import * as routes from '../routes'
 
 const fakeStore = {

@@ -2,13 +2,8 @@ import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
 import { default as React, Component, PropTypes } from 'react'
 import { connect, Provider } from 'react-redux'
 
-// components
 import { PublicApp, PrivateApp, Loader } from '../components'
-
-// containers
-import { PrivateRoute } from './'
-
-// redux
+import { PrivateRoute } from '../containers'
 import {
   getIsLoaded,
   getIsAuthenticated,
@@ -16,8 +11,6 @@ import {
   getShowLoadingIndicator
 } from '../reducers'
 import * as actions from '../actions'
-
-// app routes
 import * as routes from '../routes'
 
 class Root extends Component {

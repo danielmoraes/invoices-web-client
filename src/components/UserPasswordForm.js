@@ -8,8 +8,7 @@ import {
   Row
 } from 'react-bootstrap'
 
-// components
-import { FormCol } from './'
+import { FormCol } from '../components'
 
 class UserPasswordForm extends Component {
   componentDidMount () {

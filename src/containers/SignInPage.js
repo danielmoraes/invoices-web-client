@@ -2,14 +2,9 @@ import { connect } from 'react-redux'
 import { default as React, Component, PropTypes } from 'react'
 import { withRouter } from 'react-router-dom'
 
-// components
 import { SimpleModal, SignInFooter, SignInForm } from '../components'
-
-// redux
 import { getSignInFailed } from '../reducers'
 import * as actions from '../actions'
-
-// app routes
 import * as routes from '../routes'
 
 class SignInPage extends Component {

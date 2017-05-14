@@ -2,7 +2,6 @@ import { default as React, Component } from 'react'
 import { BootstrapTable, TableHeaderColumn } from 'react-bootstrap-table'
 import { Button } from 'react-bootstrap'
 
-// styles
 import styles from './ListTable.css'
 
 class ListTable extends Component {

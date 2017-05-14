@@ -1,7 +1,6 @@
 import React from 'react'
 
-// components
-import { ViewTable } from './'
+import { ViewTable } from '../components'
 
 const InvoiceViewTable = ({ data }) => {
   const dataWithLabels = [

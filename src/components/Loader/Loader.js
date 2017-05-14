@@ -1,7 +1,6 @@
 import React from 'react'
 import { RotatingPlane } from 'better-react-spinkit'
 
-// styles
 import styles from './Loader.css'
 
 const Loader = () => (

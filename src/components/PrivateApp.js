@@ -2,7 +2,6 @@ import { Grid, Row } from 'react-bootstrap'
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-// components
 import {
   AccountEditPage,
   AccountEditPasswordPage,
@@ -19,9 +18,7 @@ import {
   UserViewPage,
   PrivateHeader,
   SignOut
-} from './'
-
-// app routes
+} from '../components'
 import * as routes from '../routes'
 
 const PrivateApp = () => (

@@ -1,10 +1,7 @@
 import { default as React, Component } from 'react'
 import { Button, Panel } from 'react-bootstrap'
 
-// components
-import { AccountPasswordForm, PanelHeader } from './'
-
-// app routes
+import { AccountPasswordForm, PanelHeader } from '../components'
 import * as routes from '../routes'
 
 class AccountEditPasswordPage extends Component {

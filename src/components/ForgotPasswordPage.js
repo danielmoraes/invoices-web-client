@@ -1,10 +1,7 @@
 import { default as React, Component, PropTypes } from 'react'
 import { withRouter } from 'react-router-dom'
 
-// components
-import { SimpleModal, ForgotPasswordForm } from './'
-
-// app routes
+import { SimpleModal, ForgotPasswordForm } from '../components'
 import * as routes from '../routes'
 
 class ForgotPasswordPage extends Component {

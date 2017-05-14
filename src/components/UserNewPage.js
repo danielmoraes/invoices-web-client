@@ -2,10 +2,7 @@ import { default as React, Component } from 'react'
 import { Button, Panel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
-// components
-import { UserForm, PanelHeader } from './'
-
-// app routes
+import { UserForm, PanelHeader } from '../components'
 import * as routes from '../routes'
 
 class UserNewPage extends Component {

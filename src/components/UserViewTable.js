@@ -1,13 +1,8 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
 
-// components
-import { ViewTable } from './'
-
-// constants
+import { ViewTable } from '../components'
 import { USER_ID_PARAM } from '../constants'
-
-// app routes
 import * as routes from '../routes'
 
 const UserViewTable = ({ data, match }) => {

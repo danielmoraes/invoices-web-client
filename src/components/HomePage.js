@@ -2,13 +2,8 @@ import React from 'react'
 import { Grid, Row, Jumbotron } from 'react-bootstrap'
 import { Route } from 'react-router-dom'
 
-// components
-import { ForgotPasswordPage, PublicHeader, SignUpPage } from './'
-
-// containers
+import { ForgotPasswordPage, PublicHeader, SignUpPage } from '../components'
 import { SignInPage } from '../containers'
-
-// app routes
 import * as routes from '../routes'
 
 const HomePage = () => (

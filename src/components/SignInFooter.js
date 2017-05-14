@@ -2,7 +2,6 @@ import React from 'react'
 import { Button } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
-// app routes
 import * as routes from '../routes'
 
 const SignInFooter = () => (

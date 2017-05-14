@@ -1,13 +1,8 @@
 import { default as React, Component } from 'react'
 import { Button } from 'react-bootstrap'
 
-// components
-import { SimpleModal, InvoiceItemForm } from './'
-
-// constants
+import { SimpleModal, InvoiceItemForm } from '../components'
 import { INVOICE_ID_PARAM } from '../constants'
-
-// app routes
 import * as routes from '../routes'
 
 class InvoiceItemEditPage extends Component {

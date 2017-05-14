@@ -2,13 +2,8 @@ import { default as React, Component } from 'react'
 import { Button, Panel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
-// components
-import { UserForm, PanelHeader } from './'
-
-// constants
+import { UserForm, PanelHeader } from '../components'
 import { USER_ID_PARAM } from '../constants'
-
-// app routes
 import * as routes from '../routes'
 
 class UserEditPage extends Component {

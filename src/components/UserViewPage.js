@@ -1,13 +1,8 @@
 import { default as React, Component } from 'react'
 import { Panel, Button } from 'react-bootstrap'
 
-// components
-import { UserViewTable, PanelHeader } from './'
-
-// constants
+import { UserViewTable, PanelHeader } from '../components'
 import { USER_ID_PARAM } from '../constants'
-
-// app routes
 import * as routes from '../routes'
 
 const fakeStore = {

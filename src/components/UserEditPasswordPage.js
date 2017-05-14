@@ -1,13 +1,8 @@
 import { default as React, Component } from 'react'
 import { Button, Panel } from 'react-bootstrap'
 
-// components
-import { UserPasswordForm, PanelHeader } from './'
-
-// constants
+import { UserPasswordForm, PanelHeader } from '../components'
 import { USER_ID_PARAM } from '../constants'
-
-// app routes
 import * as routes from '../routes'
 
 class UserEditPasswordPage extends Component {

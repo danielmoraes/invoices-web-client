@@ -1,10 +1,7 @@
 import { default as React, Component, PropTypes } from 'react'
 import { withRouter } from 'react-router-dom'
 
-// components
-import { SimpleModal, SignUpForm } from './'
-
-// app routes
+import { SimpleModal, SignUpForm } from '../components'
 import * as routes from '../routes'
 
 class SignUpPage extends Component {

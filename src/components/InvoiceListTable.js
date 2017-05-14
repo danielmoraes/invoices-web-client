@@ -1,7 +1,6 @@
 import React from 'react'
 
-// components
-import { ListTable } from './'
+import { ListTable } from '../components'
 
 const columns = [
   {
