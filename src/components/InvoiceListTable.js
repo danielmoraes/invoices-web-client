@@ -3,38 +3,17 @@ import React from 'react'
 import { ListTable } from '../components'
 
 const columns = [
+  { key: 1, dataField: 'id', dataLabel: 'ID', isKey: true, hidden: true },
+  { key: 2, dataField: 'description', dataLabel: 'Description' },
+  { key: 3, dataField: 'invoiceDate', dataLabel: 'Date' },
+  { key: 4, dataField: 'beneficiary', dataLabel: 'Beneficiary' },
   {
-    key: 'id',
-    dataField: 'id',
-    dataLabel: 'ID',
-    isKey: true,
-    hidden: true
-  },
-  {
-    key: 'description',
-    dataField: 'description',
-    dataLabel: 'Description'
-  },
-  {
-    key: 'date',
-    dataField: 'date',
-    dataLabel: 'Date',
-    width: '120'
-  },
-  {
-    key: 'beneficiary',
-    dataField: 'beneficiary',
-    dataLabel: 'Beneficiary',
-    width: '200'
-  },
-  {
-    key: 'amount',
+    key: 5,
     dataField: 'amount',
     dataLabel: 'Amount',
-    dataFormat: (cell, row) => `$ ${cell}`,
-    width: '80',
     headerAlign: 'right',
-    dataAlign: 'right'
+    dataAlign: 'right',
+    dataFormat: (cell, row) => `$ ${cell}`
   }
 ]
 

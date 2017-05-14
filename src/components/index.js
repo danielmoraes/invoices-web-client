@@ -13,10 +13,8 @@ import InvoiceItemEditPage from './InvoiceItemEditPage'
 import InvoiceItemForm from './InvoiceItemForm'
 import InvoiceItemListTable from './InvoiceItemListTable'
 import InvoiceItemNewPage from './InvoiceItemNewPage'
-import InvoiceListPage from './InvoiceListPage'
 import InvoiceListTable from './InvoiceListTable'
 import InvoiceNewPage from './InvoiceNewPage'
-import InvoiceViewPage from './InvoiceViewPage'
 import InvoiceViewTable from './InvoiceViewTable'
 import ListTable from './ListTable'
 import Loader from './Loader'
@@ -59,10 +57,8 @@ export {
   InvoiceItemForm,
   InvoiceItemListTable,
   InvoiceItemNewPage,
-  InvoiceListPage,
   InvoiceListTable,
   InvoiceNewPage,
-  InvoiceViewPage,
   InvoiceViewTable,
   ListTable,
   Loader,

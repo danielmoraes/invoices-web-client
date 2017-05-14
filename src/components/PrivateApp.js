@@ -7,10 +7,8 @@ import {
   AccountEditPasswordPage,
   AccountViewPage,
   Breadcrumbs,
-  InvoiceListPage,
   InvoiceEditPage,
   InvoiceNewPage,
-  InvoiceViewPage,
   UserListPage,
   UserEditPage,
   UserEditPasswordPage,
@@ -19,6 +17,7 @@ import {
   PrivateHeader,
   SignOut
 } from '../components'
+import { InvoiceViewPage, InvoiceListPage } from '../containers'
 import * as routes from '../routes'
 
 const PrivateApp = () => (

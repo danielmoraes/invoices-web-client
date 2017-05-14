@@ -14,15 +14,15 @@ const InvoiceViewTable = ({ data }) => {
     },
     {
       label: 'Date',
-      value: data.date
+      value: data.invoiceDate
     },
     {
       label: 'Number',
-      value: data.number
+      value: data.invoiceNumber
     },
     {
       label: 'Beneficiary',
-      value: `${data.beneficiary} (${data.beneficiaryNumber})`
+      value: `${data.beneficiaryName} (${data.beneficiaryNumber})`
     },
     {
       label: 'Amount',
