@@ -16,8 +16,6 @@ const routes = [
   { path: /^\/app\/users\/[\d]+$/, title: 'User' },
   { path: /^\/app\/users\/[\d]+\/edit$/, title: 'Edit User' },
   { path: /^\/app\/users\/[\d]+\/edit-password$/, title: 'Edit User Password' },
-  { path: /^\/app\/duck$/, title: 'Duck' },
-  { path: /^\/app\/play$/, title: 'Play' },
   { path: /^\/app\/account$/, title: 'Account' },
   { path: /^\/app\/account\/edit$/, title: 'Edit Account' },
   { path: /^\/app\/account\/edit-password$/, title: 'Edit Password' }

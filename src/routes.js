@@ -65,7 +65,3 @@ export const userEdit = (userId = USER_ID) => `${user(userId)}/edit`
 
 export const userEditPassword = (userId = USER_ID) =>
   `${user(userId)}/edit-password`
-
-export const duck = () => `${privateApp()}/duck`
-
-export const play = () => `${privateApp()}/play`

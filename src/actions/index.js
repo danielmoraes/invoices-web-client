@@ -3,10 +3,6 @@ import * as constants from '../constants'
 
 // action creators
 
-export const counterIncrement = () => ({
-  type: constants.COUNTER_INCREMENT
-})
-
 export const signInCancel = () => ({
   type: constants.SIGN_IN_CANCEL
 })

@@ -3,8 +3,6 @@ import AccountEditPasswordPage from './AccountEditPasswordPage'
 import AccountPasswordForm from './AccountPasswordForm'
 import AccountViewPage from './AccountViewPage'
 import Breadcrumbs from './Breadcrumbs'
-import Counter from './Counter'
-import DuckPage from './DuckPage'
 import ForgotPasswordForm from './ForgotPasswordForm'
 import ForgotPasswordPage from './ForgotPasswordPage'
 import FormCol from './FormCol'
@@ -51,8 +49,6 @@ export {
   AccountPasswordForm,
   AccountViewPage,
   Breadcrumbs,
-  Counter,
-  DuckPage,
   ForgotPasswordForm,
   ForgotPasswordPage,
   FormCol,

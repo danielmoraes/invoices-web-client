@@ -1,6 +1,5 @@
 // action types
 export const SIGN_IN_CANCEL = 'SIGNIN_CANCEL'
-export const COUNTER_INCREMENT = 'COUNTER_INCREMENT'
 
 // async action types
 export const LOADING_AUTH_USER = 'LOADING_AUTH_USER'

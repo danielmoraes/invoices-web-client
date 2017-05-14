@@ -22,12 +22,6 @@ const PrivateHeader = () => (
         <LinkContainer to={routes.users()}>
           <NavItem>Users</NavItem>
         </LinkContainer>
-        <LinkContainer to={routes.duck()}>
-          <NavItem>Duck</NavItem>
-        </LinkContainer>
-        <LinkContainer to={routes.play()}>
-          <NavItem>Play</NavItem>
-        </LinkContainer>
       </Nav>
       <Nav pullRight>
         <NavDropdown title='Settings' id='settings-dropdown'>

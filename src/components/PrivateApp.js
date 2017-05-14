@@ -2,16 +2,12 @@ import { Grid, Row } from 'react-bootstrap'
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-// containers
-import { PlayPage } from '../containers'
-
 // components
 import {
   AccountEditPage,
   AccountEditPasswordPage,
   AccountViewPage,
   Breadcrumbs,
-  DuckPage,
   InvoiceListPage,
   InvoiceEditPage,
   InvoiceNewPage,
@@ -36,10 +32,6 @@ const PrivateApp = () => (
     <Row>
       <Breadcrumbs />
       <Switch>
-
-        <Route path={routes.duck()} component={DuckPage} />
-
-        <Route path={routes.play()} component={PlayPage} />
 
         <Route path={routes.signOut()} component={SignOut} />
 
