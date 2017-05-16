@@ -12,9 +12,10 @@ var webpack = require('webpack')
 
 const baseConfig = () => ({
   entry: [
-    path.join(__dirname, '/src/index.js')
+    path.join(__dirname, '/app/index.js')
   ],
   resolve: {
+    modules: ['app', 'node_modules'],
     extensions: ['.js']
   },
   module: {
@@ -22,14 +23,14 @@ const baseConfig = () => ({
       {
         test: /\.js?$/,
         include: [
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'app')
         ],
         loader: 'babel-loader'
       },
       {
         test: /\.css$/,
         include: [
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'app')
         ],
         loader: ExtractTextPlugin.extract({
           fallback: 'style-loader',
@@ -49,49 +50,49 @@ const baseConfig = () => ({
       {
         test: /\.eot(\?v=\d+\.\d+\.\d+)?$/,
         include: [
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'app')
         ],
         loader: 'file-loader'
       },
       {
         test: /\.(woff|woff2)$/,
         include: [
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'app')
         ],
         loader: 'url-loader?prefix=font/&limit=5000'
       },
       {
         test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/,
         include: [
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'app')
         ],
         loader: 'url-loader?limit=10000&mimetype=application/octet-stream'
       },
       {
         test: /\.svg(\?v=\d+\.\d+\.\d+)?$/,
         include: [
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'app')
         ],
         loader: 'url-loader?limit=10000&mimetype=image/svg+xml'
       },
       {
         test: /\.gif/,
         include: [
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'app')
         ],
         loader: 'url-loader?limit=10000&mimetype=image/gif'
       },
       {
         test: /\.jpg/,
         include: [
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'app')
         ],
         loader: 'url-loader?limit=10000&mimetype=image/jpg'
       },
       {
         test: /\.png/,
         include: [
-          path.resolve(__dirname, 'src')
+          path.resolve(__dirname, 'app')
         ],
         loader: 'url-loader?limit=10000&mimetype=image/png'
       }
@@ -118,8 +119,8 @@ const baseConfig = () => ({
       allChunks: true
     }),
     new HtmlWebpackPlugin({
-      template: './src/template.html',
-      favicon: './src/images/favicon.png'
+      template: './app/template.html',
+      favicon: './app/images/favicon.png'
     })
   ]
 })
