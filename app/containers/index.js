@@ -1,19 +1,19 @@
-import HomePage from './HomePage'
-import InvoicePage from './InvoicePage'
-import InvoicesPage from './InvoicesPage'
+import Home from './Home'
+import Invoice from './Invoice'
+import Invoices from './Invoices'
 import PrivateRoot from './PrivateRoot'
 import Root from './Root'
-import SignOutPage from './SignOutPage'
-import UserPage from './UserPage'
-import UsersPage from './UsersPage'
+import SignOut from './SignOut'
+import User from './User'
+import Users from './Users'
 
 export {
-  HomePage,
-  InvoicePage,
-  InvoicesPage,
+  Home,
+  Invoice,
+  Invoices,
   PrivateRoot,
   Root,
-  SignOutPage,
-  UserPage,
-  UsersPage
+  SignOut,
+  User,
+  Users
 }

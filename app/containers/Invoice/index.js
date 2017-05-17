@@ -3,25 +3,25 @@ import { Route, Switch } from 'react-router-dom'
 
 import * as routes from 'routes'
 
-import EditPage from './EditPage'
-import ViewPage from './ViewPage'
+import Edit from './Edit'
+import View from './View'
 
-const InvoicePage = () => (
+const Invoice = () => (
   <Switch>
 
     <Route path={routes.invoiceNew()} render={() => (
-      <EditPage isNew />
+      <Edit isNew />
     )} />
 
     <Route path={routes.invoiceEdit()} render={() => (
-      <EditPage />
+      <Edit />
     )} />
 
     <Route path={routes.invoice()} render={() => (
-      <ViewPage />
+      <View />
     )} />
 
   </Switch>
 )
 
-export default InvoicePage
+export default Invoice

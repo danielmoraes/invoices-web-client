@@ -15,7 +15,7 @@ const fakeStore = {
   }
 }
 
-class ViewPage extends Component {
+class View extends Component {
   constructor (props) {
     super(props)
     this.state = { user: fakeStore.user }
@@ -61,4 +61,4 @@ class ViewPage extends Component {
   }
 }
 
-export default withRouter(ViewPage)
+export default withRouter(View)

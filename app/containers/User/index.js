@@ -3,42 +3,42 @@ import { Route, Switch } from 'react-router-dom'
 
 import * as routes from 'routes'
 
-import EditPage from './EditPage'
-import EditPasswordPage from './EditPasswordPage'
-import ViewPage from './ViewPage'
+import Edit from './Edit'
+import EditPassword from './EditPassword'
+import View from './View'
 
-const UserPage = () => (
+const User = () => (
   <Switch>
 
     <Route path={routes.accountEdit()} render={() => (
-      <EditPage isAccount />
+      <Edit isAccount />
     )} />
 
     <Route path={routes.accountEditPassword()} render={() => (
-      <EditPasswordPage isAccount />
+      <EditPassword isAccount />
     )} />
 
     <Route path={routes.account()} render={() => (
-      <ViewPage isAccount />
+      <View isAccount />
     )} />
 
     <Route path={routes.userNew()} render={() => (
-      <EditPage isNew />
+      <Edit isNew />
     )} />
 
     <Route path={routes.userEdit()} render={() => (
-      <EditPage />
+      <Edit />
     )} />
 
     <Route path={routes.userEditPassword()} render={() => (
-      <EditPasswordPage />
+      <EditPassword />
     )} />
 
     <Route path={routes.user()} render={() => (
-      <ViewPage />
+      <View />
     )} />
 
   </Switch>
 )
 
-export default UserPage
+export default User

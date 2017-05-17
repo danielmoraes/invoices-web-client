@@ -10,7 +10,7 @@ import { forgotPassword, signIn, signUp } from 'routes'
 
 import Header from './Header'
 
-const HomePage = () => (
+const Home = () => (
   <div>
 
     <Route path={forgotPassword()} component={ForgotPasswordModal} />
@@ -32,4 +32,4 @@ const HomePage = () => (
   </div>
 )
 
-export default HomePage
+export default Home

@@ -25,7 +25,7 @@ function addUsers (quantity) {
 
 addUsers(10)
 
-class UsersPage extends Component {
+class Users extends Component {
   constructor (props) {
     super(props)
     this.state = { users: fakeStore.users }
@@ -74,4 +74,4 @@ class UsersPage extends Component {
   }
 }
 
-export default withRouter(UsersPage)
+export default withRouter(Users)

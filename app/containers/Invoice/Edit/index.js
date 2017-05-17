@@ -3,15 +3,32 @@ import { Button, Panel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
 import { SectionHeader } from 'components'
-import { USER_ID_PARAM } from 'routes/params'
+import { INVOICE_ID_PARAM } from 'routes/params'
 import * as routes from 'routes'
 
-import UserPasswordForm from './UserPasswordForm'
+import InvoiceForm from './InvoiceForm'
 
-class EditPasswordPage extends Component {
+class Edit extends Component {
   constructor (props) {
     super(props)
-    this.state = { curPassword: '', newPassword: '', confirmNewPassword: '' }
+
+    this.state = props.isNew ? {
+      description: '',
+      date: '',
+      number: '',
+      beneficiary: '',
+      beneficiaryNumber: '',
+      amount: ''
+    } : {
+      id: 5,
+      description: 'Description of the Invoice',
+      date: '2017-01-01',
+      number: '1234567890',
+      beneficiary: 'Company Name',
+      beneficiaryNumber: '123.456.789.0',
+      amount: '10'
+    }
+
     this.goBack = this.goBack.bind(this)
     this.onCancel = this.onCancel.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -19,13 +36,13 @@ class EditPasswordPage extends Component {
   }
 
   goBack () {
-    const { history, isAccount } = this.props
+    const { history, isNew } = this.props
 
-    if (isAccount) {
-      history.push(routes.account())
+    if (isNew) {
+      history.push(routes.invoices())
     } else {
       const { match } = this.props
-      history.push(routes.user(match.params[USER_ID_PARAM]))
+      history.push(routes.invoice(match.params[INVOICE_ID_PARAM]))
     }
   }
 
@@ -45,11 +62,10 @@ class EditPasswordPage extends Component {
   }
 
   render () {
-    const { isAccount } = this.props
+    const { isNew } = this.props
     return (
       <Panel>
-        <SectionHeader
-          title={isAccount ? 'Edit Account Password' : 'Edit User Password'}>
+        <SectionHeader title={isNew ? 'New Invoice' : 'Edit Invoice Info'}>
           <Button onClick={this.onCancel}>
             Cancel
           </Button>
@@ -57,13 +73,11 @@ class EditPasswordPage extends Component {
             Save
           </Button>
         </SectionHeader>
-        <UserPasswordForm
-          data={this.state}
-          handleInputChange={this.onChange}
-          isAccount={isAccount} />
+
+        <InvoiceForm data={this.state} handleInputChange={this.onChange} />
       </Panel>
     )
   }
 }
 
-export default withRouter(EditPasswordPage)
+export default withRouter(Edit)

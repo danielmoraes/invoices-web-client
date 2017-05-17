@@ -8,7 +8,7 @@ import * as routes from 'routes'
 
 import UserForm from './UserForm'
 
-class EditPage extends Component {
+class Edit extends Component {
   constructor (props) {
     super(props)
 
@@ -80,4 +80,4 @@ class EditPage extends Component {
   }
 }
 
-export default withRouter(EditPage)
+export default withRouter(Edit)

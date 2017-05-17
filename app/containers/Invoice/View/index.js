@@ -17,7 +17,7 @@ import InvoiceDetails from './InvoiceDetails'
 import ItemEditModal from './ItemEditModal'
 import ItemList from './ItemList'
 
-class InvoicePage extends Component {
+class View extends Component {
   constructor (props) {
     super(props)
     this.onEdit = this.onEdit.bind(this)
@@ -121,7 +121,7 @@ class InvoicePage extends Component {
   }
 }
 
-InvoicePage.propTypes = {
+View.propTypes = {
   invoice: PropTypes.object.isRequired
 }
 
@@ -134,4 +134,4 @@ const mapStateToProps = (state, { match }) => ({
 export default withRouter(connect(
   mapStateToProps,
   actions
-)(InvoicePage))
+)(View))

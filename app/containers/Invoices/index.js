@@ -10,7 +10,7 @@ import * as routes from 'routes'
 
 import InvoiceList from './InvoiceList'
 
-class InvoicesPage extends Component {
+class Invoices extends Component {
   constructor (props) {
     super(props)
     this.onAddClick = this.onAddClick.bind(this)
@@ -70,7 +70,7 @@ class InvoicesPage extends Component {
   }
 }
 
-InvoicesPage.propTypes = {
+Invoices.propTypes = {
   invoices: PropTypes.array.isRequired
 }
 
@@ -82,4 +82,4 @@ const mapStateToProps = (state) => ({
 export default withRouter(connect(
   mapStateToProps,
   actions
-)(InvoicesPage))
+)(Invoices))
