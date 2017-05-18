@@ -37,23 +37,31 @@ class SignInForm extends Component {
     const { signInFailed } = this.props
     return (
       <Form horizontal onSubmit={this.handleSubmit} >
-        {
-          signInFailed &&
+
+        { signInFailed && (
           <Alert bsStyle='danger'>Invalid email or password.</Alert>
-        }
+        ) }
 
         <FormGroup>
           <Col sm={12}>
-            <FormControl name='email' type='email' placeholder='Email'
-              onChange={this.handleInputChange} value={this.state.email}
+            <FormControl
+              name='email'
+              type='email'
+              placeholder='Email'
+              value={this.state.email}
+              onChange={this.handleInputChange}
               inputRef={input => { this.emailInput = input }} />
           </Col>
         </FormGroup>
 
         <FormGroup>
           <Col sm={12}>
-            <FormControl name='password' type='password' placeholder='Password'
-              onChange={this.handleInputChange} value={this.state.password} />
+            <FormControl
+              name='password'
+              type='password'
+              placeholder='Password'
+              value={this.state.password}
+              onChange={this.handleInputChange} />
           </Col>
         </FormGroup>
 
@@ -62,6 +70,7 @@ class SignInForm extends Component {
             <Button type='submit' block>Sign in</Button>
           </Col>
         </FormGroup>
+
       </Form>
     )
   }

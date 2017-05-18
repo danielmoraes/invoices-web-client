@@ -1,37 +1,26 @@
+import { connect } from 'react-redux'
+import { default as React, Component, PropTypes } from 'react'
 import { Button, Panel } from 'react-bootstrap'
-import { default as React, Component } from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { SectionHeader } from 'components'
+import { getUsers, getIsFetchingUsers } from 'redux/reducers'
+import * as actions from 'redux/actions'
 import * as routes from 'routes'
 
 import UserList from './UserList'
 
-const fakeStore = {
-  users: []
-}
-
-function addUsers (quantity) {
-  const startId = fakeStore.users.length
-  for (let i = quantity - 1; i >= 0; i--) {
-    const id = startId + i
-    fakeStore.users.push({
-      id: id,
-      name: `User #${id}`,
-      email: `user-${id}@user.com`
-    })
-  }
-}
-
-addUsers(10)
-
 class Users extends Component {
   constructor (props) {
     super(props)
-    this.state = { users: fakeStore.users }
     this.onAddClick = this.onAddClick.bind(this)
     this.onItemClick = this.onItemClick.bind(this)
     this.onDeleteClick = this.onDeleteClick.bind(this)
+  }
+
+  componentWillMount () {
+    const { loadUsers } = this.props
+    loadUsers()
   }
 
   onAddClick (event) {
@@ -46,14 +35,12 @@ class Users extends Component {
   }
 
   onDeleteClick (usersIds) {
-    this.setState((prevState) => ({
-      users: prevState.users.filter(
-        it => usersIds.indexOf(it.id) === -1)
-    }))
+    const { deleteUser } = this.props
+    usersIds.forEach(id => deleteUser(id + ''))
   }
 
   render () {
-    const { users } = this.state
+    const { users, isFetchingUsers } = this.props
 
     return (
       <Panel>
@@ -64,14 +51,27 @@ class Users extends Component {
           </Button>
         </SectionHeader>
 
-        <UserList
-          data={users}
-          onItemClick={this.onItemClick}
-          onDeleteClick={this.onDeleteClick} />
+        { isFetchingUsers && !users.length ? (
+          <div>Loading...</div>
+        ) : (
+          <UserList
+            data={users}
+            onItemClick={this.onItemClick}
+            onDeleteClick={this.onDeleteClick} />
+        ) }
 
       </Panel>
     )
   }
 }
 
-export default withRouter(Users)
+Users.propTypes = {
+  users: PropTypes.array.isRequired
+}
+
+const mapStateToProps = (state) => ({
+  users: getUsers(state),
+  isFetchingUsers: getIsFetchingUsers(state)
+})
+
+export default withRouter(connect(mapStateToProps, actions)(Users))

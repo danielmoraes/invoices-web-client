@@ -1,21 +1,26 @@
 import React from 'react'
 
 import { List } from 'components'
+import { Invoice } from 'api/entity-schema'
+import { formatPrice, formatDate } from 'lib/formatter'
+import { buildListColumns } from 'lib/generator'
 
-const columns = [
-  { key: 1, dataField: 'id', dataLabel: 'ID', isKey: true, hidden: true },
-  { key: 2, dataField: 'description', dataLabel: 'Description' },
-  { key: 3, dataField: 'invoiceDate', dataLabel: 'Date' },
-  { key: 4, dataField: 'beneficiary', dataLabel: 'Beneficiary' },
-  {
-    key: 5,
-    dataField: 'amount',
-    dataLabel: 'Amount',
-    headerAlign: 'right',
-    dataAlign: 'right',
-    dataFormat: (cell, row) => `$ ${cell}`
+const fields = ['id', 'description', 'invoiceDate', 'beneficiaryName', 'amount']
+
+const options = {
+  id: {
+    isKey: true,
+    hidden: true
+  },
+  invoiceDate: {
+    dataFormat: formatDate
+  },
+  amount: {
+    dataFormat: formatPrice
   }
-]
+}
+
+const columns = buildListColumns(fields, options, Invoice)
 
 const InvoiceList = ({ data, onItemClick, onDeleteClick }) => (
   <List

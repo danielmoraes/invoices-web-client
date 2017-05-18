@@ -3,16 +3,17 @@ import { Button, Panel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
 import { SectionHeader } from 'components'
-import { USER_ID_PARAM } from 'routes/params'
+import { Invoice } from 'api/entity-schema'
+import { buildFormStateFromSchema } from 'lib/generator'
 import * as routes from 'routes'
 
-import UserForm from './UserForm'
+import InvoiceForm from './InvoiceForm'
 
-class Edit extends Component {
+class New extends Component {
   constructor (props) {
     super(props)
 
-    this.state = { name: '', email: '' }
+    this.state = buildFormStateFromSchema(Invoice)
 
     this.goBack = this.goBack.bind(this)
     this.onCancel = this.onCancel.bind(this)
@@ -21,16 +22,8 @@ class Edit extends Component {
   }
 
   goBack () {
-    const { history, isAccount, isNew } = this.props
-
-    if (isNew) {
-      history.push(routes.users())
-    } else if (isAccount) {
-      history.push(routes.account())
-    } else {
-      const { match } = this.props
-      history.push(routes.user(match.params[USER_ID_PARAM]))
-    }
+    const { history } = this.props
+    history.push(routes.invoices())
   }
 
   onCancel (event) {
@@ -49,20 +42,10 @@ class Edit extends Component {
   }
 
   render () {
-    const { isAccount, isNew } = this.props
-
-    let title
-    if (isNew) {
-      title = 'New User'
-    } else if (isAccount) {
-      title = 'Edit Account Info'
-    } else {
-      title = 'Edit User Info'
-    }
-
     return (
       <Panel>
-        <SectionHeader title={title}>
+
+        <SectionHeader title={'New Invoice'}>
           <Button onClick={this.onCancel}>
             Cancel
           </Button>
@@ -71,13 +54,11 @@ class Edit extends Component {
           </Button>
         </SectionHeader>
 
-        <UserForm
-          data={this.state}
-          handleInputChange={this.onChange}
-          isNew={isNew} />
+        <InvoiceForm data={this.state} handleChange={this.onChange} />
+
       </Panel>
     )
   }
 }
 
-export default withRouter(Edit)
+export default withRouter(New)

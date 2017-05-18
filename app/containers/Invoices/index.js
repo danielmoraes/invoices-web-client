@@ -35,36 +35,31 @@ class Invoices extends Component {
   }
 
   onDeleteClick (invoicesIds) {
-    this.setState((prevState) => ({
-      invoices: prevState.invoices.filter(
-        it => invoicesIds.indexOf(it.id) === -1)
-    }))
+    const { deleteInvoice } = this.props
+    invoicesIds.forEach(id => deleteInvoice(id + ''))
   }
 
   render () {
     const { invoices, isFetchingInvoices } = this.props
 
-    const data = invoices.map((invoice) => {
-      invoice.beneficiary =
-        `${invoice.beneficiaryName} (${invoice.beneficiaryNumber})`
-      return invoice
-    })
-
     return (
       <Panel>
+
         <SectionHeader title='My Invoices'>
           <Button bsStyle='primary' onClick={this.onAddClick}>
             New Invoice
           </Button>
         </SectionHeader>
-        { isFetchingInvoices && !data.length ? (
+
+        { isFetchingInvoices && !invoices.length ? (
           <div>Loading...</div>
         ) : (
           <InvoiceList
-            data={data}
+            data={invoices}
             onItemClick={this.onItemClick}
             onDeleteClick={this.onDeleteClick} />
         ) }
+
       </Panel>
     )
   }
@@ -79,7 +74,4 @@ const mapStateToProps = (state) => ({
   isFetchingInvoices: getIsFetchingInvoices(state)
 })
 
-export default withRouter(connect(
-  mapStateToProps,
-  actions
-)(Invoices))
+export default withRouter(connect(mapStateToProps, actions)(Invoices))

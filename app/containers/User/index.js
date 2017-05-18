@@ -5,6 +5,7 @@ import * as routes from 'routes'
 
 import Edit from './Edit'
 import EditPassword from './EditPassword'
+import New from './New'
 import View from './View'
 
 const User = () => (
@@ -22,21 +23,10 @@ const User = () => (
       <View isAccount />
     )} />
 
-    <Route path={routes.userNew()} render={() => (
-      <Edit isNew />
-    )} />
-
-    <Route path={routes.userEdit()} render={() => (
-      <Edit />
-    )} />
-
-    <Route path={routes.userEditPassword()} render={() => (
-      <EditPassword />
-    )} />
-
-    <Route path={routes.user()} render={() => (
-      <View />
-    )} />
+    <Route path={routes.userNew()} component={New} />
+    <Route path={routes.userEdit()} component={Edit} />
+    <Route path={routes.userEditPassword()} component={EditPassword} />
+    <Route path={routes.user()} component={View} />
 
   </Switch>
 )

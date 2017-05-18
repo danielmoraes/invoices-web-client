@@ -3,25 +3,18 @@ import { Button } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
 import { Modal } from 'components'
+import { InvoiceItem } from 'api/entity-schema'
+import { buildFormStateFromSchema } from 'lib/generator'
 import { INVOICE_ID_PARAM } from 'routes/params'
 import * as routes from 'routes'
 
-import ItemForm from './ItemForm'
+import ItemForm from './InvoiceItemForm'
 
-class ItemEditModal extends Component {
+class New extends Component {
   constructor (props) {
     super(props)
 
-    this.state = props.isNew ? {
-      description: '',
-      quantity: '',
-      unitPrice: ''
-    } : {
-      id: 5,
-      description: 'Description of the Invoice',
-      quantity: 3,
-      unitPrice: 1.5
-    }
+    this.state = buildFormStateFromSchema(InvoiceItem)
 
     this.goBack = this.goBack.bind(this)
     this.modalOnHide = this.modalOnHide.bind(this)
@@ -56,12 +49,10 @@ class ItemEditModal extends Component {
   }
 
   render () {
-    const { isNew } = this.props
     return (
-      <Modal show onHide={this.modalOnHide}
-        title={isNew ? 'New Invoice Item' : 'Edit Invoice Item'}
+      <Modal show onHide={this.modalOnHide} title='New Invoice Item'
         body={
-          <ItemForm data={this.state} handleInputChange={this.onChange} />
+          <ItemForm data={this.state} handleChange={this.onChange} />
         }
         footer={
           <div>
@@ -74,4 +65,4 @@ class ItemEditModal extends Component {
   }
 }
 
-export default withRouter(ItemEditModal)
+export default withRouter(New)

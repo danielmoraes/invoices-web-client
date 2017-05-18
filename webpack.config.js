@@ -120,7 +120,7 @@ const baseConfig = () => ({
     }),
     new HtmlWebpackPlugin({
       template: './app/template.html',
-      favicon: './app/images/favicon.png'
+      favicon: './app/favicon.png'
     })
   ]
 })

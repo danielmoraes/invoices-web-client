@@ -6,12 +6,22 @@ import { SectionHeader } from 'components'
 import { USER_ID_PARAM } from 'routes/params'
 import * as routes from 'routes'
 
-import UserPasswordForm from './UserPasswordForm'
+import AccountEditPasswordForm from './AccountEditPasswordForm'
+import UserEditPasswordForm from './UserEditPasswordForm'
 
 class EditPassword extends Component {
   constructor (props) {
     super(props)
-    this.state = { curPassword: '', newPassword: '', confirmNewPassword: '' }
+
+    this.state = {
+      newPassword: '',
+      confirmNewPassword: ''
+    }
+
+    if (props.isAccount) {
+      this.state.currentPassword = ''
+    }
+
     this.goBack = this.goBack.bind(this)
     this.onCancel = this.onCancel.bind(this)
     this.onChange = this.onChange.bind(this)
@@ -48,6 +58,7 @@ class EditPassword extends Component {
     const { isAccount } = this.props
     return (
       <Panel>
+
         <SectionHeader
           title={isAccount ? 'Edit Account Password' : 'Edit User Password'}>
           <Button onClick={this.onCancel}>
@@ -57,10 +68,17 @@ class EditPassword extends Component {
             Save
           </Button>
         </SectionHeader>
-        <UserPasswordForm
-          data={this.state}
-          handleInputChange={this.onChange}
-          isAccount={isAccount} />
+
+        { isAccount ? (
+          <AccountEditPasswordForm
+            data={this.state}
+            handleChange={this.onChange} />
+        ) : (
+          <UserEditPasswordForm
+            data={this.state}
+            handleChange={this.onChange} />
+        ) }
+
       </Panel>
     )
   }

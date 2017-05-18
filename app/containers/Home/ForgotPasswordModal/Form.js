@@ -1,11 +1,5 @@
 import { default as React, Component } from 'react'
-import {
-  Button,
-  Form,
-  FormGroup,
-  FormControl,
-  Col
-} from 'react-bootstrap'
+import { Button, Form, FormGroup, FormControl, Col } from 'react-bootstrap'
 
 class ForgotPasswordForm extends Component {
   constructor (props) {
@@ -22,7 +16,6 @@ class ForgotPasswordForm extends Component {
 
   handleSubmit (event) {
     event.preventDefault()
-    console.log('Reset instructions submitted: ', this.state)
   }
 
   componentDidMount () {
@@ -37,8 +30,12 @@ class ForgotPasswordForm extends Component {
 
         <FormGroup>
           <Col sm={12}>
-            <FormControl name='email' type='email' placeholder='Email'
-              onChange={this.handleInputChange} value={this.state.email}
+            <FormControl
+              name='email'
+              type='email'
+              placeholder='Email'
+              value={this.state.email}
+              onChange={this.handleInputChange}
               inputRef={(input) => { this.emailInput = input }} />
           </Col>
         </FormGroup>

@@ -79,6 +79,25 @@ export const Invoice = {
 
 }
 
+export const InvoiceItem = {
+
+  create: (data) => fetch(
+    `http://${HOST}:${PORT}/items`, {
+      method: 'POST',
+      body: data,
+      credentials: 'include'
+    }
+  ),
+
+  delete: (invoiceItemId) => fetch(
+    `http://${HOST}:${PORT}/items/${invoiceItemId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    }
+  )
+
+}
+
 export const User = {
 
   getOne: (userId) => fetch(

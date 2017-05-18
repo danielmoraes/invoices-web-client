@@ -4,6 +4,7 @@ import { Button, Panel } from 'react-bootstrap'
 import { Route, withRouter } from 'react-router-dom'
 
 import { SectionHeader } from 'components'
+import { InvoiceItem, InvoiceItems } from 'containers'
 import { INVOICE_ID_PARAM } from 'routes/params'
 import {
   getInvoice,
@@ -14,14 +15,12 @@ import * as actions from 'redux/actions'
 import * as routes from 'routes'
 
 import InvoiceDetails from './InvoiceDetails'
-import ItemEditModal from './ItemEditModal'
-import ItemList from './ItemList'
 
 class View extends Component {
   constructor (props) {
     super(props)
-    this.onEdit = this.onEdit.bind(this)
-    this.onDelete = this.onDelete.bind(this)
+    this.onEditClick = this.onEditClick.bind(this)
+    this.onDeleteClick = this.onDeleteClick.bind(this)
     this.onAddItemClick = this.onAddItemClick.bind(this)
     this.onItemClick = this.onItemClick.bind(this)
     this.onDeleteItemsClick = this.onDeleteItemsClick.bind(this)
@@ -33,14 +32,15 @@ class View extends Component {
     loadInvoice(invoiceId)
   }
 
-  onEdit (event) {
+  onEditClick (event) {
     event.preventDefault()
+
     const { history, match } = this.props
     const invoiceId = match.params[INVOICE_ID_PARAM]
     history.push(routes.invoiceEdit(invoiceId))
   }
 
-  onDelete (event) {
+  onDeleteClick (event) {
     event.preventDefault()
     const { deleteInvoice, history, match } = this.props
     const invoiceId = match.params[INVOICE_ID_PARAM]
@@ -50,6 +50,7 @@ class View extends Component {
 
   onAddItemClick (event) {
     event.preventDefault()
+
     const { history, match } = this.props
     const invoiceId = match.params[INVOICE_ID_PARAM]
     history.push(routes.invoiceItemNew(invoiceId))
@@ -62,9 +63,8 @@ class View extends Component {
   }
 
   onDeleteItemsClick (itemsIds) {
-    this.setState((prevState) => ({
-      items: prevState.items.filter(it => itemsIds.indexOf(it.id) === -1)
-    }))
+    const { deleteInvoiceItem } = this.props
+    itemsIds.forEach(id => deleteInvoiceItem(id + ''))
   }
 
   render () {
@@ -75,10 +75,10 @@ class View extends Component {
         <Panel>
 
           <SectionHeader title='Invoice Info'>
-            <Button onClick={this.onEdit}>
+            <Button onClick={this.onEditClick}>
               Edit
             </Button>
-            <Button bsStyle='danger' onClick={this.onDelete}>
+            <Button bsStyle='danger' onClick={this.onDeleteClick}>
               Delete
             </Button>
           </SectionHeader>
@@ -94,13 +94,9 @@ class View extends Component {
         { invoice.type === 2 && (
           <Panel>
 
-            <Route path={routes.invoiceItemNew()} render={() => (
-              <ItemEditModal isNew />
-            )} />
+            <Route path={routes.invoiceItemNew()} component={InvoiceItem} />
 
-            <Route path={routes.invoiceItemEdit()} render={() => (
-              <ItemEditModal />
-            )} />
+            <Route path={routes.invoiceItemEdit()} component={InvoiceItem} />
 
             <SectionHeader title='Invoice Items'>
               <Button bsStyle='primary' onClick={this.onAddItemClick}>
@@ -108,7 +104,7 @@ class View extends Component {
               </Button>
             </SectionHeader>
 
-            <ItemList
+            <InvoiceItems
               data={invoiceItems}
               onItemClick={this.onItemClick}
               onDeleteClick={this.onDeleteItemsClick} />
@@ -131,7 +127,4 @@ const mapStateToProps = (state, { match }) => ({
   isFetchingInvoices: getIsFetchingInvoices(state)
 })
 
-export default withRouter(connect(
-  mapStateToProps,
-  actions
-)(View))
+export default withRouter(connect(mapStateToProps, actions)(View))

@@ -1,13 +1,18 @@
-import { LOADING_INVOICES_SUCCEEDED } from 'redux/actionTypes'
+import {
+  LOADING_INVOICES_SUCCEEDED,
+  DELETING_INVOICE_ITEM_SUCCEEDED
+} from 'redux/actionTypes'
 
 const invoiceItemsReducer = (state = {}, action) => {
-  console.log(action.payload)
   switch (action.type) {
     case LOADING_INVOICES_SUCCEEDED:
       return {
         ...state,
         ...action.payload.entities.invoiceItems
       }
+    case DELETING_INVOICE_ITEM_SUCCEEDED:
+      let { [action.id]: deleted, ...rest } = state
+      return rest
     default:
       return state
   }

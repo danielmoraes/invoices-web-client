@@ -1,27 +1,22 @@
 import React from 'react'
 
 import { List } from 'components'
+import { User } from 'api/entity-schema'
+import { buildListColumns } from 'lib/generator'
 
-const columns = [
-  {
-    key: 'id',
-    dataField: 'id',
-    dataLabel: 'ID',
+const fields = ['id', 'name', 'email']
+
+const options = {
+  id: {
     isKey: true,
     hidden: true
   },
-  {
-    key: 'name',
-    dataField: 'name',
-    dataLabel: 'Name'
-  },
-  {
-    key: 'email',
-    dataField: 'email',
-    dataLabel: 'Email',
+  email: {
     width: '300'
   }
-]
+}
+
+const columns = buildListColumns(fields, options, User)
 
 const UserList = ({ data, onItemClick, onDeleteClick }) => (
   <List

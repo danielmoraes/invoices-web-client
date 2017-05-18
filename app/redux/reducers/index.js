@@ -4,12 +4,14 @@ import appReducer, * as fromApp from './app'
 import authReducer, * as fromAuth from './auth'
 import invoicesReducer, * as fromInvoices from './invoices'
 import invoiceItemsReducer, * as fromInvoiceItems from './invoiceItems'
+import usersReducer, * as fromUsers from './users'
 
 const rootReducer = combineReducers({
   app: appReducer,
   auth: authReducer,
   invoices: invoicesReducer,
-  invoiceItems: invoiceItemsReducer
+  invoiceItems: invoiceItemsReducer,
+  users: usersReducer
 })
 
 export default rootReducer
@@ -30,7 +32,7 @@ export const getIsAuthenticated = (state) =>
 
 export const getIsSigningOut = (state) => fromAuth.getIsSigningOut(state.auth)
 
-export const getUser = (state) => fromAuth.getUser(state.auth)
+export const getAuthUser = (state) => fromAuth.getUser(state.auth)
 
 // invoices reducer selectors
 
@@ -47,3 +49,12 @@ export const getInvoiceItem = (state, id) =>
 
 export const getInvoiceItems = (state, invoiceId) =>
   fromInvoiceItems.getInvoiceItems(state.invoiceItems, invoiceId)
+
+// users reducer selectors
+
+export const getIsFetchingUsers = (state) =>
+  fromUsers.getIsFetching(state.users)
+
+export const getUser = (state, id) => fromUsers.getUser(state.users, id)
+
+export const getUsers = (state, id) => fromUsers.getUsers(state.users)
