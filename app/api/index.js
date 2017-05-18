@@ -5,26 +5,25 @@ const UserRole = { NORMAL: 1, ADMIN: 2 }
 const InvoiceType = { SIMPLE: 1, DETAILED: 2 }
 export const enums = { UserRole, InvoiceType }
 
-const HOST = 'www.example.com'
-const PORT = 3000
+const BASE_URL = 'http://www.example.com:3000'
 
 export const Auth = {
 
   current: () => fetch(
-    `http://${HOST}:${PORT}/auth`, {
+    `${BASE_URL}/auth`, {
       credentials: 'include'
     }
   ),
 
   signIn: (email, password) => fetch(
-    `http://${HOST}:${PORT}/auth`, {
+    `${BASE_URL}/auth`, {
       credentials: 'include',
       headers: { email, encp: Buffer.from(password).toString('base64') }
     }
   ),
 
   signOut: () => fetch(
-    `http://${HOST}:${PORT}/auth`, {
+    `${BASE_URL}/auth`, {
       method: 'DELETE',
       credentials: 'include'
     }
@@ -35,19 +34,19 @@ export const Auth = {
 export const Invoice = {
 
   getOne: (invoiceId) => fetch(
-    `http://${HOST}:${PORT}/invoices/${invoiceId}?_embed=items`, {
+    `${BASE_URL}/invoices/${invoiceId}?_embed=items`, {
       credentials: 'include'
     }
   ),
 
   getAll: (userId) => fetch(
-    `http://${HOST}:${PORT}/invoices?userId=${userId}&_embed=items`, {
+    `${BASE_URL}/invoices?userId=${userId}&_embed=items`, {
       credentials: 'include'
     }
   ),
 
   create: (data) => fetch(
-    `http://${HOST}:${PORT}/invoices`, {
+    `${BASE_URL}/invoices`, {
       method: 'POST',
       body: data,
       credentials: 'include'
@@ -55,7 +54,7 @@ export const Invoice = {
   ),
 
   update: (invoiceId, data) => fetch(
-    `http://${HOST}:${PORT}/invoices/${invoiceId}`, {
+    `${BASE_URL}/invoices/${invoiceId}`, {
       method: 'PUT',
       body: data,
       credentials: 'include'
@@ -63,7 +62,7 @@ export const Invoice = {
   ),
 
   merge: (invoiceId, data) => fetch(
-    `http://${HOST}:${PORT}/invoices/${invoiceId}`, {
+    `${BASE_URL}/invoices/${invoiceId}`, {
       method: 'PATCH',
       body: data,
       credentials: 'include'
@@ -71,7 +70,7 @@ export const Invoice = {
   ),
 
   delete: (invoiceId) => fetch(
-    `http://${HOST}:${PORT}/invoices/${invoiceId}`, {
+    `${BASE_URL}/invoices/${invoiceId}`, {
       method: 'DELETE',
       credentials: 'include'
     }
@@ -82,7 +81,7 @@ export const Invoice = {
 export const InvoiceItem = {
 
   create: (data) => fetch(
-    `http://${HOST}:${PORT}/items`, {
+    `${BASE_URL}/items`, {
       method: 'POST',
       body: data,
       credentials: 'include'
@@ -90,7 +89,7 @@ export const InvoiceItem = {
   ),
 
   delete: (invoiceItemId) => fetch(
-    `http://${HOST}:${PORT}/items/${invoiceItemId}`, {
+    `${BASE_URL}/items/${invoiceItemId}`, {
       method: 'DELETE',
       credentials: 'include'
     }
@@ -101,19 +100,19 @@ export const InvoiceItem = {
 export const User = {
 
   getOne: (userId) => fetch(
-    `http://${HOST}:${PORT}/users/${userId}`, {
+    `${BASE_URL}/users/${userId}`, {
       credentials: 'include'
     }
   ),
 
   getAll: () => fetch(
-    `http://${HOST}:${PORT}/users`, {
+    `${BASE_URL}/users`, {
       credentials: 'include'
     }
   ),
 
   create: (data) => fetch(
-    `http://${HOST}:${PORT}/users`, {
+    `${BASE_URL}/users`, {
       method: 'POST',
       body: data,
       credentials: 'include'
@@ -121,7 +120,7 @@ export const User = {
   ),
 
   update: (userId, data) => fetch(
-    `http://${HOST}:${PORT}/users/${userId}`, {
+    `${BASE_URL}/users/${userId}`, {
       method: 'PUT',
       body: data,
       credentials: 'include'
@@ -129,7 +128,7 @@ export const User = {
   ),
 
   merge: (userId, data) => fetch(
-    `http://${HOST}:${PORT}/users/${userId}`, {
+    `${BASE_URL}/users/${userId}`, {
       method: 'PATCH',
       body: data,
       credentials: 'include'
@@ -137,7 +136,7 @@ export const User = {
   ),
 
   delete: (userId) => fetch(
-    `http://${HOST}:${PORT}/users/${userId}`, {
+    `${BASE_URL}/users/${userId}`, {
       method: 'DELETE',
       credentials: 'include'
     }
