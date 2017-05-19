@@ -2,10 +2,7 @@ import React from 'react'
 import { Grid, Row, Jumbotron } from 'react-bootstrap'
 import { Route } from 'react-router-dom'
 
-import ForgotPasswordModal from './ForgotPasswordModal'
-import SignInModal from './SignInModal'
-import SignUpModal from './SignUpModal'
-
+import { SignIn, SignUp, ForgotPassword } from 'containers'
 import { forgotPassword, signIn, signUp } from 'routes'
 
 import Header from './Header'
@@ -13,9 +10,9 @@ import Header from './Header'
 const Home = () => (
   <div>
 
-    <Route path={forgotPassword()} component={ForgotPasswordModal} />
-    <Route path={signIn()} component={SignInModal} />
-    <Route path={signUp()} component={SignUpModal} />
+    <Route path={forgotPassword()} component={ForgotPassword} />
+    <Route path={signIn()} component={SignIn} />
+    <Route path={signUp()} component={SignUp} />
 
     <Grid>
       <Row>

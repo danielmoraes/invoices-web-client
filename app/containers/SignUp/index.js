@@ -11,7 +11,7 @@ import { home } from 'routes'
 
 import SignUpForm from './SignUpForm'
 
-class SignUpModal extends Component {
+class SignUp extends Component {
   constructor (props) {
     super(props)
 
@@ -59,7 +59,7 @@ class SignUpModal extends Component {
         body={
           <div>
             <SignUpForm data={this.state} handleChange={this.onChange} />
-            <Button type='submit' block onClick={this.onSave}>Sign Up</Button>
+            <Button type='submit' block onClick={this.onSave}>Sign up</Button>
           </div>
         }
       />
@@ -67,8 +67,8 @@ class SignUpModal extends Component {
   }
 }
 
-SignUpModal.propTypes = {
+SignUp.propTypes = {
   location: PropTypes.object.isRequired
 }
 
-export default withRouter(connect()(SignUpModal))
+export default withRouter(connect()(SignUp))

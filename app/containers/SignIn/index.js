@@ -1,5 +1,6 @@
 import { connect } from 'react-redux'
 import { default as React, Component, PropTypes } from 'react'
+import { Alert, Button } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
 import { Modal } from 'components'
@@ -10,11 +11,18 @@ import * as actions from 'redux/actions'
 import Footer from './Footer'
 import SignInForm from './SignInForm'
 
-class SignInModal extends Component {
+class SignIn extends Component {
   constructor (props) {
     super(props)
+
+    this.state = {
+      email: '', password: ''
+    }
+
     this.goBack = this.goBack.bind(this)
     this.modalOnHide = this.modalOnHide.bind(this)
+    this.onChange = this.onChange.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   goBack () {
@@ -28,12 +36,30 @@ class SignInModal extends Component {
     this.goBack()
   }
 
+  onChange (event) {
+    const target = event.target
+    this.setState({ [target.name]: target.value })
+  }
+
+  onSubmit (event) {
+    event.preventDefault()
+
+    const { signIn } = this.props
+    signIn(this.state.email, this.state.password)
+  }
+
   render () {
-    const { signInFailed, signIn } = this.props
+    const { signInFailed } = this.props
     return (
       <Modal show onHide={this.modalOnHide} title='Sign In' bsSize='sm'
         body={
-          <SignInForm onSubmit={signIn} signInFailed={signInFailed} />
+          <div>
+            { signInFailed && (
+              <Alert bsStyle='danger'>Invalid email or password.</Alert>
+            ) }
+            <SignInForm data={this.state} handleChange={this.onChange} />
+            <Button type='submit' block onClick={this.onSubmit}>Sign in</Button>
+          </div>
         }
         footer={
           <Footer />
@@ -43,7 +69,7 @@ class SignInModal extends Component {
   }
 }
 
-SignInModal.propTypes = {
+SignIn.propTypes = {
   location: PropTypes.object.isRequired,
   signInFailed: PropTypes.bool.isRequired,
   signIn: PropTypes.func.isRequired,
@@ -54,7 +80,4 @@ const mapStateToProps = (state) => ({
   signInFailed: getSignInFailed(state)
 })
 
-export default withRouter(connect(
-  mapStateToProps,
-  actions
-)(SignInModal))
+export default withRouter(connect(mapStateToProps, actions)(SignIn))
