@@ -2,9 +2,10 @@ import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
 import { NavDropdown, MenuItem, Navbar, Nav, NavItem } from 'react-bootstrap'
 
+import { UserRole } from 'api/enums'
 import * as routes from 'routes'
 
-const PrivateHeader = () => (
+const PrivateHeader = ({ role }) => (
   <div>
     <Navbar>
       <Navbar.Header>
@@ -18,9 +19,11 @@ const PrivateHeader = () => (
         <LinkContainer to={routes.invoices()}>
           <NavItem>Invoices</NavItem>
         </LinkContainer>
-        <LinkContainer to={routes.users()}>
-          <NavItem>Users</NavItem>
-        </LinkContainer>
+        { role === UserRole.ADMIN && (
+          <LinkContainer to={routes.users()}>
+            <NavItem>Users</NavItem>
+          </LinkContainer>
+        ) }
       </Nav>
       <Nav pullRight>
         <NavDropdown title='Settings' id='settings-dropdown'>

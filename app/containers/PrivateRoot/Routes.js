@@ -8,15 +8,20 @@ import {
   Users,
   SignOut
 } from 'containers'
+import { UserRole } from 'api/enums'
 import * as routes from 'routes'
 
-const Routes = () => (
+const Routes = ({ role }) => (
   <Switch>
     <Route path={routes.account()} component={User} />
     <Route path={routes.invoice()} component={Invoice} />
     <Route path={routes.invoices()} component={Invoices} />
-    <Route path={routes.user()} component={User} />
-    <Route path={routes.users()} component={Users} />
+    { role === UserRole.ADMIN && (
+      <Route path={routes.user()} component={User} />
+    ) }
+    { role === UserRole.ADMIN && (
+      <Route path={routes.users()} component={Users} />
+    ) }
     <Route path={routes.signOut()} component={SignOut} />
     <Redirect to={routes.invoices()} />
   </Switch>
