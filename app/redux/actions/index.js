@@ -1,8 +1,10 @@
 import { Auth, Invoice, InvoiceItem, User } from 'api'
 import { normalize } from 'normalizr'
 
-import { getAuthUser } from '../reducers'
-import * as actionTypes from '../actionTypes'
+import { stringToBase64 } from 'lib/converter'
+import { getAuthUser } from 'redux/reducers'
+import * as actionTypes from 'redux/actionTypes'
+
 import * as schema from './schema'
 
 // action creators
@@ -29,7 +31,7 @@ export const loadAuthUser = () => (dispatch) => {
 }
 
 export const signIn = (email, password) => (dispatch) => {
-  const encp = Buffer.from(password).toString('base64')
+  const encp = stringToBase64(password)
   dispatch({ type: actionTypes.SIGNING_IN })
   return Auth.signIn(email, encp).then(response => {
     if (response.status === 200) {
@@ -142,7 +144,6 @@ export const createInvoiceItem = (data) => (dispatch) => {
   dispatch({ type: actionTypes.CREATING_INVOICE_ITEM, payload: data })
   return InvoiceItem.create(data).then(response => {
     if (response.status === 201) {
-      console.log(response.headers)
       return response.json().then(invoiceItem => {
         dispatch({
           type: actionTypes.CREATING_INVOICE_ITEM_SUCCEEDED,
@@ -229,7 +230,7 @@ export const loadUsers = () => (dispatch) => {
 }
 
 export const createUser = (data, password) => (dispatch) => {
-  const encp = Buffer.from(password).toString('base64')
+  const encp = stringToBase64(password)
 
   // THIS IS ONLY NEEDED IN THE FAKE API
   data.password = password
@@ -279,3 +280,17 @@ export const deleteUser = (userId) => (dispatch) => {
     }
   })
 }
+
+export const updateUserPassword =
+  (userId, newPassword, currentPassword) => (dispatch) => {
+    const encp = newPassword ? stringToBase64(newPassword) : ''
+    const encpOld = currentPassword ? stringToBase64(currentPassword) : ''
+    dispatch({ type: actionTypes.UPDATING_USER_PASSWORD })
+    return User.updateUserPassword(userId, encp, encpOld).then(response => {
+      if (response.status === 200) {
+        dispatch({ type: actionTypes.UPDATING_USER_PASSWORD_SUCCEEDED })
+      } else {
+        dispatch({ type: actionTypes.UPDATING_USER_PASSWORD_FAILED })
+      }
+    })
+  }

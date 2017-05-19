@@ -1,9 +1,12 @@
-import { default as React, Component } from 'react'
+import { connect } from 'react-redux'
+import { default as React, Component, PropTypes } from 'react'
 import { Button, Panel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
 import { SectionHeader } from 'components'
 import { USER_ID_PARAM } from 'routes/params'
+import { getUser, getAuthUser } from 'redux/reducers'
+import { updateUserPassword } from 'redux/actions'
 import * as routes from 'routes'
 
 import AccountEditPasswordForm from './AccountEditPasswordForm'
@@ -51,6 +54,17 @@ class EditPassword extends Component {
 
   onSave (event) {
     event.preventDefault()
+
+    const { dispatch, isAccount, user } = this.props
+    const { newPassword } = this.state
+
+    if (isAccount) {
+      const { currentPassword } = this.state
+      dispatch(updateUserPassword(user.id, newPassword, currentPassword))
+    } else {
+      dispatch(updateUserPassword(user.id, newPassword))
+    }
+
     this.goBack()
   }
 
@@ -84,4 +98,14 @@ class EditPassword extends Component {
   }
 }
 
-export default withRouter(EditPassword)
+EditPassword.propTypes = {
+  user: PropTypes.object.isRequired
+}
+
+const mapStateToProps = (state, { match }) => {
+  const userId = match.params[USER_ID_PARAM]
+  const user = userId ? getUser(state, userId) : getAuthUser(state)
+  return { user }
+}
+
+export default withRouter(connect(mapStateToProps)(EditPassword))

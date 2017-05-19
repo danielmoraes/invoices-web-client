@@ -168,6 +168,17 @@ export const User = {
       method: 'DELETE',
       credentials: 'include'
     }
+  ),
+
+  updateUserPassword: (userId, newPassword, currentPassword) => fetch(
+    `${BASE_URL}/users/${userId}`, {
+      method: 'PATCH',
+      headers: {
+        'encp': newPassword,
+        'encp-old': currentPassword
+      },
+      credentials: 'include'
+    }
   )
 
 }

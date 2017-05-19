@@ -12,6 +12,7 @@ const middlewares = jsonServer.defaults()
 
 server.use(middlewares)
 
+// set req.user
 server.use(cookieParser(), expressJwt({
   secret: JWT_SECRET,
   credentialsRequired: false,
@@ -22,6 +23,7 @@ server.use(cookieParser(), expressJwt({
   }
 }))
 
+// sign in or load auth user
 server.get('/auth', (req, res) => {
   const email = req.get('email')
   const encp = req.get('encp')
@@ -49,6 +51,7 @@ server.get('/auth', (req, res) => {
   return res.status(200).jsonp(user)
 })
 
+// sign out
 server.delete('/auth', (req, res) => {
   res.cookie('token', 'invalidated', { httpOnly: true, maxAge: 0 })
   res.sendStatus(200)
@@ -64,11 +67,13 @@ server.use((req, res, next) => {
 
 server.use(jsonServer.bodyParser)
 
+// ensure that the invoice amount is set to 0 on invoice create
 server.post('/invoices', (req, res, next) => {
   req.body.amount = req.body.amount || 0
   next()
 })
 
+// set invoice amount on the request body on invoice update
 server.put('/invoices/:id', (req, res, next) => {
   const invoiceId = Number(req.params.id)
   if (req.body.type === 'DETAILED') {
@@ -80,6 +85,7 @@ server.put('/invoices/:id', (req, res, next) => {
   next()
 })
 
+// update invoice amount and invoice item amount on invoice item create
 server.post('/items', (req, res, next) => {
   req.body.amount = Number(req.body.quantity) * Number(req.body.unitPrice)
   const invoice = db.invoices.filter(iv => iv.id === req.body.invoiceId)[0]
@@ -91,6 +97,7 @@ server.post('/items', (req, res, next) => {
   next()
 })
 
+// update invoice amount and invoice item mount on invoice item update
 server.put('/items/:id', (req, res, next) => {
   const itemId = Number(req.params.id)
   const item = db.items.filter(it => it.id === itemId)[0]
@@ -107,6 +114,7 @@ server.put('/items/:id', (req, res, next) => {
   next()
 })
 
+// update invoice amount on invoice item delete
 server.delete('/items/:id', (req, res, next) => {
   const itemId = Number(req.params.id)
   const item = db.items.filter(it => it.id === itemId)[0]
@@ -121,6 +129,39 @@ server.delete('/items/:id', (req, res, next) => {
   next()
 })
 
+// update user password
+server.patch('/users/:id', (req, res, next) => {
+  const authUserId = Number(req.user.id)
+  const authUser = db.users.filter(u => u.id === authUserId)[0]
+
+  const userId = Number(req.params.id)
+  const user = db.users.filter(u => u.id === userId)[0]
+
+  if (!user || !authUser) {
+    return res.sendStatus(401)
+  }
+
+  if (authUser.role !== 'ADMIN' || authUser.id === user.id) {
+    const oldPassword = req.get('encp-old')
+
+    if (!oldPassword) {
+      return res.sendStatus(401)
+    }
+
+    if (user.password !== Buffer.from(oldPassword, 'base64').toString()) {
+      return res.sendStatus(401)
+    }
+  }
+
+  const newPassword = req.get('encp')
+  if (newPassword) {
+    user.password = Buffer.from(newPassword, 'base64').toString()
+  }
+
+  return res.sendStatus(200)
+})
+
+// exposed response headers
 router.render = (req, res) => {
   res.set('Access-Control-Expose-Headers', 'Location, invoice-amount')
   res.jsonp(res.locals.data)
