@@ -46,8 +46,11 @@ class ForgotPasswordModal extends Component {
       <Modal show onHide={this.modalOnHide} title='Forgot Password' bsSize='sm'
         body={
           <div>
-            <Form data={this.state} handleChange={this.onChange} />
-            <Button type='submit' block onClick={this.onSubmit}>
+            <Form
+              data={this.state}
+              handleChange={this.onChange}
+              onSubmit={this.onSubmit} />
+            <Button block onClick={this.onSubmit}>
               Send me reset instructions
             </Button>
           </div>

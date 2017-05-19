@@ -66,7 +66,10 @@ class New extends Component {
           </Button>
         </SectionHeader>
 
-        <InvoiceForm data={this.state} handleChange={this.onChange} />
+        <InvoiceForm
+          data={this.state}
+          handleChange={this.onChange}
+          onSubmit={this.onSave} />
 
       </Panel>
     )

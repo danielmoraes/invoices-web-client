@@ -86,11 +86,13 @@ class EditPassword extends Component {
         { isAccount ? (
           <AccountEditPasswordForm
             data={this.state}
-            handleChange={this.onChange} />
+            handleChange={this.onChange}
+            onSubmit={this.onSave} />
         ) : (
           <UserEditPasswordForm
             data={this.state}
-            handleChange={this.onChange} />
+            handleChange={this.onChange}
+            onSubmit={this.onSave} />
         ) }
 
       </Panel>

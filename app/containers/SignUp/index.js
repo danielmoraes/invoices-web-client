@@ -23,7 +23,7 @@ class SignUp extends Component {
     this.goBack = this.goBack.bind(this)
     this.modalOnHide = this.modalOnHide.bind(this)
     this.onChange = this.onChange.bind(this)
-    this.onSave = this.onSave.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   goBack () {
@@ -40,7 +40,7 @@ class SignUp extends Component {
     this.setState({ [target.name]: target.value })
   }
 
-  onSave (event) {
+  onSubmit (event) {
     event.preventDefault()
 
     const { dispatch } = this.props
@@ -58,8 +58,11 @@ class SignUp extends Component {
       <Modal show onHide={this.modalOnHide} title='Sign Up' bsSize='sm'
         body={
           <div>
-            <SignUpForm data={this.state} handleChange={this.onChange} />
-            <Button type='submit' block onClick={this.onSave}>Sign up</Button>
+            <SignUpForm
+              data={this.state}
+              handleChange={this.onChange}
+              onSubmit={this.onSubmit} />
+            <Button block onClick={this.onSubmit}>Sign up</Button>
           </div>
         }
       />

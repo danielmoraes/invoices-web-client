@@ -96,7 +96,10 @@ class Edit extends Component {
           </Button>
         </SectionHeader>
 
-        <UserEditForm data={this.state} handleChange={this.onChange} />
+        <UserEditForm
+          data={this.state}
+          handleChange={this.onChange}
+          onSubmit={this.onSave} />
 
       </Panel>
     )

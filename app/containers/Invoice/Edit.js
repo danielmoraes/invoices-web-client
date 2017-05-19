@@ -94,7 +94,10 @@ class Edit extends Component {
         { isFetchingInvoices && !this.state.id ? (
           <div>Loading...</div>
         ) : (
-          <InvoiceForm data={this.state} handleChange={this.onChange} />
+          <InvoiceForm
+            data={this.state}
+            handleChange={this.onChange}
+            onSubmit={this.onSave} />
         ) }
 
       </Panel>

@@ -79,19 +79,19 @@ class Form extends Component {
   }
 
   render () {
-    const { layout } = this.props
-
+    const { layout, onSubmit, ...rest } = this.props
     return (
-      <form>
+      <form onSubmit={onSubmit}>
         <Grid fluid className={styles.grid}>
           { layout.map((row, idx) => (
             <FormRow
-              {...this.props}
+              {...rest}
               key={idx}
               row={row}
               setFocus={this.setFocus.bind(this, this.props.options.focus)} />
           )) }
         </Grid>
+        <input type='submit' style={{display: 'none'}} />
       </form>
     )
   }

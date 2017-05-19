@@ -84,7 +84,10 @@ class Edit extends Component {
           isFetchingInvoices && !this.state.id ? (
             <div>Loading...</div>
           ) : (
-            <InvoiceItemForm data={this.state} handleChange={this.onChange} />
+            <InvoiceItemForm
+              data={this.state}
+              handleChange={this.onChange}
+              onSubmit={this.onSave} />
           )
         }
         footer={

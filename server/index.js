@@ -158,7 +158,7 @@ server.patch('/users/:id', (req, res, next) => {
     user.password = Buffer.from(newPassword, 'base64').toString()
   }
 
-  return res.sendStatus(200)
+  next()
 })
 
 // exposed response headers

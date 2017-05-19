@@ -22,12 +22,8 @@ Object.keys(formOptions.fieldOptions).forEach((field) => {
   formOptions.fieldOptions[field].schema = InvoiceItem[field]
 })
 
-const ItemForm = ({ data, handleChange }) => (
-  <Form
-    data={data}
-    layout={formLayout}
-    options={formOptions}
-    handleChange={handleChange} />
+const ItemForm = (props) => (
+  <Form layout={formLayout} options={formOptions} {...props} />
 )
 
 export default ItemForm

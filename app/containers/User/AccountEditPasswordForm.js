@@ -28,12 +28,8 @@ const formOptions = {
   }
 }
 
-const AccountEditPasswordForm = ({ data, handleChange }) => (
-  <Form
-    data={data}
-    layout={formLayout}
-    options={formOptions}
-    handleChange={handleChange} />
+const AccountEditPasswordForm = (props) => (
+  <Form layout={formLayout} options={formOptions} {...props} />
 )
 
 export default AccountEditPasswordForm

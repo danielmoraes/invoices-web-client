@@ -57,8 +57,11 @@ class SignIn extends Component {
             { signInFailed && (
               <Alert bsStyle='danger'>Invalid email or password.</Alert>
             ) }
-            <SignInForm data={this.state} handleChange={this.onChange} />
-            <Button type='submit' block onClick={this.onSubmit}>Sign in</Button>
+            <SignInForm
+              data={this.state}
+              handleChange={this.onChange}
+              onSubmit={this.onSubmit} />
+            <Button block onClick={this.onSubmit}>Sign in</Button>
           </div>
         }
         footer={

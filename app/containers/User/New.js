@@ -67,7 +67,10 @@ class New extends Component {
           </Button>
         </SectionHeader>
 
-        <UserNewForm data={this.state} handleChange={this.onChange} />
+        <UserNewForm
+          data={this.state}
+          handleChange={this.onChange}
+          onSubmit={this.onSave} />
 
       </Panel>
     )

@@ -26,12 +26,8 @@ Object.keys(formOptions.fieldOptions).forEach((field) => {
   formOptions.fieldOptions[field].schema = User[field]
 })
 
-const SignUpForm = ({ data, handleChange }) => (
-  <Form
-    data={data}
-    layout={formLayout}
-    options={formOptions}
-    handleChange={handleChange} />
+const SignUpForm = (props) => (
+  <Form layout={formLayout} options={formOptions} {...props} />
 )
 
 export default SignUpForm

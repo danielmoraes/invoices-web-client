@@ -63,7 +63,10 @@ class New extends Component {
     return (
       <Modal show onHide={this.modalOnHide} title='New Invoice Item'
         body={
-          <ItemForm data={this.state} handleChange={this.onChange} />
+          <ItemForm
+            data={this.state}
+            handleChange={this.onChange}
+            onSubmit={this.onSave} />
         }
         footer={
           <div>

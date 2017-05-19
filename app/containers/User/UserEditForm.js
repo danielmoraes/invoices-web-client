@@ -21,12 +21,8 @@ Object.keys(formOptions.fieldOptions).forEach((field) => {
   formOptions.fieldOptions[field].schema = User[field]
 })
 
-const UserEditForm = ({ data, handleChange }) => (
-  <Form
-    data={data}
-    layout={formLayout}
-    options={formOptions}
-    handleChange={handleChange} />
+const UserEditForm = (props) => (
+  <Form layout={formLayout} options={formOptions} {...props} />
 )
 
 export default UserEditForm

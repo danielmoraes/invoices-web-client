@@ -20,12 +20,8 @@ Object.keys(formOptions.fieldOptions).forEach((field) => {
   formOptions.fieldOptions[field].schema = User[field]
 })
 
-const ForgotPasswordForm = ({ data, handleChange }) => (
-  <Form
-    data={data}
-    layout={formLayout}
-    options={formOptions}
-    handleChange={handleChange} />
+const ForgotPasswordForm = (props) => (
+  <Form layout={formLayout} options={formOptions} {...props} />
 )
 
 export default ForgotPasswordForm
