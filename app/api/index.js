@@ -1,6 +1,6 @@
 import fetch from 'isomorphic-fetch'
 
-const BASE_URL = 'http://www.example.com:3000'
+const BASE_URL = ((host) => `http://${host}:12336`)(document.location.hostname)
 
 export const Auth = {
 

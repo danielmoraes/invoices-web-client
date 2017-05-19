@@ -154,7 +154,7 @@ const configDev = (base) => merge.smartStrategy({ entry: 'prepend' })(base(), {
 
     // bundle the client for webpack-dev-server
     // and connect to the provided endpoint
-    'webpack-dev-server/client?http://localhost:12335',
+    'webpack-dev-server/client?http://localhost:3004',
 
     // bundle the client for hot reloading
     // only- means to only hot reload for successful updates
@@ -171,7 +171,7 @@ const configDev = (base) => merge.smartStrategy({ entry: 'prepend' })(base(), {
   devtool: 'inline-source-map',
   devServer: {
     host: '0.0.0.0',
-    port: 12335,
+    port: 3004,
 
     contentBase: path.resolve(__dirname, 'public'),
 
