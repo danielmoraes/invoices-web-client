@@ -5,7 +5,8 @@ import {
   LOADING_USERS_FAILED,
   CREATING_USER_SUCCEEDED,
   UPDATING_USER_SUCCEEDED,
-  DELETING_USER_SUCCEEDED
+  DELETING_USER_SUCCEEDED,
+  SIGNING_IN_SUCCEEDED
 } from 'redux/actionTypes'
 
 const byId = (state = {}, action) => {
@@ -20,6 +21,8 @@ const byId = (state = {}, action) => {
     case DELETING_USER_SUCCEEDED:
       let { [action.id]: deleted, ...rest } = state
       return rest
+    case SIGNING_IN_SUCCEEDED:
+      return {}
     default:
       return state
   }

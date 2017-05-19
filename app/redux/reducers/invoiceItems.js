@@ -2,7 +2,8 @@ import {
   LOADING_INVOICES_SUCCEEDED,
   CREATING_INVOICE_ITEM_SUCCEEDED,
   UPDATING_INVOICE_ITEM_SUCCEEDED,
-  DELETING_INVOICE_ITEM_SUCCEEDED
+  DELETING_INVOICE_ITEM_SUCCEEDED,
+  SIGNING_IN_SUCCEEDED
 } from 'redux/actionTypes'
 
 const invoiceItemsReducer = (state = {}, action) => {
@@ -17,6 +18,8 @@ const invoiceItemsReducer = (state = {}, action) => {
     case DELETING_INVOICE_ITEM_SUCCEEDED:
       let { [action.id]: deleted, ...rest } = state
       return rest
+    case SIGNING_IN_SUCCEEDED:
+      return {}
     default:
       return state
   }
