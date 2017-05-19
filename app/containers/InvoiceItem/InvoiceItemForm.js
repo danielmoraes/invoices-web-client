@@ -5,16 +5,15 @@ import { InvoiceItem } from 'api/entity-schema'
 
 const formLayout = [
   [ 'description' ],
-  [ 'quantity', 'unitPrice', 'amount' ]
+  [ 'quantity', 'unitPrice' ]
 ]
 
 const formOptions = {
   focus: 'description',
   fieldOptions: {
-    description: { size: 6 },
-    quantity: { size: 2 },
-    unitPrice: { size: 2 },
-    amount: { size: 2 }
+    description: { },
+    quantity: { size: 4 },
+    unitPrice: { size: 4 }
   }
 }
 

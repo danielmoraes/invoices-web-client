@@ -1,11 +1,15 @@
 import {
   LOADING_INVOICES_SUCCEEDED,
+  CREATING_INVOICE_ITEM_SUCCEEDED,
+  UPDATING_INVOICE_ITEM_SUCCEEDED,
   DELETING_INVOICE_ITEM_SUCCEEDED
 } from 'redux/actionTypes'
 
 const invoiceItemsReducer = (state = {}, action) => {
   switch (action.type) {
     case LOADING_INVOICES_SUCCEEDED:
+    case UPDATING_INVOICE_ITEM_SUCCEEDED:
+    case CREATING_INVOICE_ITEM_SUCCEEDED:
       return {
         ...state,
         ...action.payload.entities.invoiceItems

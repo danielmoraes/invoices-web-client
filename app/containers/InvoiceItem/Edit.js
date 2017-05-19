@@ -5,9 +5,9 @@ import { withRouter } from 'react-router-dom'
 
 import { Modal } from 'components'
 import { INVOICE_ID_PARAM, INVOICE_ITEM_ID_PARAM } from 'routes/params'
-import { getInvoiceItem, getIsFetchingInvoices } from 'redux/reducers'
 import { InvoiceItem } from 'api/entity-schema'
-import { buildFormStateFromSchema } from 'lib/generator'
+import { buildEntityFromState, buildStateFromSchema } from 'lib/generator'
+import { getInvoiceItem, getIsFetchingInvoices } from 'redux/reducers'
 import * as actions from 'redux/actions'
 import * as routes from 'routes'
 
@@ -17,7 +17,7 @@ class Edit extends Component {
   constructor (props) {
     super(props)
 
-    this.state = buildFormStateFromSchema(InvoiceItem)
+    this.state = buildStateFromSchema(InvoiceItem)
 
     this.updateState = this.updateState.bind(this)
     this.goBack = this.goBack.bind(this)
@@ -64,6 +64,14 @@ class Edit extends Component {
 
   onSave (event) {
     event.preventDefault()
+
+    const { updateInvoiceItem, match } = this.props
+
+    const invoiceId = match.params[INVOICE_ID_PARAM]
+    const invoiceItemId = match.params[INVOICE_ITEM_ID_PARAM]
+    let invoiceItem = buildEntityFromState(this.state, InvoiceItem)
+    updateInvoiceItem(invoiceId, invoiceItemId, invoiceItem)
+
     this.goBack()
   }
 

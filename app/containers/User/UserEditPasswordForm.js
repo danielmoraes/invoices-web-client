@@ -10,12 +10,12 @@ const formOptions = {
   focus: 'newPassword',
   fieldOptions: {
     'newPassword': {
-      size: 3,
+      size: 4,
       inputType: 'password',
       label: 'New Password'
     },
     'confirmNewPassword': {
-      size: 3,
+      size: 4,
       inputType: 'password',
       label: 'Confirm New Password'
     }

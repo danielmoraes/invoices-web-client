@@ -2,25 +2,35 @@ import React from 'react'
 
 import { Form } from 'components'
 import { Invoice } from 'api/entity-schema'
+import { InvoiceType } from 'api/enums'
 import { formatDate } from 'lib/formatter'
 
-const formLayout = [
-  [ 'description' ],
-  [ 'invoiceDate' ],
-  [ 'invoiceNumber' ],
-  [ 'beneficiaryName', 'beneficiaryRegistrationNumber' ],
-  [ 'amount' ]
-]
+const formLayout = (data) => {
+  let layout = [
+    [ 'description' ],
+    [ 'invoiceDate' ],
+    [ 'invoiceNumber' ],
+    [ 'beneficiaryName', 'beneficiaryRegistrationNumber' ]
+  ]
+  if (!data.id) {
+    layout.unshift([ 'type' ])
+  }
+  if (data.type === InvoiceType.SIMPLE) {
+    layout.push([ 'amount' ])
+  }
+  return layout
+}
 
 const formOptions = {
   focus: 'description',
   fieldOptions: {
-    'description': { size: 8 },
-    'invoiceDate': { size: 3, format: formatDate },
-    'invoiceNumber': { size: 3 },
+    'type': { size: 4 },
+    'description': { size: 9 },
+    'invoiceDate': { size: 4, format: formatDate },
+    'invoiceNumber': { size: 5 },
     'beneficiaryName': { size: 5 },
-    'beneficiaryRegistrationNumber': { size: 3 },
-    'amount': { size: 3 }
+    'beneficiaryRegistrationNumber': { size: 4 },
+    'amount': { size: 4 }
   }
 }
 
@@ -32,7 +42,7 @@ Object.keys(formOptions.fieldOptions).forEach((field) => {
 const InvoiceForm = ({ data, handleChange }) => (
   <Form
     data={data}
-    layout={formLayout}
+    layout={formLayout(data)}
     options={formOptions}
     handleChange={handleChange} />
 )

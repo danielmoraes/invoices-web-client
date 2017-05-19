@@ -12,7 +12,7 @@ const options = {
     hidden: true
   },
   email: {
-    width: '300'
+    width: '60%'
   }
 }
 

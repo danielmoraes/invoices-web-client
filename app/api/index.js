@@ -1,10 +1,5 @@
 import fetch from 'isomorphic-fetch'
 
-// enums
-const UserRole = { NORMAL: 1, ADMIN: 2 }
-const InvoiceType = { SIMPLE: 1, DETAILED: 2 }
-export const enums = { UserRole, InvoiceType }
-
 const BASE_URL = 'http://www.example.com:3000'
 
 export const Auth = {
@@ -15,10 +10,10 @@ export const Auth = {
     }
   ),
 
-  signIn: (email, password) => fetch(
+  signIn: (email, encp) => fetch(
     `${BASE_URL}/auth`, {
-      credentials: 'include',
-      headers: { email, encp: Buffer.from(password).toString('base64') }
+      headers: { email, encp },
+      credentials: 'include'
     }
   ),
 
@@ -48,7 +43,10 @@ export const Invoice = {
   create: (data) => fetch(
     `${BASE_URL}/invoices`, {
       method: 'POST',
-      body: data,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
       credentials: 'include'
     }
   ),
@@ -56,7 +54,10 @@ export const Invoice = {
   update: (invoiceId, data) => fetch(
     `${BASE_URL}/invoices/${invoiceId}`, {
       method: 'PUT',
-      body: data,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
       credentials: 'include'
     }
   ),
@@ -64,7 +65,10 @@ export const Invoice = {
   merge: (invoiceId, data) => fetch(
     `${BASE_URL}/invoices/${invoiceId}`, {
       method: 'PATCH',
-      body: data,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
       credentials: 'include'
     }
   ),
@@ -83,7 +87,21 @@ export const InvoiceItem = {
   create: (data) => fetch(
     `${BASE_URL}/items`, {
       method: 'POST',
-      body: data,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+      credentials: 'include'
+    }
+  ),
+
+  update: (invoiceItemId, data) => fetch(
+    `${BASE_URL}/items/${invoiceItemId}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
       credentials: 'include'
     }
   ),
@@ -111,10 +129,14 @@ export const User = {
     }
   ),
 
-  create: (data) => fetch(
+  create: (data, encp) => fetch(
     `${BASE_URL}/users`, {
       method: 'POST',
-      body: data,
+      headers: {
+        encp,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
       credentials: 'include'
     }
   ),
@@ -122,7 +144,10 @@ export const User = {
   update: (userId, data) => fetch(
     `${BASE_URL}/users/${userId}`, {
       method: 'PUT',
-      body: data,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
       credentials: 'include'
     }
   ),
@@ -130,7 +155,10 @@ export const User = {
   merge: (userId, data) => fetch(
     `${BASE_URL}/users/${userId}`, {
       method: 'PATCH',
-      body: data,
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
       credentials: 'include'
     }
   ),

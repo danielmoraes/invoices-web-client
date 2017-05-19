@@ -1,36 +1,19 @@
 import React from 'react'
-import { ControlLabel, FormControl, FormGroup } from 'react-bootstrap'
+import { FormControl } from 'react-bootstrap'
 
-const inputType = (type) => {
-  switch (type) {
-    case String:
-      return 'text'
-    case Number:
-      return 'number'
-    case Date:
-      return 'date'
+const FormInput = ({ handleChange, ...rest }) => {
+  switch (rest.type) {
+    case 'select':
+      return (
+        <FormControl {...rest} onChange={handleChange} componentClass='select'>
+          { rest.values.map(v => <option key={v} value={v}>{v}</option>) }
+        </FormControl>
+      )
     default:
-      return 'text'
+      return (
+        <FormControl {...rest} onChange={handleChange} />
+      )
   }
-}
-
-const FormInput = ({ name, value, options, handleChange, inputRef }) => {
-  const schema = options.schema || {}
-  const label = options.label || schema.label || name
-  const type = options.inputType || inputType(schema.type)
-  const inputValue = options.format ? options.format(value) : value
-  return (
-    <FormGroup>
-      <ControlLabel>{label}</ControlLabel>
-      <FormControl
-        name={name}
-        type={type}
-        placeholder={label}
-        value={inputValue}
-        onChange={handleChange}
-        inputRef={inputRef} />
-    </FormGroup>
-  )
 }
 
 export default FormInput

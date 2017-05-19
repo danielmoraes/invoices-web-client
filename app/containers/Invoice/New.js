@@ -1,10 +1,13 @@
+import { connect } from 'react-redux'
 import { default as React, Component } from 'react'
 import { Button, Panel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
 import { SectionHeader } from 'components'
 import { Invoice } from 'api/entity-schema'
-import { buildFormStateFromSchema } from 'lib/generator'
+import { InvoiceType } from 'api/enums'
+import { buildEntityFromState, buildStateFromSchema } from 'lib/generator'
+import { createInvoice } from 'redux/actions'
 import * as routes from 'routes'
 
 import InvoiceForm from './InvoiceForm'
@@ -13,7 +16,7 @@ class New extends Component {
   constructor (props) {
     super(props)
 
-    this.state = buildFormStateFromSchema(Invoice)
+    this.state = buildStateFromSchema(Invoice)
 
     this.goBack = this.goBack.bind(this)
     this.onCancel = this.onCancel.bind(this)
@@ -38,6 +41,15 @@ class New extends Component {
 
   onSave (event) {
     event.preventDefault()
+
+    const { dispatch } = this.props
+
+    let invoice = buildEntityFromState(this.state, Invoice)
+    if (invoice.type === InvoiceType.DETAILED) {
+      delete invoice.amount
+    }
+    dispatch(createInvoice(invoice))
+
     this.goBack()
   }
 
@@ -61,4 +73,4 @@ class New extends Component {
   }
 }
 
-export default withRouter(New)
+export default withRouter(connect()(New))

@@ -4,22 +4,37 @@ import {
   LOADING_INVOICES_SUCCEEDED,
   LOADING_INVOICES_FAILED,
   CREATING_INVOICE_SUCCEEDED,
-  DELETING_INVOICE_SUCCEEDED
+  UPDATING_INVOICE_SUCCEEDED,
+  DELETING_INVOICE_SUCCEEDED,
+  CREATING_INVOICE_ITEM_SUCCEEDED,
+  UPDATING_INVOICE_ITEM_SUCCEEDED,
+  DELETING_INVOICE_ITEM_SUCCEEDED
 } from 'redux/actionTypes'
 
 const byId = (state = {}, action) => {
   switch (action.type) {
     case LOADING_INVOICES_SUCCEEDED:
     case CREATING_INVOICE_SUCCEEDED:
+    case UPDATING_INVOICE_SUCCEEDED:
       return {
         ...state,
         ...action.payload.entities.invoices
       }
+
     case DELETING_INVOICE_SUCCEEDED:
       let { [action.id]: deleted, ...rest } = state
       return rest
-    default:
+
+    case CREATING_INVOICE_ITEM_SUCCEEDED:
+    case UPDATING_INVOICE_ITEM_SUCCEEDED:
+    case DELETING_INVOICE_ITEM_SUCCEEDED:
+      const invoice = state[action.invoiceId]
+      const updatedInvoice = { ...invoice, amount: action.invoiceAmount }
+      return { ...state, [action.invoiceId]: updatedInvoice }
+
+    default: {
       return state
+    }
   }
 }
 

@@ -3,12 +3,14 @@ import {
   LOADING_USERS,
   LOADING_USERS_SUCCEEDED,
   LOADING_USERS_FAILED,
+  CREATING_USER_SUCCEEDED,
   DELETING_USER_SUCCEEDED
 } from 'redux/actionTypes'
 
 const byId = (state = {}, action) => {
   switch (action.type) {
     case LOADING_USERS_SUCCEEDED:
+    case CREATING_USER_SUCCEEDED:
       return {
         ...state,
         ...action.payload.entities.users

@@ -11,8 +11,8 @@ const formLayout = [
 const formOptions = {
   focus: 'name',
   fieldOptions: {
-    'name': { size: 6 },
-    'email': { size: 6, inputType: 'email' }
+    'name': { size: 8 },
+    'email': { size: 8, inputType: 'email' }
   }
 }
 

@@ -7,7 +7,7 @@ import { SectionHeader } from 'components'
 import { USER_ID_PARAM } from 'routes/params'
 import { getUser, getAuthUser, getIsFetchingUsers } from 'redux/reducers'
 import { User } from 'api/entity-schema'
-import { buildFormStateFromSchema } from 'lib/generator'
+import { buildStateFromSchema } from 'lib/generator'
 import * as actions from 'redux/actions'
 import * as routes from 'routes'
 
@@ -17,7 +17,7 @@ class Edit extends Component {
   constructor (props) {
     super(props)
 
-    this.state = buildFormStateFromSchema(User)
+    this.state = buildStateFromSchema(User)
 
     this.updateState = this.updateState.bind(this)
     this.goBack = this.goBack.bind(this)

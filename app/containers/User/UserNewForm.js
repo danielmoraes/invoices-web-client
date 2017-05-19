@@ -12,19 +12,19 @@ const formLayout = [
 const formOptions = {
   focus: 'name',
   fieldOptions: {
-    'name': {
-      size: 6
+    name: {
+      size: 8
     },
-    'email': {
-      size: 6,
+    email: {
+      size: 8,
       inputType: 'email'
     },
-    'password': {
-      size: 3,
+    password: {
+      size: 4,
       inputType: 'password'
     },
-    'confirmPassword': {
-      size: 3,
+    confirmPassword: {
+      size: 4,
       label: 'Confirm Password',
       inputType: 'password'
     }

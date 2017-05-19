@@ -13,14 +13,14 @@ const options = {
     hidden: true
   },
   quantity: {
-    width: '80'
+    width: '20%'
   },
   unitPrice: {
-    width: '100',
+    width: '20%',
     dataFormat: formatPrice
   },
   amount: {
-    width: '80',
+    width: '20%',
     dataFormat: formatPrice
   }
 }

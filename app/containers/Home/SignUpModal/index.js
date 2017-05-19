@@ -1,7 +1,12 @@
+import { Button } from 'react-bootstrap'
+import { connect } from 'react-redux'
 import { default as React, Component, PropTypes } from 'react'
 import { withRouter } from 'react-router-dom'
 
 import { Modal } from 'components'
+import { User } from 'api/entity-schema'
+import { buildEntityFromState, buildStateFromSchema } from 'lib/generator'
+import { createUser } from 'redux/actions'
 import { home } from 'routes'
 
 import SignUpForm from './SignUpForm'
@@ -9,8 +14,16 @@ import SignUpForm from './SignUpForm'
 class SignUpModal extends Component {
   constructor (props) {
     super(props)
+
+    this.state = buildStateFromSchema(User)
+
+    // additional fields
+    this.state.confirmPassword = ''
+
     this.goBack = this.goBack.bind(this)
     this.modalOnHide = this.modalOnHide.bind(this)
+    this.onChange = this.onChange.bind(this)
+    this.onSave = this.onSave.bind(this)
   }
 
   goBack () {
@@ -22,11 +35,32 @@ class SignUpModal extends Component {
     this.goBack()
   }
 
+  onChange (event) {
+    const target = event.target
+    this.setState({ [target.name]: target.value })
+  }
+
+  onSave (event) {
+    event.preventDefault()
+
+    const { dispatch } = this.props
+
+    let user = buildEntityFromState(this.state, User)
+    let password = user.password
+    delete user.password
+    dispatch(createUser(user, password))
+
+    this.goBack()
+  }
+
   render () {
     return (
       <Modal show onHide={this.modalOnHide} title='Sign Up' bsSize='sm'
         body={
-          <SignUpForm />
+          <div>
+            <SignUpForm data={this.state} handleChange={this.onChange} />
+            <Button type='submit' block onClick={this.onSave}>Sign Up</Button>
+          </div>
         }
       />
     )
@@ -37,4 +71,4 @@ SignUpModal.propTypes = {
   location: PropTypes.object.isRequired
 }
 
-export default withRouter(SignUpModal)
+export default withRouter(connect()(SignUpModal))

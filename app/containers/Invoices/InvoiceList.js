@@ -13,10 +13,15 @@ const options = {
     hidden: true
   },
   invoiceDate: {
-    dataFormat: formatDate
+    dataFormat: formatDate,
+    width: '15%'
+  },
+  beneficiaryName: {
+    width: '25%'
   },
   amount: {
-    dataFormat: formatPrice
+    dataFormat: formatPrice,
+    width: '15%'
   }
 }
 

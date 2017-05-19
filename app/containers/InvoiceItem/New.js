@@ -1,11 +1,13 @@
+import { connect } from 'react-redux'
 import { default as React, Component } from 'react'
 import { Button } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
 import { Modal } from 'components'
-import { InvoiceItem } from 'api/entity-schema'
-import { buildFormStateFromSchema } from 'lib/generator'
 import { INVOICE_ID_PARAM } from 'routes/params'
+import { InvoiceItem } from 'api/entity-schema'
+import { buildEntityFromState, buildStateFromSchema } from 'lib/generator'
+import { createInvoiceItem } from 'redux/actions'
 import * as routes from 'routes'
 
 import ItemForm from './InvoiceItemForm'
@@ -14,7 +16,7 @@ class New extends Component {
   constructor (props) {
     super(props)
 
-    this.state = buildFormStateFromSchema(InvoiceItem)
+    this.state = buildStateFromSchema(InvoiceItem)
 
     this.goBack = this.goBack.bind(this)
     this.modalOnHide = this.modalOnHide.bind(this)
@@ -45,6 +47,15 @@ class New extends Component {
 
   onSave (event) {
     event.preventDefault()
+
+    const { dispatch, match } = this.props
+
+    const invoiceId = match.params[INVOICE_ID_PARAM]
+    let invoiceItem = buildEntityFromState(this.state, InvoiceItem)
+    invoiceItem.invoiceId = Number(invoiceId)
+
+    dispatch(createInvoiceItem(invoiceItem))
+
     this.goBack()
   }
 
@@ -65,4 +76,4 @@ class New extends Component {
   }
 }
 
-export default withRouter(New)
+export default withRouter(connect()(New))

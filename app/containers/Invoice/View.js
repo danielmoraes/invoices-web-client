@@ -6,6 +6,7 @@ import { Route, withRouter } from 'react-router-dom'
 import { SectionHeader } from 'components'
 import { InvoiceItem, InvoiceItems } from 'containers'
 import { INVOICE_ID_PARAM } from 'routes/params'
+import { InvoiceType } from 'api/enums'
 import {
   getInvoice,
   getInvoiceItems,
@@ -63,8 +64,9 @@ class View extends Component {
   }
 
   onDeleteItemsClick (itemsIds) {
-    const { deleteInvoiceItem } = this.props
-    itemsIds.forEach(id => deleteInvoiceItem(id + ''))
+    const { deleteInvoiceItem, match } = this.props
+    const invoiceId = match.params[INVOICE_ID_PARAM]
+    itemsIds.forEach(id => deleteInvoiceItem(invoiceId, id + ''))
   }
 
   render () {
@@ -91,7 +93,7 @@ class View extends Component {
 
         </Panel>
 
-        { invoice.type === 2 && (
+        { invoice.type === InvoiceType.DETAILED && (
           <Panel>
 
             <Route path={routes.invoiceItemNew()} component={InvoiceItem} />

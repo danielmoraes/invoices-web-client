@@ -5,9 +5,10 @@ import { withRouter } from 'react-router-dom'
 
 import { SectionHeader } from 'components'
 import { INVOICE_ID_PARAM } from 'routes/params'
-import { getInvoice, getIsFetchingInvoices } from 'redux/reducers'
 import { Invoice } from 'api/entity-schema'
-import { buildFormStateFromSchema } from 'lib/generator'
+import { InvoiceType } from 'api/enums'
+import { buildEntityFromState, buildStateFromSchema } from 'lib/generator'
+import { getInvoice, getIsFetchingInvoices } from 'redux/reducers'
 import * as actions from 'redux/actions'
 import * as routes from 'routes'
 
@@ -17,7 +18,7 @@ class Edit extends Component {
   constructor (props) {
     super(props)
 
-    this.state = buildFormStateFromSchema(Invoice)
+    this.state = buildStateFromSchema(Invoice)
 
     this.updateState = this.updateState.bind(this)
     this.goBack = this.goBack.bind(this)
@@ -63,6 +64,16 @@ class Edit extends Component {
 
   onSave (event) {
     event.preventDefault()
+
+    const { updateInvoice, match } = this.props
+
+    const invoiceId = match.params[INVOICE_ID_PARAM]
+    let invoice = buildEntityFromState(this.state, Invoice)
+    if (invoice.type === InvoiceType.DETAILED) {
+      delete invoice.amount
+    }
+    updateInvoice(invoiceId, invoice)
+
     this.goBack()
   }
 

@@ -49,7 +49,76 @@ server.delete('/auth', (req, res) => {
 })
 
 // require auth
-server.use((req, res, next) => req.user ? next() : res.sendStatus(401))
+server.use((req, res, next) => {
+  if (req.path === '/users' && req.method === 'POST') {
+    return next()
+  }
+  return req.user ? next() : res.sendStatus(401)
+})
+
+server.use(jsonServer.bodyParser)
+
+server.post('/invoices', (req, res, next) => {
+  req.body.amount = req.body.amount || 0
+  next()
+})
+
+server.put('/invoices/:id', (req, res, next) => {
+  const invoiceId = Number(req.params.id)
+  if (req.body.type === 'DETAILED') {
+    const invoice = db.invoices.filter(iv => iv.id === invoiceId)[0]
+    if (invoice) {
+      req.body.amount = invoice.amount
+    }
+  }
+  next()
+})
+
+server.post('/items', (req, res, next) => {
+  req.body.amount = Number(req.body.quantity) * Number(req.body.unitPrice)
+  const invoice = db.invoices.filter(iv => iv.id === req.body.invoiceId)[0]
+  if (invoice) {
+    const amount = Math.max(invoice.amount + req.body.amount, 0)
+    invoice.amount = amount
+    res.set('invoice-amount', amount)
+  }
+  next()
+})
+
+server.put('/items/:id', (req, res, next) => {
+  const itemId = Number(req.params.id)
+  const item = db.items.filter(it => it.id === itemId)[0]
+  if (item) {
+    const old = item.amount
+    req.body.amount = Number(req.body.quantity) * Number(req.body.unitPrice)
+    const invoice = db.invoices.filter(iv => iv.id === req.body.invoiceId)[0]
+    if (invoice) {
+      const amount = Math.max(invoice.amount + Number(req.body.amount) - old, 0)
+      invoice.amount = amount
+      res.set('invoice-amount', amount)
+    }
+  }
+  next()
+})
+
+server.delete('/items/:id', (req, res, next) => {
+  const itemId = Number(req.params.id)
+  const item = db.items.filter(it => it.id === itemId)[0]
+  if (item) {
+    const invoice = db.invoices.filter(iv => iv.id === item.invoiceId)[0]
+    if (invoice) {
+      const amount = Math.max(invoice.amount - item.amount, 0)
+      invoice.amount = amount
+      res.set('invoice-amount', amount)
+    }
+  }
+  next()
+})
+
+router.render = (req, res) => {
+  res.set('Access-Control-Expose-Headers', 'Location, invoice-amount')
+  res.jsonp(res.locals.data)
+}
 
 server.use(router)
 

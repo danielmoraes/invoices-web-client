@@ -1,10 +1,12 @@
+import { connect } from 'react-redux'
 import { default as React, Component } from 'react'
 import { Button, Panel } from 'react-bootstrap'
 import { withRouter } from 'react-router-dom'
 
 import { SectionHeader } from 'components'
 import { User } from 'api/entity-schema'
-import { buildFormStateFromSchema } from 'lib/generator'
+import { buildEntityFromState, buildStateFromSchema } from 'lib/generator'
+import { createUser } from 'redux/actions'
 import * as routes from 'routes'
 
 import UserNewForm from './UserNewForm'
@@ -13,7 +15,7 @@ class New extends Component {
   constructor (props) {
     super(props)
 
-    this.state = buildFormStateFromSchema(User)
+    this.state = buildStateFromSchema(User)
 
     // additional fields
     this.state.confirmPassword = ''
@@ -41,6 +43,14 @@ class New extends Component {
 
   onSave (event) {
     event.preventDefault()
+
+    const { dispatch } = this.props
+
+    let user = buildEntityFromState(this.state, User)
+    let password = user.password
+    delete user.password
+    dispatch(createUser(user, password))
+
     this.goBack()
   }
 
@@ -64,4 +74,4 @@ class New extends Component {
   }
 }
 
-export default withRouter(New)
+export default withRouter(connect()(New))
