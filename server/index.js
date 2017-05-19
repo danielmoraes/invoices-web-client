@@ -25,8 +25,14 @@ server.use(cookieParser(), expressJwt({
 server.get('/auth', (req, res) => {
   const email = req.get('email')
   const encp = req.get('encp')
+
   if (!email || !encp) {
-    return req.user ? res.status(200).jsonp(req.user) : res.sendStatus(401)
+    if (req.user) {
+      const user = db.users.filter(u => u.id === req.user.id)[0]
+      return res.status(200).jsonp(user)
+    } else {
+      return res.sendStatus(401)
+    }
   }
 
   // check credentials

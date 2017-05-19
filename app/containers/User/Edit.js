@@ -72,9 +72,9 @@ class Edit extends Component {
   onSave (event) {
     event.preventDefault()
 
-    const { updateUser, user } = this.props
+    const { mergeUser, user } = this.props
     const updatedUser = buildEntityFromState(this.state, User)
-    updateUser(user.id, updatedUser)
+    mergeUser(user.id, updatedUser)
 
     this.goBack()
   }

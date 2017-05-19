@@ -84,7 +84,8 @@ export const User = {
   },
   password: {
     type: String,
-    label: 'Password'
+    label: 'Password',
+    hidden: true
   },
   name: {
     type: String,
@@ -94,6 +95,7 @@ export const User = {
     type: Array,
     label: 'Role',
     values: ['NORMAL', 'ADMIN'],
-    default: 'NORMAL'
+    default: 'NORMAL',
+    hidden: true
   }
 }

@@ -106,9 +106,10 @@ export const createInvoice = (data) => (dispatch, getState) => {
   })
 }
 
-export const updateInvoice = (invoiceId, data) => (dispatch) => {
+export const updateInvoice = (invoiceId, data, merge = false) => (dispatch) => {
   dispatch({ type: actionTypes.UPDATING_INVOICE, payload: data })
-  return Invoice.update(invoiceId, data).then(response => {
+  const api = merge ? Invoice.merge : Invoice.update
+  return api(invoiceId, data).then(response => {
     if (response.status === 200) {
       return response.json().then(invoice => {
         dispatch({
@@ -121,6 +122,9 @@ export const updateInvoice = (invoiceId, data) => (dispatch) => {
     }
   })
 }
+
+export const mergeInvoice = (invoiceId, data) =>
+  updateInvoice(invoiceId, data, true)
 
 export const deleteInvoice = (invoiceId) => (dispatch) => {
   dispatch({ type: actionTypes.DELETING_INVOICE })
@@ -153,10 +157,11 @@ export const createInvoiceItem = (data) => (dispatch) => {
   })
 }
 
-export const updateInvoiceItem = (invoiceId, invoiceItemId, data) =>
-  (dispatch) => {
+export const updateInvoiceItem =
+  (invoiceId, invoiceItemId, data, merge = false) => (dispatch) => {
     dispatch({ type: actionTypes.UPDATING_INVOICE_ITEM, payload: data })
-    return InvoiceItem.update(invoiceItemId, data).then(response => {
+    const api = merge ? InvoiceItem.merge : InvoiceItem.update
+    return api(invoiceItemId, data).then(response => {
       if (response.status === 200) {
         return response.json().then(invoiceItem => {
           dispatch({
@@ -171,6 +176,9 @@ export const updateInvoiceItem = (invoiceId, invoiceItemId, data) =>
       }
     })
   }
+
+export const mergeInvoiceItem = (invoiceId, invoiceItemId, data) =>
+  updateInvoiceItem(invoiceId, invoiceItemId, data, true)
 
 export const deleteInvoiceItem = (invoiceId, invoiceItemId) => (dispatch) => {
   dispatch({ type: actionTypes.DELETING_INVOICE_ITEM })
@@ -241,9 +249,10 @@ export const createUser = (data, password) => (dispatch) => {
   })
 }
 
-export const updateUser = (userId, data) => (dispatch) => {
+export const updateUser = (userId, data, merge = false) => (dispatch) => {
   dispatch({ type: actionTypes.UPDATING_USER, payload: data })
-  return User.update(userId, data).then(response => {
+  const api = merge ? User.merge : User.update
+  return api(userId, data).then(response => {
     if (response.status === 200) {
       return response.json().then(user => {
         dispatch({
@@ -256,6 +265,8 @@ export const updateUser = (userId, data) => (dispatch) => {
     }
   })
 }
+
+export const mergeUser = (userId, data) => updateUser(userId, data, true)
 
 export const deleteUser = (userId) => (dispatch) => {
   dispatch({ type: actionTypes.DELETING_USER })
