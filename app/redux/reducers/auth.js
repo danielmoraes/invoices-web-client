@@ -4,7 +4,8 @@ import {
   LOADING_AUTH_USER_SUCCEEDED,
   SIGNING_OUT,
   SIGNING_OUT_SUCCEEDED,
-  SIGNING_OUT_FAILED
+  SIGNING_OUT_FAILED,
+  UPDATING_USER_SUCCEEDED
 } from '../actionTypes'
 
 const userReducer = (state = {}, action) => {
@@ -14,6 +15,12 @@ const userReducer = (state = {}, action) => {
       return action.payload
     case SIGNING_OUT_SUCCEEDED:
       return {}
+    case UPDATING_USER_SUCCEEDED:
+      const updatedUserId = action.payload.result
+      if (updatedUserId === state.id) {
+        return action.payload.entities.users[updatedUserId]
+      }
+      return state
     default:
       return state
   }

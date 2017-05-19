@@ -7,7 +7,7 @@ import { SectionHeader } from 'components'
 import { USER_ID_PARAM } from 'routes/params'
 import { getUser, getAuthUser, getIsFetchingUsers } from 'redux/reducers'
 import { User } from 'api/entity-schema'
-import { buildStateFromSchema } from 'lib/generator'
+import { buildEntityFromState, buildStateFromSchema } from 'lib/generator'
 import * as actions from 'redux/actions'
 import * as routes from 'routes'
 
@@ -71,6 +71,11 @@ class Edit extends Component {
 
   onSave (event) {
     event.preventDefault()
+
+    const { updateUser, user } = this.props
+    const updatedUser = buildEntityFromState(this.state, User)
+    updateUser(user.id, updatedUser)
+
     this.goBack()
   }
 

@@ -20,6 +20,7 @@ import InvoiceDetails from './InvoiceDetails'
 class View extends Component {
   constructor (props) {
     super(props)
+    this.goBack = this.goBack.bind(this)
     this.onEditClick = this.onEditClick.bind(this)
     this.onDeleteClick = this.onDeleteClick.bind(this)
     this.onAddItemClick = this.onAddItemClick.bind(this)
@@ -33,9 +34,13 @@ class View extends Component {
     loadInvoice(invoiceId)
   }
 
+  goBack () {
+    const { history } = this.props
+    history.push(routes.invoices())
+  }
+
   onEditClick (event) {
     event.preventDefault()
-
     const { history, match } = this.props
     const invoiceId = match.params[INVOICE_ID_PARAM]
     history.push(routes.invoiceEdit(invoiceId))
@@ -43,15 +48,14 @@ class View extends Component {
 
   onDeleteClick (event) {
     event.preventDefault()
-    const { deleteInvoice, history, match } = this.props
+    const { deleteInvoice, match } = this.props
     const invoiceId = match.params[INVOICE_ID_PARAM]
     deleteInvoice(invoiceId)
-    history.push(routes.invoices())
+    this.goBack()
   }
 
   onAddItemClick (event) {
     event.preventDefault()
-
     const { history, match } = this.props
     const invoiceId = match.params[INVOICE_ID_PARAM]
     history.push(routes.invoiceItemNew(invoiceId))

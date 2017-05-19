@@ -1,7 +1,7 @@
 import { Auth, Invoice, InvoiceItem, User } from 'api'
 import { normalize } from 'normalizr'
 
-import { getAuthUser, getInvoiceItem } from '../reducers'
+import { getAuthUser } from '../reducers'
 import * as actionTypes from '../actionTypes'
 import * as schema from './schema'
 
@@ -188,27 +188,6 @@ export const deleteInvoiceItem = (invoiceId, invoiceItemId) => (dispatch) => {
   })
 }
 
-export const createUser = (data, password) => (dispatch) => {
-  const encp = Buffer.from(password).toString('base64')
-
-  // THIS IS ONLY NEEDED IN THE FAKE API
-  data.password = password
-
-  dispatch({ type: actionTypes.CREATING_USER, payload: data })
-  return User.create(data, encp).then(response => {
-    if (response.status === 201) {
-      return response.json().then(user => {
-        dispatch({
-          type: actionTypes.CREATING_USER_SUCCEEDED,
-          payload: normalize(user, schema.user) })
-        return user
-      })
-    } else {
-      dispatch({ type: actionTypes.CREATING_USER_FAILED })
-    }
-  })
-}
-
 export const loadUser = (userId) => (dispatch) => {
   dispatch({ type: actionTypes.LOADING_USERS })
   return User.getOne(userId).then(response => {
@@ -237,6 +216,43 @@ export const loadUsers = () => (dispatch) => {
       })
     } else {
       dispatch({ type: actionTypes.LOADING_USERS_FAILED })
+    }
+  })
+}
+
+export const createUser = (data, password) => (dispatch) => {
+  const encp = Buffer.from(password).toString('base64')
+
+  // THIS IS ONLY NEEDED IN THE FAKE API
+  data.password = password
+
+  dispatch({ type: actionTypes.CREATING_USER, payload: data })
+  return User.create(data, encp).then(response => {
+    if (response.status === 201) {
+      return response.json().then(user => {
+        dispatch({
+          type: actionTypes.CREATING_USER_SUCCEEDED,
+          payload: normalize(user, schema.user) })
+        return user
+      })
+    } else {
+      dispatch({ type: actionTypes.CREATING_USER_FAILED })
+    }
+  })
+}
+
+export const updateUser = (userId, data) => (dispatch) => {
+  dispatch({ type: actionTypes.UPDATING_USER, payload: data })
+  return User.update(userId, data).then(response => {
+    if (response.status === 200) {
+      return response.json().then(user => {
+        dispatch({
+          type: actionTypes.UPDATING_USER_SUCCEEDED,
+          payload: normalize(user, schema.user) })
+        return user
+      })
+    } else {
+      dispatch({ type: actionTypes.UPDATING_USER_FAILED })
     }
   })
 }

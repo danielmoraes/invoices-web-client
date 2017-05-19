@@ -14,7 +14,9 @@ import UserDetails from './UserDetails'
 class View extends Component {
   constructor (props) {
     super(props)
+    this.goBack = this.goBack.bind(this)
     this.onEditClick = this.onEditClick.bind(this)
+    this.onDeleteClick = this.onDeleteClick.bind(this)
   }
 
   componentWillMount () {
@@ -26,10 +28,14 @@ class View extends Component {
     }
   }
 
+  goBack () {
+    const { history } = this.props
+    history.push(routes.users())
+  }
+
   onEditClick (event) {
     event.preventDefault()
     const { history, isAccount } = this.props
-
     if (isAccount) {
       history.push(routes.accountEdit())
     } else {
@@ -39,7 +45,11 @@ class View extends Component {
   }
 
   onDeleteClick (event) {
-    // TODO
+    event.preventDefault()
+    const { deleteUser, match } = this.props
+    const userId = match.params[USER_ID_PARAM]
+    deleteUser(userId)
+    this.goBack()
   }
 
   render () {
