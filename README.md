@@ -2,32 +2,59 @@
 
 A React web client for [invoices](https://github.com/reinert/invoices).
 
-## Available Scripts
+## Requirements
 
-In the project directory, you can run:
+* [Node.js](https://nodejs.org/en/), [npm](https://www.npmjs.com/), and
+  [Docker](https://www.docker.com/).
 
-### `npm start`
+## Quick start
 
-Runs the app in the development mode.
-Open [http://localhost:3004](http://localhost:3004) to view it in the browser.
+Clone this repo and run `npm install` to install the required dependencies.
 
-The page will reload if you make edits.
+### Development mode
 
-### `npm run dev`
+1. Run the fake backend server.
 
-Similar to `npm start`, but with [webpack-dashboard](https://github.com/FormidableLabs/webpack-dashboard) plugin.
+        cd fake-backend-server
+        npm install
+        npm start
 
-### `npm run build`
+2. Run the app in development mode (from the root directory).
 
-Builds the app for production to the `public` folder.
+        npm start
 
-The build is minified and the filenames include the hashes.
+3. Open [http://localhost:3004](http://localhost:3004) to view it in the browser.
 
-## Deployment with Nginx and Docker
+The page will reload if you make edits and the
+[redux dev tools](https://github.com/zalmoxisus/redux-devtools-extension)
+browser extension can be used to debug the redux state.
 
-After building the app for production, use:
+### Serving in production with NGINX and Docker
 
-```
-docker build --tag invoices .
-docker run --name invoices -p 80:80 -v $(pwd)/public:/usr/share/nginx/html:ro -d invoices
-```
+1. Make sure the [invoices backend server](https://github.com/reinert/invoices) is up and running.
+
+2. Build the app for production.
+
+        npm run build
+
+    The build is minified and the assets include the hashes.
+
+3. Create the docker image.
+
+        docker build --tag invoices .
+
+4. Run the app with it.
+
+        docker run --name invoices -p 80:80 -v $(pwd)/public:/usr/share/nginx/html:ro -d invoices
+
+5. Open [http://localhost](http://localhost) to view it in the browser.
+
+## Tests
+
+Run all tests.
+
+    npm test
+
+## License
+
+MIT license. See the LICENSE file for details.
