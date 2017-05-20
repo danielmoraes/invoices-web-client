@@ -1,0 +1,10 @@
+.indicator {
+  width: 130px;
+  text-align: center;
+  position: absolute;
+  z-index: 990;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 10px;
+  border: 1px solid #EEE;
+}

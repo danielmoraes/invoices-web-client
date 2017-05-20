@@ -1,12 +1,26 @@
 import React from 'react'
 import { LinkContainer } from 'react-router-bootstrap'
-import { NavDropdown, MenuItem, Navbar, Nav, NavItem } from 'react-bootstrap'
+import {
+  Alert,
+  NavDropdown,
+  MenuItem,
+  Navbar,
+  Nav,
+  NavItem
+} from 'react-bootstrap'
 
 import { UserRole } from 'api/enums'
 import * as routes from 'routes'
 
-const PrivateHeader = ({ role }) => (
+import styles from './Header.css'
+
+const PrivateHeader = ({ role, showIndicator }) => (
   <div>
+    { showIndicator && (
+      <Alert className={styles.indicator} bsStyle='warning'>
+        <strong>Loading...</strong>
+      </Alert>
+    ) }
     <Navbar>
       <Navbar.Header>
         <Navbar.Brand>

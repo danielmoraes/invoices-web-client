@@ -22,8 +22,10 @@ export const getIsLoaded = (state) => fromApp.getIsLoaded(state.app)
 
 export const getSignInFailed = (state) => fromApp.getSignInFailed(state.app)
 
-export const getShowLoadingIndicator = (state) =>
-  fromApp.getShowLoadingIndicator(state.app)
+export const getShowLoadingOverlay = (state) =>
+  fromApp.getShowLoadingOverlay(state.app)
+
+export const getIsFetching = (state) => fromApp.getIsFetching(state.app)
 
 // auth reducer selectors
 

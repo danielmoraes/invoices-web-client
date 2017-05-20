@@ -3,16 +3,16 @@ import { Grid, Row } from 'react-bootstrap'
 import { default as React, PropTypes } from 'react'
 
 import { BreadcrumbRouter } from 'components'
-import { getAuthUser } from 'redux/reducers'
+import { getAuthUser, getIsFetching } from 'redux/reducers'
 import routeNames from 'routes/names'
 
 import Header from './Header'
 import Routes from './Routes'
 
-const PrivateRoot = ({ authUser }) => (
+const PrivateRoot = ({ authUser, isFetching }) => (
   <Grid>
     <Row>
-      <Header role={authUser.role} />
+      <Header role={authUser.role} showIndicator={isFetching} />
     </Row>
     <Row>
       <BreadcrumbRouter routes={routeNames} />
@@ -26,7 +26,8 @@ PrivateRoot.propTypes = {
 }
 
 const mapStateToProps = (state) => ({
-  authUser: getAuthUser(state)
+  authUser: getAuthUser(state),
+  isFetching: getIsFetching(state)
 })
 
 export default connect(mapStateToProps)(PrivateRoot)

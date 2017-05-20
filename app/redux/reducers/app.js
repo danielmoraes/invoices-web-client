@@ -1,5 +1,7 @@
 import { combineReducers } from 'redux'
 import {
+  FETCHING,
+  FETCHING_ENDED,
   LOADING_AUTH_USER,
   LOADING_AUTH_USER_SUCCEEDED,
   LOADING_AUTH_USER_FAILED,
@@ -37,18 +39,29 @@ const signInFailedReducer = (state = false, action) => {
   }
 }
 
-const pendingRequestsReducer = (state = 0, action) => {
+const showLoadingOverlayReducer = (state = false, action) => {
   switch (action.type) {
     case SIGNING_IN:
     case SIGNING_OUT:
     case LOADING_AUTH_USER:
-      return state + 1
+      return true
     case SIGNING_IN_SUCCEEDED:
     case SIGNING_IN_FAILED:
     case SIGNING_OUT_SUCCEEDED:
     case SIGNING_OUT_FAILED:
     case LOADING_AUTH_USER_SUCCEEDED:
     case LOADING_AUTH_USER_FAILED:
+      return false
+    default:
+      return state
+  }
+}
+
+const pendingRequestsReducer = (state = 0, action) => {
+  switch (action.type) {
+    case FETCHING:
+      return state + 1
+    case FETCHING_ENDED:
       return state - 1
     default:
       return state
@@ -58,6 +71,7 @@ const pendingRequestsReducer = (state = 0, action) => {
 const appReducer = combineReducers({
   isLoaded: isLoadedReducer,
   signInFailed: signInFailedReducer,
+  showLoadingOverlay: showLoadingOverlayReducer,
   pendingRequests: pendingRequestsReducer
 })
 
@@ -66,4 +80,5 @@ export default appReducer
 // selectors
 export const getIsLoaded = (state) => state.isLoaded
 export const getSignInFailed = (state) => state.signInFailed
-export const getShowLoadingIndicator = (state) => state.pendingRequests > 0
+export const getShowLoadingOverlay = (state) => state.showLoadingOverlay
+export const getIsFetching = (state) => state.pendingRequests > 0
