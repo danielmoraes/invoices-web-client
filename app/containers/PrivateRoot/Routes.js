@@ -2,22 +2,27 @@ import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 import {
-  InvoicePage,
-  InvoicesPage,
-  UserPage,
-  UsersPage,
-  SignOutPage
+  Invoice,
+  Invoices,
+  User,
+  Users,
+  SignOut
 } from 'containers'
+import { UserRole } from 'api/enums'
 import * as routes from 'routes'
 
-const Routes = () => (
+const Routes = ({ role }) => (
   <Switch>
-    <Route path={routes.account()} component={UserPage} />
-    <Route path={routes.invoice()} component={InvoicePage} />
-    <Route path={routes.invoices()} component={InvoicesPage} />
-    <Route path={routes.user()} component={UserPage} />
-    <Route path={routes.users()} component={UsersPage} />
-    <Route path={routes.signOut()} component={SignOutPage} />
+    <Route path={routes.account()} component={User} />
+    <Route path={routes.invoice()} component={Invoice} />
+    <Route path={routes.invoices()} component={Invoices} />
+    { role === UserRole.ADMIN && (
+      <Route path={routes.user()} component={User} />
+    ) }
+    { role === UserRole.ADMIN && (
+      <Route path={routes.users()} component={Users} />
+    ) }
+    <Route path={routes.signOut()} component={SignOut} />
     <Redirect to={routes.invoices()} />
   </Switch>
 )

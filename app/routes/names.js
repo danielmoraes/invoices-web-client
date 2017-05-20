@@ -10,7 +10,7 @@ export default [
   { path: /^\/app\/users\/new$/, name: 'New User' },
   { path: /^\/app\/users\/[\d]+$/, name: 'User' },
   { path: /^\/app\/users\/[\d]+\/edit$/, name: 'Edit User' },
-  { path: /^\/app\/users\/[\d]+\/edit-password$/, name: 'Edit User Password' },
+  { path: /^\/app\/users\/[\d]+\/edit-password$/, name: 'Edit Password' },
   { path: /^\/app\/account$/, name: 'Account' },
   { path: /^\/app\/account\/edit$/, name: 'Edit Account' },
   { path: /^\/app\/account\/edit-password$/, name: 'Edit Password' }
