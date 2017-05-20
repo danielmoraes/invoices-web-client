@@ -1,0 +1,18 @@
+{
+  "name": "invoices-fake-backend-server",
+  "version": "0.0.1",
+  "description": "",
+  "author": "Daniel Moraes",
+  "license": "MIT",
+  "main": "''",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "express-jwt": "^5.3.0",
+    "faker": "^4.1.0",
+    "json-server": "^0.10.0",
+    "jsonwebtoken": "^7.4.0"
+  }
+}

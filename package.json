@@ -10,8 +10,7 @@
     "dev": " webpack-dashboard -- webpack-dev-server --progress --profile --colors",
     "start": "webpack-dev-server --progress --profile --colors",
     "lint": "standard --fix",
-    "test": "standard",
-    "api": "node server"
+    "test": "standard"
   },
   "dependencies": {
     "autoprefixer": "^6.7.7",
@@ -52,11 +51,6 @@
     "webpack-merge": "^4.1.0"
   },
   "devDependencies": {
-    "cookie-parser": "^1.4.3",
-    "express-jwt": "^5.3.0",
-    "faker": "^4.1.0",
-    "json-server": "^0.10.0",
-    "jsonwebtoken": "^7.4.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "standard": "^10.0.2",
     "webpack-dashboard": "^0.3.0",
