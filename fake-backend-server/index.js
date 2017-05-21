@@ -86,7 +86,7 @@ server.put('/invoices/:id', (req, res, next) => {
 })
 
 // update invoice amount and invoice item amount on invoice item create
-server.post('/items', (req, res, next) => {
+server.post('/invoices/:invoiceId/items', (req, res, next) => {
   req.body.amount = Number(req.body.quantity) * Number(req.body.unitPrice)
   const invoice = db.invoices.filter(iv => iv.id === req.body.invoiceId)[0]
   if (invoice) {
@@ -98,7 +98,7 @@ server.post('/items', (req, res, next) => {
 })
 
 // update invoice amount and invoice item mount on invoice item update
-server.put('/items/:id', (req, res, next) => {
+server.put('/invoices/:invoiceId/items/:id', (req, res, next) => {
   const itemId = Number(req.params.id)
   const item = db.items.filter(it => it.id === itemId)[0]
   if (item) {
@@ -115,7 +115,7 @@ server.put('/items/:id', (req, res, next) => {
 })
 
 // update invoice amount on invoice item delete
-server.delete('/items/:id', (req, res, next) => {
+server.delete('/invoices/:invoiceId/items/:id', (req, res, next) => {
   const itemId = Number(req.params.id)
   const item = db.items.filter(it => it.id === itemId)[0]
   if (item) {
@@ -166,6 +166,11 @@ router.render = (req, res) => {
   res.set('Access-Control-Expose-Headers', 'Location, invoice-amount')
   res.jsonp(res.locals.data)
 }
+
+server.use(jsonServer.rewriter({
+  '/invoices/:invoiceId/items': '/items',
+  '/invoices/:invoiceId/items/:itemId': '/items/:itemId'
+}))
 
 server.use(router)
 

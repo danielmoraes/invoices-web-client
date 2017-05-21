@@ -150,10 +150,10 @@ export const deleteInvoice = (invoiceId) => (dispatch) => {
   })
 }
 
-export const createInvoiceItem = (data) => (dispatch) => {
+export const createInvoiceItem = (invoiceId, data) => (dispatch) => {
   dispatch({ type: actionTypes.FETCHING })
   dispatch({ type: actionTypes.CREATING_INVOICE_ITEM, payload: data })
-  return InvoiceItem.create(data).then(response => {
+  return InvoiceItem.create(invoiceId, data).then(response => {
     dispatch({ type: actionTypes.FETCHING_ENDED })
     if (response.status === 201) {
       return response.json().then(invoiceItem => {
@@ -175,7 +175,7 @@ export const updateInvoiceItem =
     dispatch({ type: actionTypes.FETCHING })
     dispatch({ type: actionTypes.UPDATING_INVOICE_ITEM, payload: data })
     const api = merge ? InvoiceItem.merge : InvoiceItem.update
-    return api(invoiceItemId, data).then(response => {
+    return api(invoiceId, invoiceItemId, data).then(response => {
       dispatch({ type: actionTypes.FETCHING_ENDED })
       if (response.status === 200) {
         return response.json().then(invoiceItem => {
@@ -198,7 +198,7 @@ export const mergeInvoiceItem = (invoiceId, invoiceItemId, data) =>
 export const deleteInvoiceItem = (invoiceId, invoiceItemId) => (dispatch) => {
   dispatch({ type: actionTypes.FETCHING })
   dispatch({ type: actionTypes.DELETING_INVOICE_ITEM })
-  return InvoiceItem.delete(invoiceItemId).then(response => {
+  return InvoiceItem.delete(invoiceId, invoiceItemId).then(response => {
     dispatch({ type: actionTypes.FETCHING_ENDED })
     if (response.status === 200) {
       dispatch({

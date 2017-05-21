@@ -90,8 +90,8 @@ export const Invoice = {
 
 export const InvoiceItem = {
 
-  create: (data) => fetch(
-    `${BASE_URL}/items`, {
+  create: (invoiceId, data) => fetch(
+    `${BASE_URL}/invoices/${invoiceId}/items`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -101,8 +101,8 @@ export const InvoiceItem = {
     }
   ),
 
-  update: (invoiceItemId, data) => fetch(
-    `${BASE_URL}/items/${invoiceItemId}`, {
+  update: (invoiceId, invoiceItemId, data) => fetch(
+    `${BASE_URL}/invoices/${invoiceId}/items/${invoiceItemId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -112,8 +112,8 @@ export const InvoiceItem = {
     }
   ),
 
-  delete: (invoiceItemId) => fetch(
-    `${BASE_URL}/items/${invoiceItemId}`, {
+  delete: (invoiceId, invoiceItemId) => fetch(
+    `${BASE_URL}/invoices/${invoiceId}/items/${invoiceItemId}`, {
       method: 'DELETE',
       credentials: 'include'
     }
