@@ -149,19 +149,24 @@ describe('redux actions for invoices', () => {
     nock.cleanAll()
   })
 
-  const invoice = { id: 0, description: 'invoice' }
+  const invoice = {
+    id: 0,
+    description: 'invoice'
+  }
 
   it('creates LOADING_INVOICES_SUCCEEDED when loading invoices is done', () => {
+    const invoiceWithItems = { ...invoice, items: [] }
+
     nock(BASE_URL)
       .get(/^\/invoices/)
-      .reply(200, [invoice])
+      .reply(200, [invoiceWithItems])
 
     const expectedActions = [
       { type: types.FETCHING },
       { type: types.LOADING_INVOICES },
       { type: types.FETCHING_ENDED },
       { type: types.LOADING_INVOICES_SUCCEEDED,
-        payload: normalize([invoice], [schema.invoice]) }
+        payload: normalize([invoiceWithItems], [schema.invoice]) }
     ]
 
     const store = mockStore({ auth: { user } })
@@ -193,20 +198,22 @@ describe('redux actions for invoices', () => {
   }
 
   it('creates LOADING_INVOICES_FAILED when loading invoices ends 401', () => {
-    testInvalidLoadInvoices(401)
+    return testInvalidLoadInvoices(401)
   })
 
   it('creates LOADING_INVOICES_SUCCEEDED when loading invoice is done', () => {
+    const invoiceWithItems = { ...invoice, items: [] }
+
     nock(BASE_URL)
       .get(/^\/invoices\/[\d]+/)
-      .reply(200, invoice)
+      .reply(200, invoiceWithItems)
 
     const expectedActions = [
       { type: types.FETCHING },
       { type: types.LOADING_INVOICES },
       { type: types.FETCHING_ENDED },
       { type: types.LOADING_INVOICES_SUCCEEDED,
-        payload: normalize(invoice, schema.invoice) }
+        payload: normalize(invoiceWithItems, schema.invoice) }
     ]
 
     const store = mockStore({})
@@ -238,11 +245,11 @@ describe('redux actions for invoices', () => {
   }
 
   it('creates LOADING_INVOICES_FAILED when loading invoice ends 401', () => {
-    testInvalidLoadInvoice(401)
+    return testInvalidLoadInvoice(401)
   })
 
   it('creates LOADING_INVOICES_FAILED when loading invoice ends 404', () => {
-    testInvalidLoadInvoice(404)
+    return testInvalidLoadInvoice(404)
   })
 
   it('creates CREATING_INVOICE_SUCCEEDED when creating invoice is done', () => {
@@ -287,11 +294,11 @@ describe('redux actions for invoices', () => {
   }
 
   it('creates CREATING_INVOICES_FAILED when creating invoice ends 400', () => {
-    testInvalidCreateInvoice(400)
+    return testInvalidCreateInvoice(400)
   })
 
   it('creates CREATING_INVOICES_FAILED when creating invoice ends 401', () => {
-    testInvalidCreateInvoice(401)
+    return testInvalidCreateInvoice(401)
   })
 
   it('creates UPDATING_INVOICE_SUCCEEDED when updating invoice is done', () => {
@@ -336,11 +343,11 @@ describe('redux actions for invoices', () => {
   }
 
   it('creates UPDATING_INVOICES_FAILED when updating invoice ends 400', () => {
-    testInvalidUpdateInvoice(400)
+    return testInvalidUpdateInvoice(400)
   })
 
   it('creates UPDATING_INVOICES_FAILED when updating invoice ends 401', () => {
-    testInvalidUpdateInvoice(401)
+    return testInvalidUpdateInvoice(401)
   })
 
   it('creates MERGING_INVOICE_SUCCEEDED when merging invoice is done', () => {
@@ -385,11 +392,11 @@ describe('redux actions for invoices', () => {
   }
 
   it('creates UPDATING_INVOICES_FAILED when merging invoice ends 400', () => {
-    testInvalidMergeInvoice(400)
+    return testInvalidMergeInvoice(400)
   })
 
   it('creates UPDATING_INVOICES_FAILED when merging invoice ends 401', () => {
-    testInvalidMergeInvoice(401)
+    return testInvalidMergeInvoice(401)
   })
 
   it('creates DELETING_INVOICE_SUCCEEDED when deleting invoice is done', () => {
@@ -421,7 +428,7 @@ describe('redux actions for invoices', () => {
       { type: types.FETCHING },
       { type: types.DELETING_INVOICE },
       { type: types.FETCHING_ENDED },
-      { type: types.DElETING_INVOICE_FAILED }
+      { type: types.DELETING_INVOICE_FAILED }
     ]
 
     const store = mockStore()
@@ -433,10 +440,250 @@ describe('redux actions for invoices', () => {
   }
 
   it('creates DELETING_INVOICES_FAILED when deleting invoice ends 401', () => {
-    testInvalidDeleteInvoice(401)
+    return testInvalidDeleteInvoice(401)
   })
 
   it('creates DELETING_INVOICES_FAILED when deleting invoice ends 404', () => {
-    testInvalidDeleteInvoice(404)
+    return testInvalidDeleteInvoice(404)
+  })
+})
+
+describe('redux actions for invoice items', () => {
+  afterEach(() => {
+    nock.cleanAll()
+  })
+
+  const invoiceItem = { id: 1, invoiceId: 0, description: 'invoice item' }
+
+  it('creates CREATING_INVOICE_ITEM_SUCCEEDED when creating item is done', () => {
+    const responseHeaders = {
+      'invoice-amount': '100'
+    }
+
+    nock(BASE_URL)
+      .post(/^\/invoices\/[\d]+\/items/)
+      .reply(201, invoiceItem, responseHeaders)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.CREATING_INVOICE_ITEM, payload: invoiceItem },
+      { type: types.FETCHING_ENDED },
+      { type: types.CREATING_INVOICE_ITEM_SUCCEEDED,
+        invoiceId: invoiceItem.invoiceId,
+        invoiceAmount: '100',
+        payload: normalize(invoiceItem, schema.invoiceItem) }
+    ]
+
+    const store = mockStore()
+
+    return store.dispatch(actions.createInvoiceItem(invoiceItem.invoiceId,
+                                                    invoiceItem))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidCreateInvoiceItem = (errorCode) => {
+    nock(BASE_URL)
+      .post(/^\/invoices\/[\d]+\/items/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.CREATING_INVOICE_ITEM, payload: invoiceItem },
+      { type: types.FETCHING_ENDED },
+      { type: types.CREATING_INVOICE_ITEM_FAILED }
+    ]
+
+    const store = mockStore()
+
+    return store.dispatch(actions.createInvoiceItem(invoiceItem.invoiceId,
+                                                    invoiceItem))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates CREATING_INVOICE_ITEM_FAILED when creating item ends 400', () => {
+    return testInvalidCreateInvoiceItem(400)
+  })
+
+  it('creates CREATING_INVOICE_ITEM_FAILED when creating item ends 401', () => {
+    return testInvalidCreateInvoiceItem(401)
+  })
+
+  it('creates UPDATING_INVOICE_ITEM_SUCCEEDED when updating item is done', () => {
+    const responseHeaders = {
+      'invoice-amount': '100'
+    }
+
+    nock(BASE_URL)
+      .put(/^\/invoices\/[\d]+\/items/)
+      .reply(200, invoiceItem, responseHeaders)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_INVOICE_ITEM, payload: invoiceItem },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_INVOICE_ITEM_SUCCEEDED,
+        invoiceId: invoiceItem.invoiceId,
+        invoiceAmount: '100',
+        payload: normalize(invoiceItem, schema.invoiceItem) }
+    ]
+
+    const store = mockStore()
+
+    return store.dispatch(actions.updateInvoiceItem(invoiceItem.invoiceId,
+                                                    invoiceItem.id,
+                                                    invoiceItem))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidUpdateInvoiceItem = (errorCode) => {
+    nock(BASE_URL)
+      .put(/^\/invoices\/[\d]+\/items/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_INVOICE_ITEM, payload: invoiceItem },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_INVOICE_ITEM_FAILED }
+    ]
+
+    const store = mockStore()
+
+    return store.dispatch(actions.updateInvoiceItem(invoiceItem.invoiceId,
+                                                    invoiceItem.id,
+                                                    invoiceItem))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates UPDATING_INVOICE_ITEM_FAILED when updating item ends 401', () => {
+    return testInvalidUpdateInvoiceItem(401)
+  })
+
+  it('creates UPDATING_INVOICE_ITEM_FAILED when updating item ends 404', () => {
+    return testInvalidUpdateInvoiceItem(404)
+  })
+
+  it('creates UPDATING_INVOICE_ITEM_SUCCEEDED when merging item is done', () => {
+    const responseHeaders = {
+      'invoice-amount': '100'
+    }
+
+    nock(BASE_URL)
+      .patch(/^\/invoices\/[\d]+\/items/)
+      .reply(200, invoiceItem, responseHeaders)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_INVOICE_ITEM, payload: invoiceItem },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_INVOICE_ITEM_SUCCEEDED,
+        invoiceId: invoiceItem.invoiceId,
+        invoiceAmount: '100',
+        payload: normalize(invoiceItem, schema.invoiceItem) }
+    ]
+
+    const store = mockStore()
+
+    return store.dispatch(actions.mergeInvoiceItem(invoiceItem.invoiceId,
+                                                   invoiceItem.id,
+                                                   invoiceItem))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidMergeInvoiceItem = (errorCode) => {
+    nock(BASE_URL)
+      .patch(/^\/invoices\/[\d]+\/items/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_INVOICE_ITEM, payload: invoiceItem },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_INVOICE_ITEM_FAILED }
+    ]
+
+    const store = mockStore()
+
+    return store.dispatch(actions.mergeInvoiceItem(invoiceItem.invoiceId,
+                                                   invoiceItem.id,
+                                                   invoiceItem))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates UPDATING_INVOICE_ITEM_FAILED when merging item ends 401', () => {
+    return testInvalidMergeInvoiceItem(401)
+  })
+
+  it('creates UPDATING_INVOICE_ITEM_FAILED when merging item ends 404', () => {
+    return testInvalidMergeInvoiceItem(404)
+  })
+
+  it('creates DELETING_INVOICE_ITEM_SUCCEEDED when deleting item is done', () => {
+    const responseHeaders = {
+      'invoice-amount': '100'
+    }
+
+    nock(BASE_URL)
+      .delete(/^\/invoices\/[\d]+\/items\/[\d]+/)
+      .reply(200, '', responseHeaders)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.DELETING_INVOICE_ITEM },
+      { type: types.FETCHING_ENDED },
+      { type: types.DELETING_INVOICE_ITEM_SUCCEEDED,
+        invoiceId: invoiceItem.invoiceId,
+        invoiceAmount: '100',
+        id: invoiceItem.id }
+    ]
+
+    const store = mockStore()
+
+    return store.dispatch(actions.deleteInvoiceItem(invoiceItem.invoiceId,
+                                                    invoiceItem.id))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidDeleteInvoiceItem = (errorCode) => {
+    nock(BASE_URL)
+      .delete(/^\/invoices\/[\d]+\/items\/[\d]+/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.DELETING_INVOICE_ITEM },
+      { type: types.FETCHING_ENDED },
+      { type: types.DELETING_INVOICE_ITEM_FAILED }
+    ]
+
+    const store = mockStore()
+
+    return store.dispatch(actions.deleteInvoiceItem(invoiceItem.invoiceId,
+                                                    invoiceItem.id))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates DELETING_INVOICE_ITEM_FAILED when deleting item ends 401', () => {
+    return testInvalidDeleteInvoiceItem(401)
+  })
+
+  it('creates DELETING_INVOICE_ITEM_FAILED when deleting item ends 404', () => {
+    return testInvalidDeleteInvoiceItem(404)
   })
 })
