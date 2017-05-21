@@ -5,6 +5,7 @@ import appReducer from '../reducers/app'
 import authReducer from '../reducers/auth'
 import invoicesReducer from '../reducers/invoices'
 import invoiceItemsReducer from '../reducers/invoiceItems'
+import usersReducer from '../reducers/users'
 import * as schema from '../actions/schema'
 import * as types from '../actionTypes'
 
@@ -373,5 +374,88 @@ describe('invoice items reducer', () => {
         type: types.SIGNING_IN_SUCCEEDED
       })
     ).toEqual({})
+  })
+})
+
+describe('users reducer', () => {
+  const initialState = {
+    byId: {},
+    isFetching: false
+  }
+
+  const user = { id: 0, name: 'user', email: 'user@user.com' }
+
+  it('should return the initial state', () => {
+    expect(
+      usersReducer(undefined, {})
+    ).toEqual(initialState)
+  })
+
+  it('should handle LOADING_USERS', () => {
+    const state = { ...initialState, isFetching: false }
+    expect(
+      usersReducer(state, {
+        type: types.LOADING_USERS
+      })
+    ).toEqual({ ...state, isFetching: true })
+  })
+
+  it('should handle LOADING_USERS_SUCCEEDED', () => {
+    const state = { ...initialState, byId: {}, isFetching: true }
+    expect(
+      usersReducer(state, {
+        type: types.LOADING_USERS_SUCCEEDED,
+        payload: normalize([user], [schema.user])
+      })
+    ).toEqual({ ...state, byId: { [user.id]: user }, isFetching: false })
+  })
+
+  it('should handle LOADING_USERS_FAILED', () => {
+    const state = { ...initialState, byId: {}, isFetching: true }
+    expect(
+      usersReducer(state, {
+        type: types.LOADING_USERS_FAILED,
+        payload: normalize([user], [schema.user])
+      })
+    ).toEqual({ ...state, byId: {}, isFetching: false })
+  })
+
+  it('should handle CREATING_USER_SUCCEEDED', () => {
+    const state = { ...initialState, byId: {} }
+    expect(
+      usersReducer(state, {
+        type: types.CREATING_USER_SUCCEEDED,
+        payload: normalize(user, schema.user)
+      })
+    ).toEqual({ ...state, byId: { [user.id]: user } })
+  })
+
+  it('should handle UPDATING_USER_SUCCEEDED', () => {
+    const state = { ...initialState, byId: { [user.id]: {} } }
+    expect(
+      usersReducer(state, {
+        type: types.UPDATING_USER_SUCCEEDED,
+        payload: normalize(user, schema.user)
+      })
+    ).toEqual({ ...state, byId: { [user.id]: user } })
+  })
+
+  it('should handle DELETING_USER_SUCCEEDED', () => {
+    const state = { ...initialState, byId: { [user.id]: user } }
+    expect(
+      usersReducer(state, {
+        type: types.DELETING_USER_SUCCEEDED,
+        id: user.id
+      })
+    ).toEqual({ ...state, byId: {} })
+  })
+
+  it('should handle SIGNING_IN_SUCCEEDED', () => {
+    const state = { ...initialState, byId: { [user.id]: user } }
+    expect(
+      usersReducer(state, {
+        type: types.SIGNING_IN_SUCCEEDED
+      })
+    ).toEqual({ ...state, byId: {} })
   })
 })
