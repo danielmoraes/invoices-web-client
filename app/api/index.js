@@ -112,6 +112,17 @@ export const InvoiceItem = {
     }
   ),
 
+  merge: (invoiceId, invoiceItemId, data) => fetch(
+    `${BASE_URL}/invoices/${invoiceId}/items/${invoiceItemId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+      credentials: 'include'
+    }
+  ),
+
   delete: (invoiceId, invoiceItemId) => fetch(
     `${BASE_URL}/invoices/${invoiceId}/items/${invoiceItemId}`, {
       method: 'DELETE',
