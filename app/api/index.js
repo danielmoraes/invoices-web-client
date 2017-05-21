@@ -1,6 +1,12 @@
 import fetch from 'isomorphic-fetch'
 
-const BASE_URL = ((host) => `http://${host}:12336`)(document.location.hostname)
+let BASE_URL = ''
+
+if (process.env.NODE_ENV === 'test') {
+  BASE_URL = 'http://localhost'
+} else {
+  BASE_URL = ((host) => `http://${host}:12336`)(document.location.hostname)
+}
 
 export const Auth = {
 

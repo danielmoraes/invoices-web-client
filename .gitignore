@@ -7,5 +7,6 @@ pids
 
 *.tern-port
 
+coverage
 node_modules
 public
