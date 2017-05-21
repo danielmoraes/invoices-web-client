@@ -1,7 +1,10 @@
 import expect from 'expect'
+import { normalize } from 'normalizr'
 
 import appReducer from '../reducers/app'
 import authReducer from '../reducers/auth'
+import invoicesReducer from '../reducers/invoices'
+import * as schema from '../actions/schema'
 import * as types from '../actionTypes'
 
 describe('app reducer', () => {
@@ -202,5 +205,121 @@ describe('auth reducer', () => {
         type: types.SIGNING_OUT_FAILED
       })
     ).toEqual({ ...state, isSigningOut: false, user })
+  })
+})
+
+describe('invoices reducer', () => {
+  const initialState = {
+    byId: {},
+    isFetching: false
+  }
+
+  const invoice = { id: 0, description: 'invoice', amount: 10, items: [] }
+
+  it('should return the initial state', () => {
+    expect(
+      invoicesReducer(undefined, {})
+    ).toEqual(initialState)
+  })
+
+  it('should handle LOADING_INVOICES', () => {
+    const state = { ...initialState, isFetching: false }
+    expect(
+      invoicesReducer(state, {
+        type: types.LOADING_INVOICES
+      })
+    ).toEqual({ ...state, isFetching: true })
+  })
+
+  it('should handle LOADING_INVOICES_SUCCEEDED', () => {
+    const state = { ...initialState, byId: {}, isFetching: true }
+    expect(
+      invoicesReducer(state, {
+        type: types.LOADING_INVOICES_SUCCEEDED,
+        payload: normalize([invoice], [ schema.invoice ])
+      })
+    ).toEqual({ ...state, byId: { [invoice.id]: invoice }, isFetching: false })
+  })
+
+  it('should handle LOADING_INVOICES_FAILED', () => {
+    const state = { ...initialState, byId: {}, isFetching: true }
+    expect(
+      invoicesReducer(state, {
+        type: types.LOADING_INVOICES_FAILED,
+        payload: normalize([invoice], [ schema.invoice ])
+      })
+    ).toEqual({ ...state, byId: {}, isFetching: false })
+  })
+
+  it('should handle CREATING_INVOICE_SUCCEEDED', () => {
+    const state = { ...initialState, byId: {} }
+    expect(
+      invoicesReducer(state, {
+        type: types.CREATING_INVOICE_SUCCEEDED,
+        payload: normalize([invoice], [ schema.invoice ])
+      })
+    ).toEqual({ ...state, byId: { [invoice.id]: invoice } })
+  })
+
+  it('should handle UPDATING_INVOICE_SUCCEEDED', () => {
+    const state = { ...initialState, byId: {} }
+    expect(
+      invoicesReducer(state, {
+        type: types.UPDATING_INVOICE_SUCCEEDED,
+        payload: normalize([invoice], [ schema.invoice ])
+      })
+    ).toEqual({ ...state, byId: { [invoice.id]: invoice } })
+  })
+
+  it('should handle DELETING_INVOICE_SUCCEEDED', () => {
+    const state = { ...initialState, byId: { [invoice.id]: invoice } }
+    expect(
+      invoicesReducer(state, {
+        type: types.DELETING_INVOICE_SUCCEEDED,
+        id: invoice.id
+      })
+    ).toEqual({ ...state, byId: {} })
+  })
+
+  it('should handle CREATING_INVOICE_ITEM_SUCCEEDED', () => {
+    const state = { ...initialState, byId: { [invoice.id]: invoice } }
+    expect(
+      invoicesReducer(state, {
+        type: types.CREATING_INVOICE_ITEM_SUCCEEDED,
+        invoiceId: invoice.id,
+        invoiceAmount: 100
+      })
+    ).toEqual({ ...state, byId: { [invoice.id]: { ...invoice, amount: 100 } } })
+  })
+
+  it('should handle UPDATING_INVOICE_ITEM_SUCCEEDED', () => {
+    const state = { ...initialState, byId: { [invoice.id]: invoice } }
+    expect(
+      invoicesReducer(state, {
+        type: types.UPDATING_INVOICE_ITEM_SUCCEEDED,
+        invoiceId: invoice.id,
+        invoiceAmount: 100
+      })
+    ).toEqual({ ...state, byId: { [invoice.id]: { ...invoice, amount: 100 } } })
+  })
+
+  it('should handle DELETING_INVOICE_ITEM_SUCCEEDED', () => {
+    const state = { ...initialState, byId: { [invoice.id]: invoice } }
+    expect(
+      invoicesReducer(state, {
+        type: types.DELETING_INVOICE_ITEM_SUCCEEDED,
+        invoiceId: invoice.id,
+        invoiceAmount: 100
+      })
+    ).toEqual({ ...state, byId: { [invoice.id]: { ...invoice, amount: 100 } } })
+  })
+
+  it('should handle SIGNING_IN_SUCCEEDED', () => {
+    const state = { ...initialState, byId: { [invoice.id]: invoice } }
+    expect(
+      invoicesReducer(state, {
+        type: types.SIGNING_IN_SUCCEEDED
+      })
+    ).toEqual({ ...state, byId: {} })
   })
 })
