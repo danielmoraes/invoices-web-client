@@ -14,12 +14,12 @@ const mockStore = configureMockStore(middlewares)
 
 const BASE_URL = 'http://localhost'
 
-const user = { id: 0, name: 'user', email: 'user@user.com' }
-
 describe('redux actions for authentication', () => {
   afterEach(() => {
     nock.cleanAll()
   })
+
+  const user = { id: 0, name: 'user', email: 'user@user.com' }
 
   it('creates SIGNING_IN_SUCCEEDED when signing in is done', () => {
     const requestHeaders = {
@@ -148,6 +148,8 @@ describe('redux actions for invoices', () => {
   afterEach(() => {
     nock.cleanAll()
   })
+
+  const user = { id: 0, name: 'user', email: 'user@user.com' }
 
   const invoice = {
     id: 0,
@@ -314,7 +316,7 @@ describe('redux actions for invoices', () => {
         payload: normalize(invoice, schema.invoice) }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.updateInvoice(invoice.id, invoice))
       .then(() => {
@@ -334,7 +336,7 @@ describe('redux actions for invoices', () => {
       { type: types.UPDATING_INVOICE_FAILED }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.updateInvoice(invoice.id, invoice))
       .then(() => {
@@ -363,7 +365,7 @@ describe('redux actions for invoices', () => {
         payload: normalize(invoice, schema.invoice) }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.mergeInvoice(invoice.id, invoice))
       .then(() => {
@@ -383,7 +385,7 @@ describe('redux actions for invoices', () => {
       { type: types.UPDATING_INVOICE_FAILED }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.mergeInvoice(invoice.id, invoice))
       .then(() => {
@@ -411,7 +413,7 @@ describe('redux actions for invoices', () => {
       { type: types.DELETING_INVOICE_SUCCEEDED, id: invoice.id }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.deleteInvoice(invoice.id))
       .then(() => {
@@ -431,7 +433,7 @@ describe('redux actions for invoices', () => {
       { type: types.DELETING_INVOICE_FAILED }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.deleteInvoice(invoice.id))
       .then(() => {
@@ -474,7 +476,7 @@ describe('redux actions for invoice items', () => {
         payload: normalize(invoiceItem, schema.invoiceItem) }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.createInvoiceItem(invoiceItem.invoiceId,
                                                     invoiceItem))
@@ -495,7 +497,7 @@ describe('redux actions for invoice items', () => {
       { type: types.CREATING_INVOICE_ITEM_FAILED }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.createInvoiceItem(invoiceItem.invoiceId,
                                                     invoiceItem))
@@ -531,7 +533,7 @@ describe('redux actions for invoice items', () => {
         payload: normalize(invoiceItem, schema.invoiceItem) }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.updateInvoiceItem(invoiceItem.invoiceId,
                                                     invoiceItem.id,
@@ -553,7 +555,7 @@ describe('redux actions for invoice items', () => {
       { type: types.UPDATING_INVOICE_ITEM_FAILED }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.updateInvoiceItem(invoiceItem.invoiceId,
                                                     invoiceItem.id,
@@ -590,7 +592,7 @@ describe('redux actions for invoice items', () => {
         payload: normalize(invoiceItem, schema.invoiceItem) }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.mergeInvoiceItem(invoiceItem.invoiceId,
                                                    invoiceItem.id,
@@ -612,7 +614,7 @@ describe('redux actions for invoice items', () => {
       { type: types.UPDATING_INVOICE_ITEM_FAILED }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.mergeInvoiceItem(invoiceItem.invoiceId,
                                                    invoiceItem.id,
@@ -649,7 +651,7 @@ describe('redux actions for invoice items', () => {
         id: invoiceItem.id }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.deleteInvoiceItem(invoiceItem.invoiceId,
                                                     invoiceItem.id))
@@ -670,7 +672,7 @@ describe('redux actions for invoice items', () => {
       { type: types.DELETING_INVOICE_ITEM_FAILED }
     ]
 
-    const store = mockStore()
+    const store = mockStore({})
 
     return store.dispatch(actions.deleteInvoiceItem(invoiceItem.invoiceId,
                                                     invoiceItem.id))
@@ -685,5 +687,443 @@ describe('redux actions for invoice items', () => {
 
   it('creates DELETING_INVOICE_ITEM_FAILED when deleting item ends 404', () => {
     return testInvalidDeleteInvoiceItem(404)
+  })
+})
+
+describe('redux actions for users', () => {
+  afterEach(() => {
+    nock.cleanAll()
+  })
+
+  const user = { id: 0, name: 'user', email: 'user@user.com' }
+
+  it('creates LOADING_USERS_SUCCEEDED when loading users is done', () => {
+    nock(BASE_URL)
+      .get(/^\/users/)
+      .reply(200, [user])
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.LOADING_USERS },
+      { type: types.FETCHING_ENDED },
+      { type: types.LOADING_USERS_SUCCEEDED,
+        payload: normalize([user], [schema.user]) }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.loadUsers())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidLoadUsers = (errorCode) => {
+    nock(BASE_URL)
+      .get(/^\/users/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.LOADING_USERS },
+      { type: types.FETCHING_ENDED },
+      { type: types.LOADING_USERS_FAILED }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.loadUsers())
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates LOADING_USERS_FAILED when loading users ends 401', () => {
+    return testInvalidLoadUsers(401)
+  })
+
+  it('creates LOADING_USERS_SUCCEEDED when loading user is done', () => {
+    nock(BASE_URL)
+      .get(/^\/users\/[\d]+/)
+      .reply(200, user)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.LOADING_USERS },
+      { type: types.FETCHING_ENDED },
+      { type: types.LOADING_USERS_SUCCEEDED,
+        payload: normalize(user, schema.user) }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.loadUser(user.id))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidLoadUser = (errorCode) => {
+    nock(BASE_URL)
+      .get(/^\/users\/[\d]+/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.LOADING_USERS },
+      { type: types.FETCHING_ENDED },
+      { type: types.LOADING_USERS_FAILED }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.loadUser(user.id))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates LOADING_USERS_FAILED when loading user ends 401', () => {
+    return testInvalidLoadUser(401)
+  })
+
+  it('creates LOADING_USERS_FAILED when loading user ends 404', () => {
+    return testInvalidLoadUser(404)
+  })
+
+  it('creates CREATING_USER_SUCCEEDED when creating user is done', () => {
+    const requestHeaders = {
+      reqheaders: {
+        encp: stringToBase64('password')
+      }
+    }
+
+    nock(BASE_URL, requestHeaders)
+      .post(/^\/users/)
+      .reply(201, user)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.CREATING_USER, payload: user },
+      { type: types.FETCHING_ENDED },
+      { type: types.CREATING_USER_SUCCEEDED,
+        payload: normalize(user, schema.user) }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.createUser(user, 'password'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidCreateUser = (errorCode) => {
+    const requestHeaders = {
+      reqheaders: {
+        encp: stringToBase64('password')
+      }
+    }
+
+    nock(BASE_URL, requestHeaders)
+      .post(/^\/users/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.CREATING_USER, payload: user },
+      { type: types.FETCHING_ENDED },
+      { type: types.CREATING_USER_FAILED }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.createUser(user, 'password'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates CREATING_USER_FAILED when creating user ends 400', () => {
+    return testInvalidCreateUser(400)
+  })
+
+  it('creates CREATING_USER_FAILED when creating user ends 401', () => {
+    return testInvalidCreateUser(401)
+  })
+
+  it('creates UPDATING_USER_SUCCEEDED when updating user is done', () => {
+    nock(BASE_URL)
+      .put(/^\/users\/[\d]+/)
+      .reply(200, user)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_USER, payload: user },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_USER_SUCCEEDED,
+        payload: normalize(user, schema.user) }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.updateUser(user.id, user))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidUpdateUser = (errorCode) => {
+    nock(BASE_URL)
+      .put(/^\/users\/[\d]+/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_USER, payload: user },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_USER_FAILED }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.updateUser(user.id, user))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates UPDATING_USER_FAILED when updating user ends 401', () => {
+    return testInvalidUpdateUser(401)
+  })
+
+  it('creates UPDATING_USER_FAILED when creating user ends 404', () => {
+    return testInvalidUpdateUser(404)
+  })
+
+  it('creates UPDATING_USER_SUCCEEDED when merging user is done', () => {
+    nock(BASE_URL)
+      .patch(/^\/users\/[\d]+/)
+      .reply(200, user)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_USER, payload: user },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_USER_SUCCEEDED,
+        payload: normalize(user, schema.user) }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.mergeUser(user.id, user))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidMergeUser = (errorCode) => {
+    nock(BASE_URL)
+      .patch(/^\/users\/[\d]+/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_USER, payload: user },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_USER_FAILED }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.mergeUser(user.id, user))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates UPDATING_USER_FAILED when merging user ends 401', () => {
+    return testInvalidMergeUser(401)
+  })
+
+  it('creates UPDATING_USER_FAILED when merging user ends 404', () => {
+    return testInvalidMergeUser(404)
+  })
+
+  it('creates DELETING_USER_SUCCEEDED when deleting user is done', () => {
+    nock(BASE_URL)
+      .delete(/^\/users/)
+      .reply(200)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.DELETING_USER },
+      { type: types.FETCHING_ENDED },
+      { type: types.DELETING_USER_SUCCEEDED, id: user.id }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.deleteUser(user.id))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidDeleteUser = (errorCode) => {
+    nock(BASE_URL)
+      .delete(/^\/users\/[\d]+/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.DELETING_USER },
+      { type: types.FETCHING_ENDED },
+      { type: types.DELETING_USER_FAILED }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.deleteUser(user.id))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates DELETING_USERS_FAILED when deleting user ends 401', () => {
+    return testInvalidDeleteUser(401)
+  })
+
+  it('creates DELETING_USERS_FAILED when deleting user ends 404', () => {
+    return testInvalidDeleteUser(404)
+  })
+
+  it('creates UPDATING_USER_PASSWORD_SUCCEEDED when updating account ' +
+     'password is done', () => {
+    const requestHeaders = {
+      reqheaders: {
+        'encp': stringToBase64('new-password'),
+        'encp-old': stringToBase64('current-password')
+      }
+    }
+
+    nock(BASE_URL, requestHeaders)
+      .patch(/^\/users\/[\d]+/)
+      .reply(200, user)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_USER_PASSWORD },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_USER_PASSWORD_SUCCEEDED }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.updateUserPassword(user.id, 'new-password',
+                                                     'current-password'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidUpdateAccountPassword = (errorCode) => {
+    const requestHeaders = {
+      reqheaders: {
+        'encp': stringToBase64('new-password'),
+        'encp-old': stringToBase64('current-password')
+      }
+    }
+
+    nock(BASE_URL, requestHeaders)
+      .patch(/^\/users\/[\d]+/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_USER_PASSWORD },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_USER_PASSWORD_FAILED }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.updateUserPassword(user.id, 'new-password',
+                                                     'current-password'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates UPDATING_USERS_PASSWORD_FAILED when updating account password ' +
+     'ends 401', () => {
+    return testInvalidUpdateAccountPassword(401)
+  })
+
+  it('creates UPDATING_USERS_PASSWORD_FAILED when updating account password ' +
+     'ends 404', () => {
+    return testInvalidUpdateAccountPassword(404)
+  })
+
+  it('creates UPDATING_USER_PASSWORD_SUCCEEDED when updating user password ' +
+     'is done', () => {
+    const requestHeaders = {
+      reqheaders: {
+        'encp': stringToBase64('new-password')
+      }
+    }
+    nock(BASE_URL, requestHeaders)
+      .patch(/^\/users\/[\d]+/)
+      .reply(200, user)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_USER_PASSWORD },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_USER_PASSWORD_SUCCEEDED }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.updateUserPassword(user.id, 'new-password'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  })
+
+  const testInvalidUpdateUserPassword = (errorCode) => {
+    const requestHeaders = {
+      reqheaders: {
+        'encp': stringToBase64('new-password')
+      }
+    }
+
+    nock(BASE_URL, requestHeaders)
+      .patch(/^\/users\/[\d]+/)
+      .reply(errorCode)
+
+    const expectedActions = [
+      { type: types.FETCHING },
+      { type: types.UPDATING_USER_PASSWORD },
+      { type: types.FETCHING_ENDED },
+      { type: types.UPDATING_USER_PASSWORD_FAILED }
+    ]
+
+    const store = mockStore({})
+
+    return store.dispatch(actions.updateUserPassword(user.id, 'new-password'))
+      .then(() => {
+        expect(store.getActions()).toEqual(expectedActions)
+      })
+  }
+
+  it('creates UPDATING_USERS_PASSWORD_FAILED when updating user password ' +
+     'ends 401', () => {
+    return testInvalidUpdateUserPassword(401)
+  })
+
+  it('creates UPDATING_USERS_PASSWORD_FAILED when updating user password ' +
+     'ends 404', () => {
+    return testInvalidUpdateUserPassword(404)
   })
 })
