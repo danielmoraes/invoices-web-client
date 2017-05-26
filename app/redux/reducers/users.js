@@ -19,7 +19,7 @@ const byId = (state = {}, action) => {
         ...action.payload.entities.users
       }
     case DELETING_USER_SUCCEEDED:
-      let { [action.id]: deleted, ...rest } = state
+      let { [String(action.id)]: deleted, ...rest } = state
       return rest
     case SIGNING_IN_SUCCEEDED:
       return {}

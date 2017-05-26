@@ -16,7 +16,7 @@ const invoiceItemsReducer = (state = {}, action) => {
         ...action.payload.entities.invoiceItems
       }
     case DELETING_INVOICE_ITEM_SUCCEEDED:
-      let { [action.id]: deleted, ...rest } = state
+      let { [String(action.id)]: deleted, ...rest } = state
       return rest
     case SIGNING_IN_SUCCEEDED:
       return {}
