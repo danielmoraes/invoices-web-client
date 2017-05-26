@@ -1,6 +1,12 @@
 import fetch from 'isomorphic-fetch'
 
-const BASE_URL = ((host) => `http://${host}:12336`)(document.location.hostname)
+let BASE_URL = ''
+
+if (process.env.NODE_ENV === 'test') {
+  BASE_URL = 'http://localhost'
+} else {
+  BASE_URL = ((host) => `http://${host}:12336`)(document.location.hostname)
+}
 
 export const Auth = {
 
@@ -84,8 +90,8 @@ export const Invoice = {
 
 export const InvoiceItem = {
 
-  create: (data) => fetch(
-    `${BASE_URL}/items`, {
+  create: (invoiceId, data) => fetch(
+    `${BASE_URL}/invoices/${invoiceId}/items`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -95,8 +101,8 @@ export const InvoiceItem = {
     }
   ),
 
-  update: (invoiceItemId, data) => fetch(
-    `${BASE_URL}/items/${invoiceItemId}`, {
+  update: (invoiceId, invoiceItemId, data) => fetch(
+    `${BASE_URL}/invoices/${invoiceId}/items/${invoiceItemId}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -106,8 +112,19 @@ export const InvoiceItem = {
     }
   ),
 
-  delete: (invoiceItemId) => fetch(
-    `${BASE_URL}/items/${invoiceItemId}`, {
+  merge: (invoiceId, invoiceItemId, data) => fetch(
+    `${BASE_URL}/invoices/${invoiceId}/items/${invoiceItemId}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(data),
+      credentials: 'include'
+    }
+  ),
+
+  delete: (invoiceId, invoiceItemId) => fetch(
+    `${BASE_URL}/invoices/${invoiceId}/items/${invoiceItemId}`, {
       method: 'DELETE',
       credentials: 'include'
     }

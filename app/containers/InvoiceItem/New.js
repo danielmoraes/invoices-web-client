@@ -54,7 +54,7 @@ class New extends Component {
     let invoiceItem = buildEntityFromState(this.state, InvoiceItem)
     invoiceItem.invoiceId = Number(invoiceId)
 
-    dispatch(createInvoiceItem(invoiceItem))
+    dispatch(createInvoiceItem(invoiceId, invoiceItem))
 
     this.goBack()
   }

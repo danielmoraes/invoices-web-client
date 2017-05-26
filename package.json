@@ -10,7 +10,30 @@
     "dev": " webpack-dashboard -- webpack-dev-server --progress --profile --colors",
     "start": "webpack-dev-server --progress --profile --colors",
     "lint": "standard --fix",
-    "test": "standard"
+    "test": "standard && jest",
+    "test:coverage": "npm test -- --coverage",
+    "test:watch": "npm test -- --watchAll"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "app/redux/**/*.{js,jsx}",
+      "!app/**/*.test.{js,jsx}"
+    ],
+    "moduleDirectories": [
+      "node_modules",
+      "app"
+    ],
+    "testRegex": "tests/.*\\.test\\.js$"
+  },
+  "standard": {
+    "globals": [
+      "describe",
+      "it",
+      "beforeEach",
+      "beforeAll",
+      "afterEach",
+      "afterAll"
+    ]
   },
   "dependencies": {
     "autoprefixer": "^6.7.7",
@@ -51,7 +74,11 @@
     "webpack-merge": "^4.1.0"
   },
   "devDependencies": {
+    "expect": "^1.20.2",
+    "jest": "^20.0.3",
+    "nock": "^9.0.13",
     "react-hot-loader": "^3.0.0-beta.6",
+    "redux-mock-store": "^1.2.3",
     "standard": "^10.0.2",
     "webpack-dashboard": "^0.3.0",
     "webpack-dev-server": "^2.4.1"
